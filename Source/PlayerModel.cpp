@@ -5,19 +5,23 @@
 #include "EventManager.h"
 #include "World.h"
 #include "SplineFactory.h"
+
 #include <iostream>
 
 #include <GLFW/glfw3.h>
 #include <glm/gtx/quaternion.hpp>
-#include "Obstacles.h"
+
 using namespace std;
 using namespace glm;
 
-const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.50f;
-const float PlayerModel::DEFAULT_MOVE_SPEED = 100.0f;
+const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.25f;
+const float PlayerModel::DEFAULT_MOVE_SPEED = 7.0f;
 const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 0.0f;
 
-const glm::vec3 PlayerModel::SHEEP_SHAPE_COLORS[] = { vec3{ 0.0f, 0.0f, 0.0f }, vec3{ 0.0f, 0.0f, 0.0f }, vec3{ 0.686275f, 0.933333f, 0.933333f } };
+glm::vec3 a (0.0f, 0.0f, 0.0f );
+glm::vec3 b (0.0f, 0.0f, 0.0f );
+glm::vec3 c (0.686275f, 0.933333f, 0.933333f );
+const glm::vec3 PlayerModel::SHEEP_SHAPE_COLORS[] = { a,b,c };
 
 PlayerModel::PlayerModel() : 
 	ObjectModel(HOLY_SHEEP, HOLY_SHEEP_MATERIAL, SHEEP_SHAPE_COLORS),
@@ -41,13 +45,13 @@ void PlayerModel::Update(float dt) {
 
 void PlayerModel::UpdatePosition(float dt) {
 
-	SplineModel* spline = World::GetInstance()->GetSpline();
-
-	mCurrentSplineTime = clamp(mCurrentSplineTime + mSplineTimeSpeed * dt, 0.0f, spline->MaxTime());
+	mCurrentSplineTime += mSplineTimeSpeed * dt;
 
 	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(mCurrentSplineTime);
 	float trackPieceWidth = SplineFactory::trackWidth / 3;
-	SetPosition(p.position + vec3(0, PlayerModel::MODEL_SPACE_HEIGHT_OFFSET, 0) + World::GetInstance()->GetSpline()->TrackShiftDir(mTrack, mCurrentSplineTime) * trackPieceWidth);
+
+	SetPosition(p.position + vec3(0, PlayerModel::MODEL_SPACE_HEIGHT_OFFSET, 0) + TrackShiftDir(mTrack) * trackPieceWidth);
+
 	vec3 j = vec3(0, 1, 0);
 	vec3 B = normalize(cross(p.tangent, p.normal));
 
@@ -58,7 +62,24 @@ void PlayerModel::UpdatePosition(float dt) {
 	quat quat2 = angleAxis(rotation, p.normal);
 
 	quat quatRotation = quat2 * quat1;
+
 	SetRotation(axis(quatRotation), angle(quatRotation));
+	
+}
+
+vec3 PlayerModel::TrackShiftDir(Track dir) {
+
+	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(mCurrentSplineTime);
+
+	vec3 trackShift = vec3(0);
+	switch (dir) {
+	case TRACK_MIDDLE:
+		return vec3(0);
+	case TRACK_LEFT:
+		return p.normal;		
+	case TRACK_RIGHT:
+		return -p.normal;
+	}
 }
 
 void TrackState::setup() {
@@ -103,7 +124,7 @@ void MoveState::Update(float dt) {
 	mPlayer.UpdatePosition(dt);
 
 	float trackPieceWidth = SplineFactory::trackWidth / 3;
-	vec3 trackShift = World::GetInstance()->GetSpline()->TrackShiftDir(mDir,mCurrentTime) * mPlayer.mMoveSpeed * mCurrentTime;
+	vec3 trackShift = mPlayer.TrackShiftDir(mDir) * mPlayer.mMoveSpeed * mCurrentTime;
 
 	mPlayer.SetPosition(mPlayer.GetPosition() + trackShift);
 

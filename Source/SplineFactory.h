@@ -45,7 +45,7 @@ private:
 	/**
 	 *
 	 */
-	static const glm::vec4 controlPointsColor;
+	static const glm::vec3 controlPointsColor;
 
 	/**
 	 * Create random control points for the spline
@@ -71,24 +71,9 @@ private:
 	static void makeTriangleStrip(SplineModel& spline);
 
 	/**
-	 * 
+	 *
 	 */
 	static void makeOscullatingPlanes(SplineModel& spline);
-
-	/**
-	* The offset of the capsule from the end of the track.
-	*/
-	static float endOfTrackCapsuleTimeOffset;
-
-	/**
-	 * The radius of the capsule at the end of the track.
-	 */
-	static float endOfTrackCapsuleRadius;
-
-	/**
-	 * Create the bouding volume for detecting when the player reaches the end of the track.
-	 */
-	static void makeEndOfTrackBoundingVolume(SplineModel& spline);
 };
 
 #endif

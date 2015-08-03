@@ -20,8 +20,6 @@
 #include "Billboard.h"
 #include "SplineFactory.h"
 #include "SkyboxModel.h"
-#include "Obstacles.h"
-#include "Discoball.h"
 
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
@@ -37,25 +35,27 @@ World* World::instance;
 World::World()
 {
     instance = this;
-	mObstacles = new Obstacles();
-	// Setup Camera
+
+	//New Camera
+	ThirdPersonCamera* newCamera = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f));
+	mCamera.push_back(newCamera);
+
+	// Previous Camera
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
-	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
     
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
-
-	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
+	// int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
+
     assert(billboardTextureID != 0);
 
     mpBillboardList = new BillboardList(2048, billboardTextureID);
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
-	mWolfModel = nullptr;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -118,7 +118,6 @@ World::~World()
 	}
 	mCamera.clear();
 
-	delete mObstacles;
 	delete mpBillboardList;
 }
 
@@ -141,8 +140,6 @@ void World::Draw()
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-	mObstacles->Draw();
-
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{
@@ -161,6 +158,7 @@ void World::Draw()
 	}
 
 	// Draw Path Lines
+	
 	// Set Shader for path lines
 	unsigned int prevShader = Renderer::GetCurrentShader();
 	Renderer::SetShader(SHADER_PATH_LINES);
@@ -190,11 +188,6 @@ void World::Draw()
     
     // Draw Billboards
     mpBillboardList->Draw();
-
-	// Draw Spline
-	mSplineModel->Draw();
-	Model* bvm = mSplineModel->GetBoundingVolumeModel();
-	if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
 
 	// Restore previous shader
 	Renderer::SetShader((ShaderType) prevShader);

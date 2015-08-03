@@ -21,9 +21,6 @@ namespace rtcd {
 		glm::vec3 b; // Medial line segment endpoint
 		float r; // Radius
 
-		Capsule() : a(), b(), r() {}
-		Capsule(glm::vec3 pointA, glm::vec3 pointB, float radius) : a(pointA), b(pointB), r(radius) {};
-
 		Capsule transform(const glm::mat4& M) const;
 	};
 

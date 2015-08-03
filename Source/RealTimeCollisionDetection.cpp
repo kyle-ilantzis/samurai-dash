@@ -58,11 +58,15 @@ bool TestBoundingVolumes(Model& m1, Model& m2) {
 }
 
 Capsule Capsule::transform(const mat4& M) const {
-	return { 
-		vec3(M * vec4(a,1)),
-		vec3(M * vec4(b, 1)),
-		r
-	};
+
+	glm::vec3 a (M * vec4(a,1));
+	glm::vec3 b (M * vec4(b, 1));
+	Capsule cap;
+	cap.a = a;
+	cap.b = b;
+	cap.r = r;
+
+	return cap;
 }
 	
 

@@ -6,7 +6,6 @@
 
 #include "Animation.h"
 #include "Billboard.h"
-#include "SplineFactory.h"
 
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
@@ -95,22 +94,14 @@ void World::UpdateCollision(float dt) {
 
 	if (!mPlayerModel) { return; }
 
-	Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
-	if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
-
-		cout << "collision " << ctr++ << "! You Win!" << endl;
-	}
-
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{
 		if (mPlayerModel == *it) { continue; }
-		
-		Model* m = *it;
 
-		bool r = TestBoundingVolumes(*mPlayerModel, *m);
+		bool r = TestBoundingVolumes(*mPlayerModel, **it);
 		
-		if (!r) { continue; }
-
-		cout << "collision " << ctr++ << "! You Died!" << endl;
+		if (r) {
+			cout << "collision " << ctr++ << "!" << endl;
+		}
 	}
 }

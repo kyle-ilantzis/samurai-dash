@@ -57,18 +57,42 @@ void CapsuleModel::makeCapsuleLineSegments(std::vector<Vertex>& vertexes, const 
 		vec3 bottomLeft = capsule.b + r;
 		vec3 bottomRight = capsule.b - r;
 
-		vertexes.push_back({ prevTopLeft });
-		vertexes.push_back({ topLeft });
-		vertexes.push_back({ prevTopRight });
-		vertexes.push_back({ topRight });
-		vertexes.push_back({ prevBottomLeft });
-		vertexes.push_back({ bottomLeft });
-		vertexes.push_back({ prevBottomRight });
-		vertexes.push_back({ bottomRight });
-		vertexes.push_back({ topLeft });
-		vertexes.push_back({ bottomLeft });
-		vertexes.push_back({ topRight });
-		vertexes.push_back({ bottomRight });
+		Vertex v;
+		v.position = prevTopLeft;
+
+		Vertex v1;
+		v1.position = topLeft;
+
+		Vertex v2;
+		v2.position = prevTopRight;
+
+		Vertex v3;
+		v3.position = prevBottomLeft;
+
+		Vertex v4;
+		v4.position = bottomLeft;
+
+		Vertex v5;
+		v5.position = prevBottomRight;
+
+		Vertex v6;
+		v6.position = bottomRight;
+
+		Vertex v7;
+		v7.position = topRight;
+
+		vertexes.push_back(v);
+		vertexes.push_back(v1);
+		vertexes.push_back(v2);
+		vertexes.push_back(v7);
+		vertexes.push_back(v3);
+		vertexes.push_back(v4);
+		vertexes.push_back(v5);
+		vertexes.push_back(v6);
+		vertexes.push_back(v1);
+		vertexes.push_back(v4);
+		vertexes.push_back(v7);
+		vertexes.push_back(v6);
 
 		makeHalfCircleLineSegments(vertexes, topLeft, topRight, -ba);
 		makeHalfCircleLineSegments(vertexes, bottomLeft, bottomRight, ba);
@@ -87,14 +111,41 @@ void CapsuleModel::makeCapsuleLineSegments(std::vector<Vertex>& vertexes, const 
 		vec3 firstBottomLeft = vertexes[0 + 4].position;
 		vec3 firstBottomRight = vertexes[0 + 4 + 2].position;
 
-		vertexes.push_back({ prevTopLeft });
-		vertexes.push_back({ firstTopRight });
-		vertexes.push_back({ prevTopRight });
-		vertexes.push_back({ firstTopLeft });
-		vertexes.push_back({ prevBottomLeft });
-		vertexes.push_back({ firstBottomRight });
-		vertexes.push_back({ prevBottomRight });
-		vertexes.push_back({ firstBottomLeft });
+		Vertex v;
+		v.position = prevTopLeft;
+
+		Vertex v1;
+		v1.position = firstTopRight;
+
+		Vertex v2;
+		v2.position = prevTopRight;
+
+		Vertex v3;
+		v3.position = prevBottomLeft;
+
+		Vertex v4;
+		v4.position = firstTopLeft;
+
+		Vertex v5;
+		v5.position = prevBottomRight;
+
+		Vertex v6;
+		v6.position = firstBottomRight;
+
+		Vertex v7;
+		v7.position = prevBottomLeft;
+
+		Vertex v8;
+		v8.position = firstBottomLeft;
+		
+		vertexes.push_back(v);
+		vertexes.push_back(v1);
+		vertexes.push_back(v2);
+		vertexes.push_back(v4);
+		vertexes.push_back(v7);
+		vertexes.push_back(v6);
+		vertexes.push_back(v5);
+		vertexes.push_back(v8);
 	}
 }
 
@@ -117,8 +168,14 @@ void CapsuleModel::makeQuarterCircleLineSegments(std::vector<Vertex>& vertexes, 
 		vec3 v = p + t * (q - p);
 		vec3 u = radius * normalize(v - center);
 
-		vertexes.push_back({ prevU });
-		vertexes.push_back({ center + u });
+		Vertex v1;
+		v1.position = prevU;
+
+		Vertex v2;
+		v2.position = center + u ;
+		
+		vertexes.push_back(v1);
+		vertexes.push_back(v2);
 
 		prevU = center + u;
 	}

@@ -9,8 +9,6 @@
 #include "SplineFactory.h"
 #include "SkyboxModel.h"
 #include "CapsuleModel.h"
-#include "Obstacles.h"
-#include "Discoball.h"
 
 #include "RealTimeCollisionDetection.h"
 
@@ -26,37 +24,20 @@ void World::LoadScene() {
 	// Do any complex dynamic initialization in here
 
 	mSplineModel = SplineFactory::LoadSpline();
-	//mModel.push_back(mSplineModel);
-
+	mModel.push_back(mSplineModel);
 
 
 	mPlayerModel = new PlayerModel();
-	mWolfModel = new WolfModel();
-	
-	// Create the capsue for sheep
-	Capsule* sheepCapsule = new Capsule();
-
-	sheepCapsule->a = vec3(0, 0.25, 0);;
-	sheepCapsule->b = vec3(0, 0.5, 0);
-	sheepCapsule->r = 0.68;
-
-	mPlayerModel->setCapsuleBoundingVolume(sheepCapsule);
+	((ThirdPersonCamera*) mCamera[0])->SetTargetModel(mPlayerModel);
 
 	ci_string str = "particleSystem = \"poop\"\n";
 	ci_istringstream iss(str);
 	mPlayerModel->Load(iss);
 
 	mModel.push_back(mPlayerModel);
-	mModel.push_back(mWolfModel);
 
-	mWolfModel->SetParent(mPlayerModel);
-
-	mObstacles->PopulateRandomSample();
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
-
-	// Move
-	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
 
 	SkyboxModel* skybox = new SkyboxModel();
 	mModel.push_back(skybox);

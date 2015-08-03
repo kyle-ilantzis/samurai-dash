@@ -12,14 +12,12 @@
 #include "ParsingHelper.h"
 #include "Billboard.h"
 #include <vector>
-#include "Discoball.h"
+#include "ThirdPersonCamera.h"
 
 class Camera;
 class Model;
 class SplineModel;
 class PlayerModel;
-class Obstacles;
-class WolfModel;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
@@ -58,8 +56,6 @@ public:
 
 	PlayerModel* GetPlayer() { return mPlayerModel; };
 
-	Obstacles* GetObstacles() { return mObstacles; };
-
 private:
 
 	void UpdateCollision(float dt);
@@ -77,8 +73,4 @@ private:
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
-	Obstacles* mObstacles;
-
-	WolfModel* mWolfModel;
-	Discoball* mDiscoBall;
 };

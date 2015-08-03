@@ -7,8 +7,6 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
-
-
 #include <Windows.h>
 #include <MMSystem.h>
 #define SLEEP_FUNC(x) Sleep((x))
@@ -48,29 +46,12 @@ int main(int argc, char*argv[])
 //		// Animated Scene does
 //		world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
 //		world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
-	if (argc > 1)
-	{
-		world.LoadScene(argv[1]);
-	}
-	else
-	{
-		// TODO - You can alternate between different scenes for testing different things
-		// Static Scene contains no animation
-		// Animated Scene does
-
-//		world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
-//		world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
 //		world.LoadScene("../Assets/Scenes/Spline.scene");
-
 //		world.LoadScene("../Assets/Scenes/StaticScene.scene");
 //		world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
 //		world.LoadScene("../Assets/Scenes/CollisionDemo.scene");
 //		world.LoadScene("../Assets/Scenes/Animal.scene");
-//		world.LoadScene("../Assets/Scenes/StaticScene.scene");
-//		world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
-//		world.LoadScene("../Assets/Scenes/Discoball.scene");
 //		world.LoadScene("../Assets/Scenes/Player.scene");
-	}
 //#endif
 //	}
 

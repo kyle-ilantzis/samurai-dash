@@ -185,7 +185,14 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 			assert(token[14] == "=");
 			float r = static_cast<float>(atof(token[15].c_str()));
 			
-			setCapsuleBoundingVolume(new Capsule({ vec3(ax, ay, ax), vec3(bx, by, bx), r }));
+			glm::vec3 a (ax, ay, ax);
+			glm::vec3 b (bx, by, bx);
+			Capsule* cap;
+			cap->a = a;
+			cap->b = b;
+			cap->r = r;
+
+			setCapsuleBoundingVolume(cap);
 		}
 		else
 		{
@@ -216,12 +223,10 @@ glm::mat4 Model::GetWorldMatrix() const
         mat4 s = glm::scale(mat4(1.0f), mScaling);
         worldMatrix = t * r * s;
 
-		
+		if (mParent) {
+			worldMatrix = mParent->GetWorldMatrix() * worldMatrix;
+		}
     }
-
-	if (mParent) {
-		worldMatrix = mParent->GetWorldMatrix() * worldMatrix;
-	}
 #endif
     
 	return worldMatrix;

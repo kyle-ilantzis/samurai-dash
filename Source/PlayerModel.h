@@ -2,9 +2,11 @@
 #define PLAYERMODE_H
 
 #include "ObjectModel.h"
-#include "SplineModel.h"
+
 class PlayerState;
 class PlayerModel;
+
+enum Track { TRACK_LEFT, TRACK_MIDDLE, TRACK_RIGHT };
 
 class PlayerState {
 
@@ -57,7 +59,7 @@ public:
 
 private:
 	void UpdatePosition(float dt);
-	//glm::vec3 TrackShiftDir(Track dir);
+	glm::vec3 TrackShiftDir(Track dir);
 
 private:
 
