@@ -32,7 +32,6 @@ void World::LoadScene() {
 
 	mPlayerModel = new PlayerModel();
 	mWolfModel = new WolfModel();
-	mDiscoBall = new Discoball();
 	
 	// Create the capsue for sheep
 	Capsule* sheepCapsule = new Capsule();
@@ -49,7 +48,7 @@ void World::LoadScene() {
 
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mWolfModel);
-	mModel.push_back(mDiscoBall);
+
 	mWolfModel->SetParent(mPlayerModel);
 
 	mObstacles->PopulateRandomSample();
