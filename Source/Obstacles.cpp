@@ -4,6 +4,7 @@
 #include "SplineFactory.h"
 #include "World.h"
 #include <GL/glew.h>
+
 using namespace std;
 
 Obstacles::Obstacles() : listObstacles()
@@ -50,7 +51,7 @@ void Obstacles::PopulateRandomSample()
 
 Model* Obstacles::GetRandomModel()
 {
-	int randomNumb = rand() % 3;
+	int randomNumb = rand() % 4;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
 		cModel->SetPosition(glm::vec3(0, 1.0f, 0));
@@ -60,6 +61,13 @@ Model* Obstacles::GetRandomModel()
 	else if (randomNumb == 1)
 	{
 		return new WolfModel();
+	}
+	else if (randomNumb == 2)
+	{
+		Discoball* cDiscoBall = new Discoball();
+		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
+		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
+		return cDiscoBall;
 	}
 	else
 	{
