@@ -51,6 +51,16 @@ void Obstacles::PopulateRandomSample()
 
 Model* Obstacles::GetRandomModel()
 {
+	static bool fire = false;
+
+	if (!fire){
+		fire = true;
+
+		FireModel* flame = new FireModel();
+		flame->SetPosition(glm::vec3(0, 1.0f, 0));
+		return flame;
+	}
+
 	int randomNumb = 1;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
@@ -62,14 +72,7 @@ Model* Obstacles::GetRandomModel()
 	{
 		return new WolfModel();
 	}
-	else if (randomNumb == 1){
-		FireModel* flame = new FireModel();
-		flame->SetPosition(glm::vec3(0, 1.0f, 0));
-		return flame;
-	}
-	else
-	{
-		;
+	else {
 		
 		SphereModel* sModel = new SphereModel();
 		sModel->SetPosition(glm::vec3(0, 1.0f, 0));
