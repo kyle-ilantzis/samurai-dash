@@ -15,14 +15,18 @@
 #include "Discoball.h"
 
 class Camera;
-class Model;
 class SplineModel;
-class PlayerModel;
-class Obstacles;
-class WolfModel;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
+
+// Add Class Of Models
+class Model;
+class WolfModel;
+class PlayerModel;
+class Obstacles;
+class BunnyModel;
+class UFOModel;
 
 class World
 {
@@ -79,6 +83,10 @@ private:
 	PlayerModel* mPlayerModel;
 	Obstacles* mObstacles;
 
+	// Create Model Structure
 	WolfModel* mWolfModel;
 	Discoball* mDiscoBall;
+	BunnyModel* mBunnyModel;
+	BunnyModel* mBunnyModelTwo;
+	UFOModel* mUFOModel;
 };

@@ -183,3 +183,26 @@ void ParticleDescriptor::SetPoopDescriptor()
 	totalLifetime = 1.0f;
 	totalLifetimeDelta = 0.0f;
 }
+
+void ParticleDescriptor::SetUFODescriptor()
+{
+	velocity = vec3(70.0f, 0.0f, 70.0f);
+	velocityDeltaAngle = 120.0f;
+
+	acceleration = vec3(1.0f, 1.0f, 1.0f);
+
+	initialSize = vec2(5.0f, 5.0f);
+	initialSizeDelta = vec2(0.02f, 0.02f);
+
+	sizeGrowthVelocity = vec2(0.6f, 0.5f);
+
+	initialColor = vec4(1 ,0.843137 ,0, 1);
+	midColor = vec4(1, 0.843137, 0, 1);
+	endColor = vec4(0, 1, 0, 1);
+
+	emissionRate = 20.0f;
+	fadeInTime = 0.0f;
+	fadeOutTime = 1.5f;
+	totalLifetime = 2.0f;
+	totalLifetimeDelta = 0.0f;
+}

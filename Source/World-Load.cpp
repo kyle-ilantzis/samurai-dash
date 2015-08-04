@@ -1,18 +1,21 @@
+// Other
 #include "World.h"
 #include "ParsingHelper.h"
+#include "RealTimeCollisionDetection.h"
+#include "Animation.h"
+#include "SplineFactory.h"
 
+// Models
+#include "BunnyModel.h"
 #include "WolfModel.h"
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "PlayerModel.h"
-#include "Animation.h"
-#include "SplineFactory.h"
-#include "SkyboxModel.h"
 #include "CapsuleModel.h"
+#include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
-
-#include "RealTimeCollisionDetection.h"
+#include "UFOModel.h"
 
 using namespace std;
 using namespace glm;
@@ -28,36 +31,54 @@ void World::LoadScene() {
 	mSplineModel = SplineFactory::LoadSpline();
 	//mModel.push_back(mSplineModel);
 
-
-
+	// Creating the Models
 	mPlayerModel = new PlayerModel();
 	mWolfModel = new WolfModel();
-	
+	mBunnyModel = new BunnyModel();
+	mBunnyModelTwo = new BunnyModel();
+	mUFOModel = new UFOModel();
+
 	// Create the capsue for sheep
 	Capsule* sheepCapsule = new Capsule();
-
 	sheepCapsule->a = vec3(0, 0.25, 0);;
 	sheepCapsule->b = vec3(0, 0.5, 0);
 	sheepCapsule->r = 0.68;
-
 	mPlayerModel->setCapsuleBoundingVolume(sheepCapsule);
 
+	// Poop particle system for sheep
 	ci_string str = "particleSystem = \"poop\"\n";
 	ci_istringstream iss(str);
 	mPlayerModel->Load(iss);
 
+	// Beam Particle System For UFO
+	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
+	ci_istringstream isses(beamString);
+	mUFOModel->Load(isses);
+
+	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mWolfModel);
+	mModel.push_back(mBunnyModel);
+	mModel.push_back(mBunnyModelTwo);
+	mModel.push_back(mUFOModel);
 
+	// The wolf follows ths Player Model.
 	mWolfModel->SetParent(mPlayerModel);
-
+	mUFOModel->SetParent(mPlayerModel);
+	
+	// Create the obstacles
 	mObstacles->PopulateRandomSample();
+
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
 
-	// Move
+	// Movement for Models
 	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
+	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
+	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
+	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 
+	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();
 	mModel.push_back(skybox);
 }
@@ -99,6 +120,13 @@ void World::LoadScene(const char * scene_path)
 				WolfModel* wolf = new WolfModel();
 				wolf->Load(iss);
 				mModel.push_back(wolf);
+			}
+			else if (result == "bunnny")
+			{
+				// Box attributes
+				BunnyModel* bunny = new BunnyModel();
+				bunny->Load(iss);
+				mModel.push_back(bunny);
 			}
 			else if (result == "cube")
 			{
