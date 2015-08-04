@@ -27,6 +27,7 @@
 #include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
+#include "UFOModel.h"
 
 using namespace std;
 using namespace glm;
@@ -43,7 +44,6 @@ World::World()
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 
 	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");

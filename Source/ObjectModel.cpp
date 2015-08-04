@@ -10,17 +10,15 @@ using namespace glm;
 
 ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 colorForShapeI[]) : Model(), shapesVertexBuffer()
 {
-	// Vector Array for Shape
+	// Vector Array for Model
 	vector<shape_t> shapes;
 	vector<material_t> materials;
 
-	// Import the Sheep
+	// Import the Model
 	string name = LoadObj(shapes, materials, objFile, matFile);
 
 	// Create a vertex array
 	glGenVertexArrays(1, &mVertexArrayID);
-
-	// Adds elements of the sheep (Body, Iris, Eye)
 
 	// Main loop for creating the sheep
 	for (int index = 0; index < shapes.size(); ++index)

@@ -1,5 +1,5 @@
 #ifndef UFOMODEL_H
-#define UFOMODEL_H
+#define WOLFMODEL_H
 
 #include "Model.h"
 #include "ObjectModel.h"
@@ -10,4 +10,5 @@ public:
 	static const glm::vec3 UFO_SHAPE_COLORS[];
 	UFOModel();
 };
+
 #endif

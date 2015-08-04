@@ -5,9 +5,8 @@
 using namespace std;
 using namespace glm;
 
-const glm::vec3 UFOModel::UFO_SHAPE_COLORS[] = { vec3{ 1.0f, 0.0784314f, 0.576471f } };
+const glm::vec3 UFOModel::UFO_SHAPE_COLORS[] = { vec3{ 1, 0.843137, 0 }, vec3{ 0.180392, 0.545098, 0.341176 } };
 
 UFOModel::UFOModel() : ObjectModel(HOLY_UFO, HOLY_UFO_MATERIAL, UFO_SHAPE_COLORS)
 {
-	SetScaling(glm::vec3(10.0f, 10.0f, 10.0f));
 }
