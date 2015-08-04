@@ -26,6 +26,8 @@ class WolfModel;
 class PlayerModel;
 class Obstacles;
 class BunnyModel;
+class UFOModel;
+
 class World
 {
 public:
@@ -86,4 +88,5 @@ private:
 	Discoball* mDiscoBall;
 	BunnyModel* mBunnyModel;
 	BunnyModel* mBunnyModelTwo;
+	UFOModel* mUFOModel;
 };

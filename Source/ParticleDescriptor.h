@@ -19,9 +19,11 @@ class ParticleDescriptor
 public:
     ParticleDescriptor();
     
+	// Declare the customer Emitter Descriptors
     void SetFountainDescriptor();
     void SetFireDescriptor();
 	void SetPoopDescriptor();
+	void SetUFODescriptor();
     
 private:
     

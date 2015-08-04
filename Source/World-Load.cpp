@@ -15,6 +15,7 @@
 #include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
+#include "UFOModel.h"
 
 using namespace std;
 using namespace glm;
@@ -35,6 +36,7 @@ void World::LoadScene() {
 	mWolfModel = new WolfModel();
 	mBunnyModel = new BunnyModel();
 	mBunnyModelTwo = new BunnyModel();
+	mUFOModel = new UFOModel();
 
 	// Create the capsue for sheep
 	Capsule* sheepCapsule = new Capsule();
@@ -48,14 +50,21 @@ void World::LoadScene() {
 	ci_istringstream iss(str);
 	mPlayerModel->Load(iss);
 
+	// Beam Particle System For UFO
+	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
+	ci_istringstream isses(beamString);
+	mUFOModel->Load(isses);
+
 	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mWolfModel);
 	mModel.push_back(mBunnyModel);
 	mModel.push_back(mBunnyModelTwo);
+	mModel.push_back(mUFOModel);
 
-	// The wolf follows ths Sheep Player.
+	// The wolf follows ths Player Model.
 	mWolfModel->SetParent(mPlayerModel);
+	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
 	mObstacles->PopulateRandomSample();
@@ -67,6 +76,7 @@ void World::LoadScene() {
 	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
 	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
 	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
+	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 
 	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();

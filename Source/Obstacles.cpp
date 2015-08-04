@@ -54,7 +54,7 @@ Model* Obstacles::GetRandomModel()
 	int randomNumb = rand() % 3;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
-		cModel->SetPosition(glm::vec3(0, 1.0f, 0));
+		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
 		cModel->SetScaling(glm::vec3(3.0f,3.0f,3.0f));
 		return cModel;
 	}
