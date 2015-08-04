@@ -14,6 +14,7 @@
 #include "World.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm\gtx\rotate_vector.hpp>
 #include <glm/common.hpp>
 
 using namespace glm;
@@ -85,7 +86,8 @@ void ParticleSystem::Update(float dt)
         //          mpDescriptor->velocityDeltaAngle.
         // Step 2 : You can rotate the result in step 1 by an random angle from 0 to
         //          360 degrees about the original velocity vector
-
+		
+		/**
 		vec3 i = vec3(1, 0, 0);
 		vec3 j = vec3(0, 1, 0);
 		vec3 velocity = mpDescriptor->velocity;
@@ -101,8 +103,10 @@ void ParticleSystem::Update(float dt)
 
 		vec4 randomHomogeneousVelocity = r2 * r1 * vec4(velocity, 1.0f);
 		vec3 randomVelocity = vec3(randomHomogeneousVelocity);
+		**/
 
-		newParticle->velocity = randomVelocity;
+		vec3 velocity = rotateZ(newParticle->velocity,EventManager::GetRandomFloat(-mpDescriptor->velocityDeltaAngle,mpDescriptor->velocityDeltaAngle));
+		newParticle->velocity = velocity;
 
 		World::GetInstance()->AddBillboard(&newParticle->billboard);
     }

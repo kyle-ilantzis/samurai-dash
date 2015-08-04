@@ -1,6 +1,7 @@
 #include "Obstacles.h"
 #include "PlayerModel.h"
 #include "SplineModel.h"
+#include "FireModel.h"
 #include "SplineFactory.h"
 #include "World.h"
 #include <GL/glew.h>
@@ -50,23 +51,31 @@ void Obstacles::PopulateRandomSample()
 
 Model* Obstacles::GetRandomModel()
 {
-	int randomNumb = rand() % 3;
+	int randomNumb = 1;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
 		cModel->SetPosition(glm::vec3(0, 1.0f, 0));
 		cModel->SetScaling(glm::vec3(3.0f,3.0f,3.0f));
 		return cModel;
 	}
-	else if (randomNumb == 1)
+	else if (randomNumb == 5)
 	{
 		return new WolfModel();
 	}
+	else if (randomNumb == 1){
+		FireModel* flame = new FireModel();
+		flame->SetPosition(glm::vec3(0, 1.0f, 0));
+		return flame;
+	}
 	else
 	{
+		;
+		
 		SphereModel* sModel = new SphereModel();
 		sModel->SetPosition(glm::vec3(0, 1.0f, 0));
 		sModel->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
 		return sModel;
+		
 	}
 }
 

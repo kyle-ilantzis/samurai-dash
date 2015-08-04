@@ -6,6 +6,7 @@
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "WolfModel.h"
+#include "FireModel.h"
 
 class PlayerModel;
 

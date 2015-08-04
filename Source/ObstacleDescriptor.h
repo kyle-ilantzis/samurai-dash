@@ -1,30 +1,21 @@
-//
-// COMP 371 Assignment Framework
-//
-// Created by Nicolas Bergeron on 15/7/15.
-//         with help from Jordan Rutty
-//
-// Copyright (c) 2014-2015 Concordia University. All rights reserved.
-//
-
 #pragma once
 
 #include <glm/glm.hpp>
 #include "ParticleSystem.h"
-#include "FlameSystem.h"
+#include "ParticleDescriptor.h"
+#include "ObstacleDescriptor.h"
 
-// You can add a lot more to this to create more pleasant effects
-// Adding more random parameters will make the particle effects more interesting
-class ParticleDescriptor
+class ObstacleDescriptor: public ParticleDescriptor
 {
 public:
-    ParticleDescriptor();
-    
-    void SetFountainDescriptor();
-    void SetFireDescriptor();
-	void SetPoopDescriptor();
-	void SetFlameDescriptor();
-    
+	ObstacleDescriptor(void);
+
+	void createFlameObstacle();
+	void createIceObstacle();
+
+
+	~ObstacleDescriptor(void);
+
 private:
     
     glm::vec3 velocity;                 // initial speed vector - units per second
@@ -45,7 +36,7 @@ private:
     float fadeOutTime;                  // time from mid to end stage
     float totalLifetime;                // amount of time in seconds the particle will remain alive
     float totalLifetimeDelta;
-    
-    friend class ParticleSystem;
+
 	friend class FlameSystem;
 };
+

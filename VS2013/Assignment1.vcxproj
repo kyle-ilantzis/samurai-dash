@@ -127,12 +127,15 @@
     <ClCompile Include="..\Source\CubeModel.cpp" />
     <ClCompile Include="..\Source\Discoball.cpp" />
     <ClCompile Include="..\Source\EventManager.cpp" />
+    <ClCompile Include="..\Source\FireModel.cpp" />
     <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="..\Source\FlameSystem.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Math.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
     <ClCompile Include="..\Source\MoonLighting.cpp" />
     <ClCompile Include="..\Source\ObjectModel.cpp" />
+    <ClCompile Include="..\Source\ObstacleDescriptor.cpp" />
     <ClCompile Include="..\Source\Obstacles.cpp" />
     <ClCompile Include="..\Source\ParticleDescriptor.cpp" />
     <ClCompile Include="..\Source\ParticleEmitter.cpp" />
@@ -165,11 +168,14 @@
     <ClInclude Include="..\Source\CubeModel.h" />
     <ClInclude Include="..\Source\Discoball.h" />
     <ClInclude Include="..\Source\EventManager.h" />
+    <ClInclude Include="..\Source\FireModel.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
+    <ClInclude Include="..\Source\FlameSystem.h" />
     <ClInclude Include="..\Source\Math.h" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\MoonLighting.h" />
     <ClInclude Include="..\Source\ObjectModel.h" />
+    <ClInclude Include="..\Source\ObstacleDescriptor.h" />
     <ClInclude Include="..\Source\Obstacles.h" />
     <ClInclude Include="..\Source\ParsingHelper.h" />
     <ClInclude Include="..\Source\ParticleDescriptor.h" />
@@ -191,9 +197,12 @@
     <ClInclude Include="..\Source\Vertexes.h" />
     <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />
+    <ClInclude Include="FireModel.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
+    <Image Include="..\Assets\Textures\flame.png" />
     <Image Include="..\Assets\Textures\Particle.png" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\back.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg" />
@@ -204,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Assets\Sounds\RainbowRoad.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Assignment1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

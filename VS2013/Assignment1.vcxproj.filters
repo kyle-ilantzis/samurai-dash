@@ -199,6 +199,15 @@
     <ClCompile Include="..\Source\Discoball.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\FireModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ObstacleDescriptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\FlameSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\ParticleDescriptor.h">
@@ -303,6 +312,17 @@
     <ClInclude Include="..\Source\Discoball.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FireModel.h" />
+    <ClInclude Include="..\Source\FireModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ObstacleDescriptor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\Source\FlameSystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp">
@@ -329,10 +349,18 @@
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg">
       <Filter>Resource Files\Textures\Skybox\Nightsky</Filter>
     </Image>
+    <Image Include="..\Assets\Textures\flame.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Assets\Sounds\RainbowRoad.wav">
       <Filter>Resource Files\Sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Assignment1.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

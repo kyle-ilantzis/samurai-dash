@@ -28,9 +28,9 @@ public:
     ParticleSystem(ParticleEmitter* emitter, ParticleDescriptor* descriptor);
 	~ParticleSystem();
 
-    void Update(float dt);
+	virtual void Update(float dt);
 
-private:
+protected:
     ParticleDescriptor* mpDescriptor;
     ParticleEmitter* mpEmitter;
     std::list<Particle*> mParticleList;
