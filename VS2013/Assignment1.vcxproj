@@ -107,7 +107,6 @@
     <None Include="..\Assets\Scenes\Discoball.scene" />
     <None Include="..\Assets\Scenes\SamuraiDash.scene" />
     <None Include="..\Assets\Scenes\StaticScene.scene" />
-    <None Include="..\Assets\Scenes\UFO.scene" />
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader" />
     <None Include="..\Assets\Shaders\PathLines.fragmentshader" />
     <None Include="..\Assets\Shaders\PathLines.vertexshader" />

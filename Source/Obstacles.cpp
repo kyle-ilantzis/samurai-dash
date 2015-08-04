@@ -51,7 +51,7 @@ void Obstacles::PopulateRandomSample()
 
 Model* Obstacles::GetRandomModel()
 {
-	int randomNumb = rand() % 4;
+	int randomNumb = rand() % 3;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
 		cModel->SetPosition(glm::vec3(0, 1.0f, 0));
@@ -62,20 +62,14 @@ Model* Obstacles::GetRandomModel()
 	{
 		return new WolfModel();
 	}
-	else if (randomNumb == 2)
+	else
 	{
 		Discoball* cDiscoBall = new Discoball();
 		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
 		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
 		return cDiscoBall;
 	}
-	else
-	{
-		SphereModel* sModel = new SphereModel();
-		sModel->SetPosition(glm::vec3(0, 1.0f, 0));
-		sModel->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
-		return sModel;
-	}
+
 }
 
 void Obstacles::Draw()

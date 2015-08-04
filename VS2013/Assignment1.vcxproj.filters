@@ -92,9 +92,6 @@
     <None Include="..\Assets\Scenes\Player.scene">
       <Filter>Resource Files\Scenes</Filter>
     </None>
-    <None Include="..\Assets\Scenes\UFO.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\ParticleDescriptor.cpp">

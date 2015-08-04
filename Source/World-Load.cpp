@@ -7,7 +7,6 @@
 
 // Models
 #include "BunnyModel.h"
-#include "UFOModel.h"
 #include "WolfModel.h"
 #include "CubeModel.h"
 #include "SphereModel.h"
