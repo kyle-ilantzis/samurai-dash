@@ -312,14 +312,12 @@
     <ClInclude Include="..\Source\Discoball.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="FireModel.h" />
     <ClInclude Include="..\Source\FireModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\ObstacleDescriptor.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="..\Source\FlameSystem.h">
       <Filter>Source Files</Filter>
     </ClInclude>

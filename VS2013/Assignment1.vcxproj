@@ -197,8 +197,6 @@
     <ClInclude Include="..\Source\Vertexes.h" />
     <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />
-    <ClInclude Include="FireModel.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
