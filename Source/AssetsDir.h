@@ -22,8 +22,12 @@
 #define HOLY_WOLF ASSET_DIR MODEL_DIR WOLF_DIR "/Wolf.obj"
 #define HOLY_WOLF_MATERIAL ASSET_DIR MODEL_DIR WOLF_DIR "/"
 
-#define UFO_DIR "/Flying Disk"
+#define UFO_DIR "/FlyingDisk"
 #define HOLY_UFO ASSET_DIR MODEL_DIR UFO_DIR "/disk-flying.obj"
 #define HOLY_UFO_MATERIAL ASSET_DIR MODEL_DIR UFO_DIR "/"
+
+#define BUNNY_DIR "/Bunny"
+#define HOLY_BUNNY ASSET_DIR MODEL_DIR BUNNY_DIR "/Bunny.obj"
+#define HOLY_BUNNY_MATERIAL ASSET_DIR MODEL_DIR BUNNY_DIR "/"
 
 #endif

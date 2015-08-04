@@ -4,17 +4,18 @@
 #include "RealTimeCollisionDetection.h"
 #include "Animation.h"
 #include "SplineFactory.h"
+
 // Models
+#include "BunnyModel.h"
+#include "UFOModel.h"
 #include "WolfModel.h"
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "PlayerModel.h"
-#include "UFOModel.h"
 #include "CapsuleModel.h"
 #include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
-
 
 using namespace std;
 using namespace glm;
@@ -30,11 +31,11 @@ void World::LoadScene() {
 	mSplineModel = SplineFactory::LoadSpline();
 	//mModel.push_back(mSplineModel);
 
-
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
 	mWolfModel = new WolfModel();
-	mUFOModel = new UFOModel();
+	mBunnyModel = new BunnyModel();
+	mBunnyModelTwo = new BunnyModel();
 
 	// Create the capsue for sheep
 	Capsule* sheepCapsule = new Capsule();
@@ -49,10 +50,10 @@ void World::LoadScene() {
 	mPlayerModel->Load(iss);
 
 	// Pushing Models To the World.
-	mModel.push_back(mUFOModel);
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mWolfModel);
-
+	mModel.push_back(mBunnyModel);
+	mModel.push_back(mBunnyModelTwo);
 
 	// The wolf follows ths Sheep Player.
 	mWolfModel->SetParent(mPlayerModel);
@@ -65,6 +66,8 @@ void World::LoadScene() {
 
 	// Movement for Models
 	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
+	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
+	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
 
 	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();
@@ -109,11 +112,12 @@ void World::LoadScene(const char * scene_path)
 				wolf->Load(iss);
 				mModel.push_back(wolf);
 			}
-			else if (result == "ufo")
+			else if (result == "bunnny")
 			{
-				UFOModel* ufo = new UFOModel();
-				ufo->Load(iss);
-				mModel.push_back(ufo);
+				// Box attributes
+				BunnyModel* bunny = new BunnyModel();
+				bunny->Load(iss);
+				mModel.push_back(bunny);
 			}
 			else if (result == "cube")
 			{

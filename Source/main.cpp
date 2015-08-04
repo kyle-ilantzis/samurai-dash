@@ -37,31 +37,9 @@ int main(int argc, char*argv[])
 	// If Running on Windows Then Play Background Music
 	// PlaySound(TEXT("../Assets/Sounds/RainbowRoad.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
-//	if (argc > 1)
-//	{
-//		world.LoadScene(argv[1]);
-//	}
-//	else
-//	{
-//		// TODO - You can alternate between different scenes for testing different things
-//		// Static Scene contains no animation
-//		// Animated Scene does
-//		world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
-//		world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
-	if (argc > 1)
-	{
-		world.LoadScene(argv[1]);
-	}
-	else
-	{
-		// TODO - You can alternate between different scenes for testing different things
-		// Static Scene contains no animation
-		// Animated Scene does
-
 //		world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
 //		world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
 //		world.LoadScene("../Assets/Scenes/Spline.scene");
-
 //		world.LoadScene("../Assets/Scenes/StaticScene.scene");
 //		world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
 //		world.LoadScene("../Assets/Scenes/CollisionDemo.scene");
@@ -70,9 +48,8 @@ int main(int argc, char*argv[])
 //		world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
 //		world.LoadScene("../Assets/Scenes/Discoball.scene");
 //		world.LoadScene("../Assets/Scenes/Player.scene");
-	}
-//#endif
-//	}
+//		world.LoadScene("../Assets/Scenes/UFO.scene");
+
 
 	double fps = 1.0f / FPS;
 	double dtStep = fps;

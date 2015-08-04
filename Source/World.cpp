@@ -7,27 +7,26 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
+// Other Assets
 #include "World.h"
 #include "Renderer.h"
 #include "ParsingHelper.h"
-
 #include "StaticCamera.h"
 #include "FirstPersonCamera.h"
-
-#include "CubeModel.h"
-#include "SphereModel.h"
-#include "Animation.h"
-#include "Billboard.h"
-#include "SplineFactory.h"
-#include "SkyboxModel.h"
-#include "Obstacles.h"
-#include "Discoball.h"
-
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
 #include "TextureLoader.h"
-
+#include "SplineFactory.h"
+#include "Animation.h"
 #include "ParticleSystem.h"
+
+// Model Assets
+#include "CubeModel.h"
+#include "SphereModel.h"
+#include "Billboard.h"
+#include "SkyboxModel.h"
+#include "Obstacles.h"
+#include "Discoball.h"
 
 using namespace std;
 using namespace glm;
@@ -192,9 +191,11 @@ void World::Draw()
     mpBillboardList->Draw();
 
 	// Draw Spline
-	mSplineModel->Draw();
-	Model* bvm = mSplineModel->GetBoundingVolumeModel();
-	if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	if (mSplineModel) {
+		mSplineModel->Draw();
+		Model* bvm = mSplineModel->GetBoundingVolumeModel();
+		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	}
 
 	// Restore previous shader
 	Renderer::SetShader((ShaderType) prevShader);
