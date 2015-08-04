@@ -1,5 +1,5 @@
 #ifndef UFOMODEL_H
-#define WOLFMODEL_H
+#define UFOMODEL_H
 
 #include "Model.h"
 #include "ObjectModel.h"
