@@ -1,4 +1,4 @@
-[Wolf] 
+# This should draw a coordinate system with 3 colored axes
 
 [Cube]
 name = "X-axis"

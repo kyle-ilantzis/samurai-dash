@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Animation.cpp" />
     <ClCompile Include="..\Source\Billboard.cpp" />
+    <ClCompile Include="..\Source\BunnyModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\CapsuleModel.cpp" />
     <ClCompile Include="..\Source\CubeModel.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\Source\Animation.h" />
     <ClInclude Include="..\Source\AssetsDir.h" />
     <ClInclude Include="..\Source\Billboard.h" />
+    <ClInclude Include="..\Source\BunnyModel.h" />
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\CapsuleModel.h" />
     <ClInclude Include="..\Source\CubeModel.h" />
