@@ -135,13 +135,17 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
         {
             assert(token.size() > 2);
             assert(token[1] == "=");
-			assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"poop\"" || token[2] == "\"UFOBeam\""); // only to hardcoded particle systems
+			assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"JetFlame\"" || token[2] == "\"UFOBeam\"" || token[2] == "\"JetFlame2\""); // only to hardcoded particle systems
 
 			ParticleEmitter* emitter;
 
-			if (token[2] == "\"poop\"")
+			if (token[2] == "\"JetFlame\"")
 			{
-				emitter = new ParticleEmitter(vec3(0.0f, 2.0f, 1.7f), this);
+				emitter = new ParticleEmitter(vec3(0.3f, 0.4f, 3.2f), this);
+			}
+			else if (token[2] == "\"JetFlame2\"")
+			{
+				emitter = new ParticleEmitter(vec3(-0.3f, 0.4f, 3.2f), this);
 			}
 			else if (token[2] == "\"UFOBeam\"")
 			{
@@ -162,9 +166,13 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
             {
                 desc->SetFountainDescriptor();
             }
-			else if (token[2] == "\"poop\"")
+			else if (token[2] == "\"JetFlame\"")
 			{
-				desc->SetPoopDescriptor();
+				desc->SetJetFlameDescriptor();
+			}
+			else if (token[2] == "\"JetFlame2\"")
+			{
+				desc->SetJetFlameDescriptor();
 			}
 			else if (token[2] == "\"UFOBeam\"")
 			{

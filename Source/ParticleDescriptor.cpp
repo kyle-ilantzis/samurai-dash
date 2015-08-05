@@ -161,26 +161,26 @@ void ParticleDescriptor::SetFireDescriptor()
 	totalLifetimeDelta = 0.0f;
 }
 #endif
-void ParticleDescriptor::SetPoopDescriptor()
+void ParticleDescriptor::SetJetFlameDescriptor()
 {
 	velocity = vec3(0.0f, 0.1f, 0.0f);
 	velocityDeltaAngle = 4.0f;
 
 	acceleration = vec3(0.0f, 0.0f, 0.0f);
 
-	initialSize = vec2(2.0f, 2.0f);
+	initialSize = vec2(0.6f, 0.6f);
 	initialSizeDelta = vec2(0.02f, 0.02f);
 
-	sizeGrowthVelocity = vec2(0.6f, 0.5f);
+	sizeGrowthVelocity = vec2(0.0f, 0.0f);
 
-	initialColor = vec4(0.545098f, 0.270588f, 0.0745098f, 1.0f);
-	midColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.8f);
-	endColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.4f);
+	initialColor = vec4(0.862745f, 0.0784314f, 0.235294f, 1.0f);
+	midColor = vec4(0.862745f, 0.0784314f, 0.235294f, 0.8f);
+	endColor = vec4(0.933333f, 0.866667f, 0.509804f, 0.6f);
 
 	emissionRate = 40.0f;
 	fadeInTime = 0.0f;
-	fadeOutTime = 1.5f;
-	totalLifetime = 1.0f;
+	fadeOutTime = 3.0f;
+	totalLifetime = 0.8f;
 	totalLifetimeDelta = 0.0f;
 }
 

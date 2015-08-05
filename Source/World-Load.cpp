@@ -45,10 +45,13 @@ void World::LoadScene() {
 	JetCapsule->r = 450;
 	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
-	// Jet Stream Particle System for Player Jet
-	ci_string str = "particleSystem = \"poop\"\n";
-	ci_istringstream iss(str);
+	// Jet Stream Particle System for Player Jet (Two Of Them)
+	ci_string JetFlame = "particleSystem = \"JetFlame\"\n";
+	ci_istringstream iss(JetFlame);
 	mPlayerModel->Load(iss);
+	ci_string JetFlame2 = "particleSystem = \"JetFlame2\"\n";
+	ci_istringstream iss2(JetFlame2);
+	mPlayerModel->Load(iss2);
 
 	// Beam Particle System For UFO
 	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
