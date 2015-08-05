@@ -24,7 +24,7 @@ namespace rtcd {
 		Capsule() : a(), b(), r() {}
 		Capsule(glm::vec3 pointA, glm::vec3 pointB, float radius) : a(pointA), b(pointB), r(radius) {};
 
-		Capsule transform(const glm::mat4& M) const;
+		Capsule transform(const Model& m) const;
 	};
 
 	/**
