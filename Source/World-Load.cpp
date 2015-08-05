@@ -39,11 +39,11 @@ void World::LoadScene() {
 	mUFOModel = new UFOModel();
 
 	// Create the capsue for sheep
-	Capsule* sheepCapsule = new Capsule();
-	sheepCapsule->a = vec3(0, 0.25, 0);;
-	sheepCapsule->b = vec3(0, 0.5, 0);
-	sheepCapsule->r = 0.68;
-	mPlayerModel->setCapsuleBoundingVolume(sheepCapsule);
+	Capsule* JetCapsule = new Capsule();
+	JetCapsule->a = vec3(0, 80, 0);;
+	JetCapsule->b = vec3(0, -80, 0);
+	JetCapsule->r = 600;
+	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
 	// Poop particle system for sheep
 	ci_string str = "particleSystem = \"poop\"\n";

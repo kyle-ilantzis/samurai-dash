@@ -1,4 +1,6 @@
 [Player]
+name = "Player"
+boundingVolume = capsule a = 0 0 80 b = 0 0 -80 r = 600
 
 [Cube]
 name = "X-axis"

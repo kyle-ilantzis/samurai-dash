@@ -3,6 +3,11 @@
 
 #include "ObjectModel.h"
 #include "SplineModel.h"
+
+#define JET_COLOR glm::vec3(0, 0, 0)
+#define JET_COLOR2 glm::vec3(1, 1, 0)
+
+
 class PlayerState;
 class PlayerModel;
 
@@ -11,7 +16,6 @@ class PlayerState {
 public:
 	PlayerState(PlayerModel& player) : mPlayer(player), mCurrentTime(0) {}
 	virtual ~PlayerState(){}
-
 	virtual void setup() { mCurrentTime = 0; }
 
 	virtual void Update(float dt) = 0 { mCurrentTime += dt; }
@@ -49,7 +53,7 @@ public:
 	const static float DEFAULT_MOVE_SPEED;
 	const static float MODEL_SPACE_HEIGHT_OFFSET;
 
-	static const glm::vec3 SHEEP_SHAPE_COLORS[];
+	static const glm::vec3 JET_SHAPE_COLORS[];
 
 	PlayerModel();
 		
