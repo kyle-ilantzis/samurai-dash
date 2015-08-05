@@ -31,15 +31,15 @@ scaling = 0.12f 0.12f 0.12f
 
 [AnimationKey]
 name     = "KeyForth"
-position = -3.0 1.5 -5.5
-scaling = 0.03f 0.03f 0.03f
-rotation =  1.0f 0.0f 0.0f 0.0f
+position =  2600.0f 1000.0f 500.0f
+scaling = 0.9f 0.9f 0.9f
+rotation =  1.0f 0.0f 2.0f -10.0f
 
 [AnimationKey]
 name     = "KeyBack"
-position =  3.0 1.5 -5.5
-scaling = 0.03f 0.03f 0.03f
-rotation =  1.0f 0.0f 0.0f 40.0f
+position =  2900.0f 1000.0f -500.0f
+scaling = 0.9f 0.9f 0.9f
+rotation =  1.0f 0.0f 1.0f 25.0f
 
 [Animation]
 name     = "BackAndForth"

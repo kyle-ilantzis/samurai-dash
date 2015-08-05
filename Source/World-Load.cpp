@@ -16,6 +16,7 @@
 #include "Obstacles.h"
 #include "Discoball.h"
 #include "UFOModel.h"
+#include "FighterJetModel.h"
 
 using namespace std;
 using namespace glm;
@@ -33,10 +34,10 @@ void World::LoadScene() {
 
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
-	mWolfModel = new WolfModel();
 	mBunnyModel = new BunnyModel();
 	mBunnyModelTwo = new BunnyModel();
 	mUFOModel = new UFOModel();
+	mFighterJetModel = new FighterJetModel();
 
 	// Create the capsue for Player Jet
 	Capsule* JetCapsule = new Capsule();
@@ -60,13 +61,15 @@ void World::LoadScene() {
 
 	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
-	mModel.push_back(mWolfModel);
 	mModel.push_back(mBunnyModel);
 	mModel.push_back(mBunnyModelTwo);
 	mModel.push_back(mUFOModel);
+	mModel.push_back(mFighterJetModel);
 
-	// The wolf follows ths Player Model.
-	mWolfModel->SetParent(mPlayerModel);
+	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
+	mFighterJetModel->SetParent(mPlayerModel);
+
+	// The UFO Stays in front of the Player Jet (Yellow)
 	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
@@ -76,10 +79,10 @@ void World::LoadScene() {
 	LoadScene(sceneFile);
 
 	// Movement for Models
-	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
 	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
 	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
+	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
 
 	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();

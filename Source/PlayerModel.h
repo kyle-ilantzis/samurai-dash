@@ -4,9 +4,9 @@
 #include "ObjectModel.h"
 #include "SplineModel.h"
 
+// Define Colors for Player Jet
 #define JET_COLOR glm::vec3(0, 0, 0)
 #define JET_COLOR2 glm::vec3(1, 1, 0)
-
 
 class PlayerState;
 class PlayerModel;
