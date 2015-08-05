@@ -10,7 +10,7 @@ using namespace glm;
 
 const float LoadingScreen::LOADING_MSG_DISTANCE = 100.0f;
 const float LoadingScreen::LOADING_MSG_SIZE = 3;
-const vec4 LoadingScreen::LOADING_MSG_BACKGROUND = vec4(0, 0, 1, 1);
+const vec4 LoadingScreen::LOADING_MSG_BACKGROUND = vec4(0, 0, 0, 1);
 
 LoadingScreen::LoadingScreen() : 
 	mLoadingMsgTexture(), 
