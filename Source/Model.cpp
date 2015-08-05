@@ -193,7 +193,7 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 			assert(token[14] == "=");
 			float r = static_cast<float>(atof(token[15].c_str()));
 			
-			setCapsuleBoundingVolume(new Capsule({ vec3(ax, ay, ax), vec3(bx, by, bx), r }));
+			setCapsuleBoundingVolume(new Capsule(vec3(ax, ay, az), vec3(bx, by, bz), r));
 		}
 		else
 		{
