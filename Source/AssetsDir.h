@@ -10,6 +10,7 @@
 #define TEXTURES_DIR ASSET_DIR "/Textures"
 
 #define TEXTURE_BILLBOARD_TEST TEXTURES_DIR "/BillboardTest.bmp"
+#define TEXTURE_LOADING_MSG TEXTURES_DIR "/Loading.jpg"
 
 #define SKYBOX_DIR TEXTURES_DIR "/Skybox"
 #define SKYBOX_NIGHTSKY SKYBOX_DIR "/Nightsky"
