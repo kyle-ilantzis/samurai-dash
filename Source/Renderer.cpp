@@ -30,6 +30,9 @@ unsigned int Renderer::sCurrentShader;
 
 GLFWwindow* Renderer::spWindow = nullptr;
 
+const glm::vec4 Renderer::DEFAULT_CLEAR_COLOR = glm::vec4(0, 0, 0, 1);
+glm::vec4 Renderer::sClearColor = glm::vec4(0,0,0,1);
+
 void Renderer::Initialize()
 {
 	spWindow = EventManager::GetWindow();
@@ -49,7 +52,7 @@ void Renderer::Initialize()
     
     
 	// Black background
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(DEFAULT_CLEAR_COLOR.r, DEFAULT_CLEAR_COLOR.g, DEFAULT_CLEAR_COLOR.b, DEFAULT_CLEAR_COLOR.a);
 	
 	// Enable depth test
     glEnable(GL_DEPTH_TEST);
