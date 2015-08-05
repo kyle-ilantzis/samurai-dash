@@ -28,6 +28,8 @@ class Obstacles;
 class BunnyModel;
 class UFOModel;
 
+enum WorldCameraType { WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_STATIC_ABOVE, WORLD_CAMERA_STATIC_ORIGIN, WORLD_CAMERA_NIL };
+
 class World
 {
 public:
@@ -57,6 +59,9 @@ public:
     void RemoveParticleSystem(ParticleSystem* particleSystem);
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
+	
+	WorldCameraType GetWorldCameraType() { return (WorldCameraType)mCurrentCamera; }
+	void SetWorldCameraType(WorldCameraType type) { if (type != WORLD_CAMERA_NIL) mCurrentCamera = (int)type; }
 
 	SplineModel* GetSpline() { return mSplineModel; };
 

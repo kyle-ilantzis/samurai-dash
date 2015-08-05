@@ -15,6 +15,8 @@ public:
 
 	void SetData(FreeImage& image);
 
+	GLuint GetTextureId() { return mTextureId; }
+
 private:
 	GLuint mTextureId;
 };

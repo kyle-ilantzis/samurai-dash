@@ -18,6 +18,7 @@
 #include "EventManager.h"
 #include "Billboard.h"
 #include "TextureLoader.h"
+#include "LoadingScreen.h"
 
 using namespace std;
 
@@ -32,23 +33,29 @@ int main(int argc, char*argv[])
 	EventManager::Initialize();
 	Renderer::Initialize();
 
-	World world;    
+	World world;
 
 	// If Running on Windows Then Play Background Music
 	// PlaySound(TEXT("../Assets/Sounds/RainbowRoad.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
-	//	world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
-	//	world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
-	//	world.LoadScene("../Assets/Scenes/Spline.scene");
-	//	world.LoadScene("../Assets/Scenes/StaticScene.scene");
-	//	world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
-	//	world.LoadScene("../Assets/Scenes/CollisionDemo.scene");
-	//	world.LoadScene("../Assets/Scenes/Animal.scene");
-	//	world.LoadScene("../Assets/Scenes/StaticScene.scene");
-	//	world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
-	//	world.LoadScene("../Assets/Scenes/Discoball.scene");
-	//	world.LoadScene("../Assets/Scenes/Player.scene");
-	world.LoadScene();
+	/*loading screen block*/ {
+
+		LoadingScreen loadingScreen;
+		loadingScreen.Draw();
+
+		//	world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
+		//	world.LoadScene("../Assets/Scenes/AnimatedScene.scene");
+		//	world.LoadScene("../Assets/Scenes/Spline.scene");
+		//	world.LoadScene("../Assets/Scenes/StaticScene.scene");
+		//	world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
+		//	world.LoadScene("../Assets/Scenes/CollisionDemo.scene");
+		//	world.LoadScene("../Assets/Scenes/Animal.scene");
+		//	world.LoadScene("../Assets/Scenes/StaticScene.scene");
+		//	world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
+		//	world.LoadScene("../Assets/Scenes/Discoball.scene");
+		//	world.LoadScene("../Assets/Scenes/Player.scene");
+		world.LoadScene();
+	}
 
 	double fps = 1.0f / FPS;
 	double dtStep = 1.0f / PHYSICS_FPS;
