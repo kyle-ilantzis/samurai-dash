@@ -62,6 +62,9 @@ int main(int argc, char*argv[])
 	long sleepCtr = 0;
 #endif
 
+	// Reset the polled values in the EventManager because scene loading is long.
+	EventManager::Update();
+
 	do
 	{
 		double start = glfwGetTime();
