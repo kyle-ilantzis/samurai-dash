@@ -38,14 +38,14 @@ void World::LoadScene() {
 	mBunnyModelTwo = new BunnyModel();
 	mUFOModel = new UFOModel();
 
-	// Create the capsue for sheep
+	// Create the capsue for Player Jet
 	Capsule* JetCapsule = new Capsule();
-	JetCapsule->a = vec3(0, 80, 0);;
-	JetCapsule->b = vec3(0, -80, 0);
-	JetCapsule->r = 600;
+	JetCapsule->a = vec3(210, 0, 0);;
+	JetCapsule->b = vec3(-130, 0, 0);
+	JetCapsule->r = 450;
 	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
-	// Poop particle system for sheep
+	// Jet Stream Particle System for Player Jet
 	ci_string str = "particleSystem = \"poop\"\n";
 	ci_istringstream iss(str);
 	mPlayerModel->Load(iss);

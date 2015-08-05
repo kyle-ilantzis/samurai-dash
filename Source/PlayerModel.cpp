@@ -32,7 +32,7 @@ ObjectModel(HOLY_JET, HOLY_JET_MATERIAL, JET_SHAPE_COLORS),
 	mMoveState(*this),
 	mPlayerState(&mTrackState) {
 
-	SetScaling(vec3(0.01));
+	SetScaling(vec3(0.005));
 }
 
 void PlayerModel::Update(float dt) {
