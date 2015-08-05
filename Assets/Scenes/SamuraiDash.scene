@@ -85,14 +85,14 @@ key		= "Standing2"		time = 2.0f
 
 [AnimationKey]
 name     = "UFOUp"
-position = 0 6 10
-scaling = 0.15f 0.15f 0.15f
-rotation =  0.0f 1.0f 0.0f 2400.0f
+position = -2000 2000 500
+scaling = 40f 40f 40f
+rotation =  0.0f 1.0f 0.0f 6000.0f
 
 [AnimationKey]
 name     = "UFODown"
-position =  0 5 10
-scaling = 0.15f 0.15f 0.15f
+position =  -1500 1800 -500
+scaling = 40f 40f 40f
 rotation =  0.0f 1.0f 1.0f 10.0f
 
 [Animation]
