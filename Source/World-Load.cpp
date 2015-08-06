@@ -47,17 +47,27 @@ void World::LoadScene() {
 	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
 	// Jet Stream Particle System for Player Jet (Two Of Them)
-	ci_string JetFlame = "particleSystem = \"JetFlame\"\n";
-	ci_istringstream iss(JetFlame);
-	mPlayerModel->Load(iss);
-	ci_string JetFlame2 = "particleSystem = \"JetFlame2\"\n";
-	ci_istringstream iss2(JetFlame2);
-	mPlayerModel->Load(iss2);
+	ci_string PlayerJetFlame1 = "particleSystem = \"JetFlame1\"\n";
+	ci_istringstream stream1(PlayerJetFlame1);
+	mPlayerModel->Load(stream1);
+	ci_string PlayerJetFrame2 = "particleSystem = \"JetFlame2\"\n";
+	ci_istringstream stream2(PlayerJetFrame2);
+	mPlayerModel->Load(stream2);
+
+	// Jet Streaming Particle System for Enemy Jet
+	ci_string EnemyJetFlame1 = "particleSystem = \"JetFlame3\"\n";
+	ci_istringstream stream3(EnemyJetFlame1);
+	mFighterJetModel->Load(stream3);
+
+	// Enemy Jet Attack Lazer
+	ci_string EnemyLazer = "particleSystem = \"EnemyAttackLazer\"\n";
+	ci_istringstream stream4(EnemyLazer);
+	mFighterJetModel->Load(stream4);
 
 	// Beam Particle System For UFO
 	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
-	ci_istringstream isses(beamString);
-	mUFOModel->Load(isses);
+	ci_istringstream stream5(beamString);
+	mUFOModel->Load(stream5);
 
 	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);

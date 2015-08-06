@@ -171,16 +171,16 @@ void ParticleDescriptor::SetJetFlameDescriptor()
 	initialSize = vec2(0.6f, 0.6f);
 	initialSizeDelta = vec2(0.02f, 0.02f);
 
-	sizeGrowthVelocity = vec2(0.0f, 0.0f);
+	sizeGrowthVelocity = vec2(1.5f, 0.9f);
 
 	initialColor = vec4(0.862745f, 0.0784314f, 0.235294f, 1.0f);
 	midColor = vec4(0.862745f, 0.0784314f, 0.235294f, 0.8f);
-	endColor = vec4(0.933333f, 0.866667f, 0.509804f, 0.6f);
+	endColor = vec4(0.745098f, 0.745098f, 0.745098f, 0.6f);
 
-	emissionRate = 40.0f;
+	emissionRate = 50.0f;
 	fadeInTime = 0.0f;
-	fadeOutTime = 3.0f;
-	totalLifetime = 0.8f;
+	fadeOutTime = 3.5f;
+	totalLifetime = 0.7f;
 	totalLifetimeDelta = 0.0f;
 }
 
@@ -205,4 +205,50 @@ void ParticleDescriptor::SetUFODescriptor()
 	fadeOutTime = 1.5f;
 	totalLifetime = 2.0f;
 	totalLifetimeDelta = 0.0f;
+}
+
+void ParticleDescriptor::SetEnemyJetFlameDescriptor()
+{
+	velocity = vec3(0.0f, 0.01f, 0.0f);
+	velocityDeltaAngle = 0.1f;
+
+	acceleration = vec3(0.0f, 0.0f, 0.0f);
+
+	initialSize = vec2(3.0f, 3.0f);
+	initialSizeDelta = vec2(0.02f, 0.02f);
+
+	sizeGrowthVelocity = vec2(2.0f, 2.0f);
+
+	initialColor = vec4(0.741176f, 0.717647f, 0.419608f, 1.0f);
+	midColor = vec4(0.517647f, 0.517647f, 0.517647f, 1.0f);
+	endColor = vec4(0.156863f, 0.156863f, 0.156863f, 0.8f);
+
+	emissionRate = 13.3f;
+	fadeInTime = 0.0f;
+	fadeOutTime = 0.4f;
+	totalLifetime = 1.0f;
+	totalLifetimeDelta = 0.1f;
+}
+
+void ParticleDescriptor::SetEnemyJetAttackDescriptor()
+{
+	velocity = vec3(0.0f, 0.01f, -30.0f);
+	velocityDeltaAngle = 10.9f;
+
+	acceleration = vec3(0.0f, 0.0f, 3.0f);
+
+	initialSize = vec2(1.0f, 1.0f);
+	initialSizeDelta = vec2(2.0f, 0.02f);
+
+	sizeGrowthVelocity = vec2(1.0f, 1.0f);
+
+	initialColor = vec4(0.486275f, 0.988235f, 0.0f, 1.0f);
+	midColor = vec4(0.486275f, 0.988235f, 0.0f, 1.0f);
+	endColor = vec4(0.486275f, 0.988235f, 0.0f, 1.0f);
+
+	emissionRate = 6.3f;
+	fadeInTime = 0.0f;
+	fadeOutTime = 3.0f;
+	totalLifetime = 2.5f;
+	totalLifetimeDelta = 0.1f;
 }

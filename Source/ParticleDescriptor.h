@@ -24,6 +24,8 @@ public:
     void SetFireDescriptor();
 	void SetJetFlameDescriptor();
 	void SetUFODescriptor();
+	void SetEnemyJetFlameDescriptor();
+	void SetEnemyJetAttackDescriptor();
     
 private:
     
