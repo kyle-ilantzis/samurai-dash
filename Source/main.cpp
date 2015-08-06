@@ -26,7 +26,7 @@ using namespace std;
 
 #define FPS 30
 #define PHYSICS_FPS 30
-#define DEBUG_FRAME_RATE
+// #define DEBUG_FRAME_RATE
 
 int main(int argc, char*argv[])
 {

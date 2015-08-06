@@ -38,7 +38,7 @@ World* World::instance;
 World::World()
 {
     instance = this;
-	mObstacles = new Obstacles();
+	
 	// Setup Camera
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -55,8 +55,9 @@ World::World()
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
-	mWolfModel = nullptr;
 	mFighterJetModel = nullptr;
+	mUFOModel = nullptr;
+	mObstacles = nullptr;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -119,7 +120,9 @@ World::~World()
 	}
 	mCamera.clear();
 
-	delete mObstacles;
+	if (mSplineModel) delete mSplineModel;
+	if (mObstacles) delete mObstacles;
+	
 	delete mpBillboardList;
 }
 

@@ -22,10 +22,8 @@ class ParticleSystem;
 
 // Add Class Of Models
 class Model;
-class WolfModel;
 class PlayerModel;
 class Obstacles;
-class BunnyModel;
 class UFOModel;
 class FighterJetModel;
 
@@ -87,13 +85,7 @@ private:
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
-	Obstacles* mObstacles;
-
-	// Create Model Structure
-	WolfModel* mWolfModel;
-	Discoball* mDiscoBall;
-	BunnyModel* mBunnyModel;
-	BunnyModel* mBunnyModelTwo;
-	UFOModel* mUFOModel;
 	FighterJetModel* mFighterJetModel;
+	UFOModel* mUFOModel;
+	Obstacles* mObstacles;
 };

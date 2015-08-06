@@ -83,7 +83,10 @@ Model* Obstacles::GetRandomModel()
 		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
 		return cDiscoBall;
 	}
-
+	// if (...) {
+	//	FireModel* fireModel = new FireModel();
+	//	...
+	// }
 }
 
 void Obstacles::Draw()

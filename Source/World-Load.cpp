@@ -79,6 +79,7 @@ void World::LoadScene() {
 	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
+	mObstacles = new Obstacles();
 	mObstacles->PopulateRandomSample();
 
 	// Finally the static samurai-dash scene is loaded
