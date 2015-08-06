@@ -4,6 +4,7 @@
 #include "RealTimeCollisionDetection.h"
 #include "Animation.h"
 #include "SplineFactory.h"
+#include "ParticleSystem.h"
 
 // Models
 #include "BunnyModel.h"
@@ -28,9 +29,6 @@ void World::LoadScene() {
 
 	// The world's scene for samurai-dash
 	// Do any complex dynamic initialization in here
-
-	mSplineModel = SplineFactory::LoadSpline();
-	//mModel.push_back(mSplineModel);
 
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
@@ -80,7 +78,7 @@ void World::LoadScene() {
 	
 	// Create the obstacles
 	mObstacles = new Obstacles();
-	mObstacles->PopulateRandomSample();
+	mObstacles->LoadObstacles();
 
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
@@ -92,6 +90,23 @@ void World::LoadScene() {
 	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();
 	mModel.push_back(skybox);
+
+	Reset();
+}
+
+void World::Reset() {
+
+	if (mSplineModel) delete mSplineModel;
+	mSplineModel = SplineFactory::LoadSpline();
+
+	mPlayerModel->Reset();
+
+	mObstacles->Reset();
+
+	for (vector<ParticleSystem*>::iterator it = mParticleSystemList.begin(); it != mParticleSystemList.end(); ++it)
+	{
+		(*it)->Reset();
+	}
 }
 
 void World::LoadScene(const char * scene_path)

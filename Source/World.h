@@ -41,6 +41,7 @@ public:
 	
     static World* GetInstance();
 
+	void Reset();
 	void Update(float dt);
 	void Draw();
 

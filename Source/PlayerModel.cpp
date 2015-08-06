@@ -33,6 +33,15 @@ ObjectModel(HOLY_JET, HOLY_JET_MATERIAL, JET_SHAPE_COLORS),
 	mPlayerState(&mTrackState) {
 
 	SetScaling(vec3(0.005));
+
+	Reset();
+}
+
+void PlayerModel::Reset() {
+
+	mCurrentSplineTime = 0;
+	mTrack = TRACK_MIDDLE;
+	mPlayerState = &mTrackState;
 }
 
 void PlayerModel::Update(float dt) {

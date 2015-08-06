@@ -34,34 +34,75 @@ glm::vec3 Obstacles::RandomizeTrack(float t)
 	}
 }
 
-void Obstacles::PopulateRandomSample()
+void Obstacles::LoadObstacles()
 {
-	int count = 0;
-	float maxTime = World::GetInstance()->GetSpline()->MaxTime();
-	float distanceTime = maxTime / 15.0f;
-
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < MAX_OBSTACLES; i++)
 	{
 		listObstacles.push_back(GetRandomModel());
 	}
+}
 
-	for each (Model* m in listObstacles)
+void Obstacles::Reset()
+{
+	int count = 0;
+	float maxTime = World::GetInstance()->GetSpline()->MaxTime();
+	float distanceTime = maxTime / MAX_OBSTACLES;
+
+	for (obstacle_vector_itr it = listObstacles.begin(); it != listObstacles.end(); it++)
 	{
+		ObstacleType type = (*it).first;
+		Model* model = (*it).second;
+
+		ResetObstacle(type, model);
+
 		count++;
 		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
-		glm::vec3 poop = p.position + m->GetPosition() + RandomizeTrack(distanceTime*count);
-		m->SetPosition(poop);
+		glm::vec3 newPosition = p.position + model->GetPosition() + RandomizeTrack(distanceTime*count);
+		model->SetPosition(newPosition);
 	}
 }
 
-Model* Obstacles::GetRandomModel()
+void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
+
+	CubeModel* cModel = nullptr;
+	Discoball* cDiscoBall = nullptr;
+	WolfModel* wModel = nullptr;
+	BunnyModel* bModel = nullptr;
+
+	switch (type) {
+
+	case OBSTACLE_CUBE:
+		cModel = (CubeModel*)model;
+		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
+		cModel->SetScaling(glm::vec3(3.0f, 3.0f, 3.0f));
+		break;
+	case OBSTACLE_WOLF:
+		wModel = (WolfModel*)model;
+		wModel->SetPosition(vec3(0));
+		break;
+	case OBSTACLE_BUNNY:
+		bModel = (BunnyModel*)model;
+		bModel->SetPosition(vec3(0));
+		break;
+	case OBSTACLE_DISCO_BALL:
+		cDiscoBall = (Discoball*)model;
+		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
+		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
+		break;
+	/*
+	case OBSTACLE_FIRE:
+		...
+		break;
+	*/
+	}
+}
+
+pair<ObstacleType, Model*> Obstacles::GetRandomModel()
 {
 	int randomNumb = rand() % 4;
+
 	if (randomNumb == 0){
-		CubeModel* cModel = new CubeModel();
-		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
-		cModel->SetScaling(glm::vec3(3.0f,3.0f,3.0f));
-		return cModel;
+		return make_pair(OBSTACLE_CUBE, new CubeModel());
 	}
 	else if (randomNumb == 1)
 	{
@@ -70,18 +111,18 @@ Model* Obstacles::GetRandomModel()
 		WolfCapsule->b = vec3(-130, 0, 0);
 		WolfCapsule->r = 450;
 
-		return new WolfModel();
+		WolfModel* wModel = new WolfModel();
+		wModel->setCapsuleBoundingVolume(WolfCapsule);
+
+		return make_pair(OBSTACLE_WOLF, wModel);
 	}
 	else if (randomNumb == 2)
 	{
-		return new BunnyModel();
+		return make_pair(OBSTACLE_BUNNY, new BunnyModel());
 	}
 	else
 	{
-		Discoball* cDiscoBall = new Discoball();
-		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
-		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
-		return cDiscoBall;
+		return make_pair(OBSTACLE_DISCO_BALL, new Discoball());
 	}
 	// if (...) {
 	//	FireModel* fireModel = new FireModel();
@@ -91,8 +132,9 @@ Model* Obstacles::GetRandomModel()
 
 void Obstacles::Draw()
 {
-	for (std::vector<Model*>::iterator it = listObstacles.begin(); it != listObstacles.end(); ++it) 
+	for (obstacle_vector_itr it = listObstacles.begin(); it != listObstacles.end(); ++it) 
 	{
-		(*it)->Draw();
+		Model* model = (*it).second;
+		model->Draw();
 	}
 }

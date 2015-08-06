@@ -57,6 +57,8 @@ public:
 
 	PlayerModel();
 		
+	void Reset();
+
 	virtual void Update(float dt);
 
 private:

@@ -100,6 +100,8 @@ void World::UpdateCollision(float dt) {
 		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
 			cout << "collision " << ctr++ << "! You Win!" << endl;
+			Reset();
+			return;
 		}
 	}
 
