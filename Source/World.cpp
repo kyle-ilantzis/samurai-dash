@@ -187,15 +187,16 @@ void World::Draw()
 
     Renderer::CheckForErrors();
     
-    // Draw Billboards
-    mpBillboardList->Draw();
-
 	// Draw Spline
 	if (mSplineModel) {
 		mSplineModel->Draw();
 		Model* bvm = mSplineModel->GetBoundingVolumeModel();
 		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
 	}
+
+    // Draw Billboards
+    mpBillboardList->Draw();
+
 
 	// Restore previous shader
 	Renderer::SetShader((ShaderType) prevShader);
