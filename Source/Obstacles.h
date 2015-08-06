@@ -7,6 +7,8 @@
 #include "SphereModel.h"
 #include "WolfModel.h"
 #include "Discoball.h"
+#include "CapsuleModel.h"
+#include "RealTimeCollisionDetection.h"
 
 class PlayerModel;
 

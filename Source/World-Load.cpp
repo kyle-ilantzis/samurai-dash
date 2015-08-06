@@ -34,8 +34,6 @@ void World::LoadScene() {
 
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
-	mBunnyModel = new BunnyModel();
-	mBunnyModelTwo = new BunnyModel();
 	mUFOModel = new UFOModel();
 	mFighterJetModel = new FighterJetModel();
 
@@ -71,8 +69,6 @@ void World::LoadScene() {
 
 	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
-	mModel.push_back(mBunnyModel);
-	mModel.push_back(mBunnyModelTwo);
 	mModel.push_back(mUFOModel);
 	mModel.push_back(mFighterJetModel);
 
@@ -89,8 +85,6 @@ void World::LoadScene() {
 	LoadScene(sceneFile);
 
 	// Movement for Models
-	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
-	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
 
