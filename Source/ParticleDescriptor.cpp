@@ -177,7 +177,7 @@ void ParticleDescriptor::SetJetFlameDescriptor()
 	midColor = vec4(0.862745f, 0.0784314f, 0.235294f, 0.8f);
 	endColor = vec4(0.745098f, 0.745098f, 0.745098f, 0.6f);
 
-	emissionRate = 50.0f;
+	emissionRate = 10.0f; // Original 50
 	fadeInTime = 0.0f;
 	fadeOutTime = 3.5f;
 	totalLifetime = 0.7f;
@@ -200,7 +200,7 @@ void ParticleDescriptor::SetUFODescriptor()
 	midColor = vec4(1, 0.843137, 0, 1);
 	endColor = vec4(0, 1, 0, 1);
 
-	emissionRate = 20.0f;
+	emissionRate = 10.0f; // Original 20
 	fadeInTime = 0.0f;
 	fadeOutTime = 1.5f;
 	totalLifetime = 2.0f;
@@ -223,7 +223,7 @@ void ParticleDescriptor::SetEnemyJetFlameDescriptor()
 	midColor = vec4(0.517647f, 0.517647f, 0.517647f, 1.0f);
 	endColor = vec4(0.156863f, 0.156863f, 0.156863f, 0.8f);
 
-	emissionRate = 13.3f;
+	emissionRate = 5.3f; //Original 13.3
 	fadeInTime = 0.0f;
 	fadeOutTime = 0.4f;
 	totalLifetime = 1.0f;
@@ -246,7 +246,7 @@ void ParticleDescriptor::SetEnemyJetAttackDescriptor()
 	midColor = vec4(0.486275f, 0.988235f, 0.0f, 1.0f);
 	endColor = vec4(0.486275f, 0.988235f, 0.0f, 1.0f);
 
-	emissionRate = 6.3f;
+	emissionRate = 2.3f; //Original 6.3
 	fadeInTime = 0.0f;
 	fadeOutTime = 3.0f;
 	totalLifetime = 2.5f;
