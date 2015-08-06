@@ -149,8 +149,8 @@ void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
 	spline.SetOscullatingPlanes(points);
 }
 
-float SplineFactory::endOfTrackCapsuleTimeOffset = 0.75f;
-float SplineFactory::endOfTrackCapsuleRadius = 5;
+float SplineFactory::endOfTrackCapsuleTimeOffset = 0.5f;
+float SplineFactory::endOfTrackCapsuleRadius = 3;
 
 void SplineFactory::makeEndOfTrackBoundingVolume(SplineModel& spline) {
 

@@ -35,12 +35,15 @@ public:
 	static const char* sceneFile;
 	// If true then models with bounding volumes will draw the volumes
 	static const bool DRAW_BOUNDING_VOLUME = true;
+	// How long to wait after the player has died or reached the goal before restarting.
+	static const int RESTART_DELAY_SECONDS = 3;
 
 	World();
 	~World();
 	
     static World* GetInstance();
 
+	void Reset();
 	void Update(float dt);
 	void Draw();
 

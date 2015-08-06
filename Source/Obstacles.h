@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 
 #include <GLM/glm.hpp>
 #include "CubeModel.h"
@@ -12,13 +13,30 @@
 
 class PlayerModel;
 
+enum ObstacleType { OBSTACLE_CUBE, OBSTACLE_WOLF, OBSTACLE_BUNNY, OBSTACLE_DISCO_BALL, /*OBSTACLE_FIRE*/ };
+
 class Obstacles
 {
 public:
-	std::vector < Model* > listObstacles;
+	typedef std::vector<std::pair<ObstacleType, Model*>> obstacle_vector;
+	typedef std::vector<std::pair<ObstacleType, Model*>>::iterator obstacle_vector_itr;
+
+	static const int MAX_OBSTACLES = 15;
+
 	Obstacles();
-	glm::vec3 RandomizeTrack(float t);
-	void PopulateRandomSample();
+
+	void LoadObstacles();
+	
+	void Reset();
+
 	void Draw();
-	Model* GetRandomModel();
+
+private:
+	void ResetObstacle(ObstacleType type, Model* model);
+
+	glm::vec3 RandomizeTrack(float t);
+
+	std::pair<ObstacleType,Model*> GetRandomModel();
+
+	obstacle_vector listObstacles;
 };

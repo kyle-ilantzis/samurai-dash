@@ -30,9 +30,20 @@ ObjectModel(HOLY_JET, HOLY_JET_MATERIAL, JET_SHAPE_COLORS),
 	mTrack(TRACK_MIDDLE),
 	mTrackState(*this),
 	mMoveState(*this),
+	mDeadState(*this),
+	mGoalState(*this),
 	mPlayerState(&mTrackState) {
 
 	SetScaling(vec3(0.005));
+
+	Reset();
+}
+
+void PlayerModel::Reset() {
+
+	mCurrentSplineTime = 0;
+	mTrack = TRACK_MIDDLE;
+	changeState(&mTrackState);
 }
 
 void PlayerModel::Update(float dt) {
@@ -64,6 +75,11 @@ void PlayerModel::UpdatePosition(float dt) {
 	SetRotation(axis(quatRotation), angle(quatRotation));
 }
 
+void PlayerModel::changeState(PlayerState* state) {
+	state->setup();
+	mPlayerState = state;
+}
+
 void TrackState::setup() {
 	// Consume the first press when coming back from MoveState.
 	// For some reason IsKeyPressed will return true when no key is pressed.
@@ -91,10 +107,11 @@ void TrackState::Update(float dt) {
 	}
 
 	if (left || right) {
-		mPlayer.mMoveState.setup();
-		mPlayer.mPlayerState = &mPlayer.mMoveState;
+		mPlayer.changeState(&mPlayer.mMoveState);
 	}
 }
+
+void TrackState::Draw() { mPlayer.DrawPlayer(); }
 
 void MoveState::SetTrackMove(Track dir) {
 	mDir = dir;
@@ -116,7 +133,12 @@ void MoveState::Update(float dt) {
 
 		mPlayer.mTrack = nextTrack;
 
-		mPlayer.mTrackState.setup();
-		mPlayer.mPlayerState = &mPlayer.mTrackState;
+		mPlayer.changeState(&mPlayer.mTrackState);
 	}
 }
+
+void MoveState::Draw() { mPlayer.DrawPlayer(); }
+
+void DeadState::Draw() {}
+
+void GoalState::Draw() { mPlayer.DrawPlayer(); }
