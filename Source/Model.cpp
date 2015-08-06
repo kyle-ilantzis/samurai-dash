@@ -135,13 +135,17 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
         {
             assert(token.size() > 2);
             assert(token[1] == "=");
-            assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"poop\""); // only to hardcoded particle systems
+			assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"poop\"" || token[2] == "\"UFOBeam\""); // only to hardcoded particle systems
 
 			ParticleEmitter* emitter;
 
 			if (token[2] == "\"poop\"")
 			{
 				emitter = new ParticleEmitter(vec3(0.0f, 2.0f, 1.7f), this);
+			}
+			else if (token[2] == "\"UFOBeam\"")
+			{
+				emitter = new ParticleEmitter(vec3(0.0f, -1.0f, 0.0f), this);
 			}
 			else
 			{
@@ -161,6 +165,10 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 			else if (token[2] == "\"poop\"")
 			{
 				desc->SetPoopDescriptor();
+			}
+			else if (token[2] == "\"UFOBeam\"")
+			{
+				desc->SetUFODescriptor();
 			}
             
             mParticleSystem = new ParticleSystem(emitter, desc);
@@ -185,7 +193,7 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 			assert(token[14] == "=");
 			float r = static_cast<float>(atof(token[15].c_str()));
 			
-			setCapsuleBoundingVolume(new Capsule({ vec3(ax, ay, ax), vec3(bx, by, bx), r }));
+			setCapsuleBoundingVolume(new Capsule(vec3(ax, ay, az), vec3(bx, by, bz), r));
 		}
 		else
 		{

@@ -15,14 +15,20 @@
 #include "Discoball.h"
 
 class Camera;
-class Model;
 class SplineModel;
-class PlayerModel;
-class Obstacles;
-class WolfModel;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
+
+// Add Class Of Models
+class Model;
+class WolfModel;
+class PlayerModel;
+class Obstacles;
+class BunnyModel;
+class UFOModel;
+
+enum WorldCameraType { WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_STATIC_ABOVE, WORLD_CAMERA_STATIC_ORIGIN, WORLD_CAMERA_NIL };
 
 class World
 {
@@ -53,6 +59,9 @@ public:
     void RemoveParticleSystem(ParticleSystem* particleSystem);
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
+	
+	WorldCameraType GetWorldCameraType() { return (WorldCameraType)mCurrentCamera; }
+	void SetWorldCameraType(WorldCameraType type) { if (type != WORLD_CAMERA_NIL) mCurrentCamera = (int)type; }
 
 	SplineModel* GetSpline() { return mSplineModel; };
 
@@ -79,6 +88,10 @@ private:
 	PlayerModel* mPlayerModel;
 	Obstacles* mObstacles;
 
+	// Create Model Structure
 	WolfModel* mWolfModel;
 	Discoball* mDiscoBall;
+	BunnyModel* mBunnyModel;
+	BunnyModel* mBunnyModelTwo;
+	UFOModel* mUFOModel;
 };

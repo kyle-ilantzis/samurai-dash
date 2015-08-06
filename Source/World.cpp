@@ -7,27 +7,27 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
+// Other Assets
 #include "World.h"
 #include "Renderer.h"
 #include "ParsingHelper.h"
-
 #include "StaticCamera.h"
 #include "FirstPersonCamera.h"
-
-#include "CubeModel.h"
-#include "SphereModel.h"
-#include "Animation.h"
-#include "Billboard.h"
-#include "SplineFactory.h"
-#include "SkyboxModel.h"
-#include "Obstacles.h"
-#include "Discoball.h"
-
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
 #include "TextureLoader.h"
-
+#include "SplineFactory.h"
+#include "Animation.h"
 #include "ParticleSystem.h"
+
+// Model Assets
+#include "CubeModel.h"
+#include "SphereModel.h"
+#include "Billboard.h"
+#include "SkyboxModel.h"
+#include "Obstacles.h"
+#include "Discoball.h"
+#include "UFOModel.h"
 
 using namespace std;
 using namespace glm;
@@ -44,7 +44,6 @@ World::World()
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 
 	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
@@ -189,9 +188,11 @@ void World::Draw()
     Renderer::CheckForErrors();
     
 	// Draw Spline
-	mSplineModel->Draw();
-	Model* bvm = mSplineModel->GetBoundingVolumeModel();
-	if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	if (mSplineModel) {
+		mSplineModel->Draw();
+		Model* bvm = mSplineModel->GetBoundingVolumeModel();
+		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	}
 
     // Draw Billboards
     mpBillboardList->Draw();

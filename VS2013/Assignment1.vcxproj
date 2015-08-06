@@ -122,12 +122,14 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Animation.cpp" />
     <ClCompile Include="..\Source\Billboard.cpp" />
+    <ClCompile Include="..\Source\BunnyModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\CapsuleModel.cpp" />
     <ClCompile Include="..\Source\CubeModel.cpp" />
     <ClCompile Include="..\Source\Discoball.cpp" />
     <ClCompile Include="..\Source\EventManager.cpp" />
     <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="..\Source\LoadingScreen.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Math.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
@@ -150,6 +152,7 @@
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\Textures.cpp" />
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
+    <ClCompile Include="..\Source\UFOModel.cpp" />
     <ClCompile Include="..\Source\Vertexes.cpp" />
     <ClCompile Include="..\Source\WolfModel.cpp" />
     <ClCompile Include="..\Source\World-Load.cpp" />
@@ -160,12 +163,14 @@
     <ClInclude Include="..\Source\Animation.h" />
     <ClInclude Include="..\Source\AssetsDir.h" />
     <ClInclude Include="..\Source\Billboard.h" />
+    <ClInclude Include="..\Source\BunnyModel.h" />
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\CapsuleModel.h" />
     <ClInclude Include="..\Source\CubeModel.h" />
     <ClInclude Include="..\Source\Discoball.h" />
     <ClInclude Include="..\Source\EventManager.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
+    <ClInclude Include="..\Source\LoadingScreen.h" />
     <ClInclude Include="..\Source\Math.h" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\MoonLighting.h" />
@@ -188,6 +193,7 @@
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
+    <ClInclude Include="..\Source\UFOModel.h" />
     <ClInclude Include="..\Source\Vertexes.h" />
     <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />

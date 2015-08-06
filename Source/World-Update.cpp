@@ -95,10 +95,12 @@ void World::UpdateCollision(float dt) {
 
 	if (!mPlayerModel) { return; }
 
-	Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
-	if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
+	if (mSplineModel) {
+		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
+		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
-		cout << "collision " << ctr++ << "! You Win!" << endl;
+			cout << "collision " << ctr++ << "! You Win!" << endl;
+		}
 	}
 
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
