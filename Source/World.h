@@ -27,6 +27,7 @@ class PlayerModel;
 class Obstacles;
 class BunnyModel;
 class UFOModel;
+class FighterJetModel;
 
 enum WorldCameraType { WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_STATIC_ABOVE, WORLD_CAMERA_STATIC_ORIGIN, WORLD_CAMERA_NIL };
 
@@ -94,4 +95,5 @@ private:
 	BunnyModel* mBunnyModel;
 	BunnyModel* mBunnyModelTwo;
 	UFOModel* mUFOModel;
+	FighterJetModel* mFighterJetModel;
 };

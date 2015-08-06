@@ -9,5 +9,6 @@ const glm::vec3 BunnyModel::BUNNY_SHAPE_COLORS[] = { vec3{ 1, 0.870588, 0.678431
 
 BunnyModel::BunnyModel() : ObjectModel(HOLY_BUNNY, HOLY_BUNNY_MATERIAL, BUNNY_SHAPE_COLORS)
 {
-	SetScaling(glm::vec3(10.0f, 10.0f, 10.0f));
+	SetScaling(glm::vec3(1.5f, 1.5f, 1.5f));
+	SetPosition(glm::vec3(0.0f, 2.9f, 0.0f));
 }

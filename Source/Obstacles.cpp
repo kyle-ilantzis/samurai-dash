@@ -1,11 +1,16 @@
 #include "Obstacles.h"
+#include "CapsuleModel.h"
+#include "BunnyModel.h"
+#include "RealTimeCollisionDetection.h"
 #include "PlayerModel.h"
 #include "SplineModel.h"
 #include "SplineFactory.h"
 #include "World.h"
 #include <GL/glew.h>
 
+using namespace rtcd;
 using namespace std;
+using namespace glm;
 
 Obstacles::Obstacles() : listObstacles()
 {
@@ -51,7 +56,7 @@ void Obstacles::PopulateRandomSample()
 
 Model* Obstacles::GetRandomModel()
 {
-	int randomNumb = rand() % 3;
+	int randomNumb = rand() % 4;
 	if (randomNumb == 0){
 		CubeModel* cModel = new CubeModel();
 		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
@@ -60,7 +65,16 @@ Model* Obstacles::GetRandomModel()
 	}
 	else if (randomNumb == 1)
 	{
+		Capsule* WolfCapsule = new Capsule();
+		WolfCapsule->a = vec3(210, 0, 0);
+		WolfCapsule->b = vec3(-130, 0, 0);
+		WolfCapsule->r = 450;
+
 		return new WolfModel();
+	}
+	else if (randomNumb == 2)
+	{
+		return new BunnyModel();
 	}
 	else
 	{

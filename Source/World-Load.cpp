@@ -16,6 +16,7 @@
 #include "Obstacles.h"
 #include "Discoball.h"
 #include "UFOModel.h"
+#include "FighterJetModel.h"
 
 using namespace std;
 using namespace glm;
@@ -33,37 +34,48 @@ void World::LoadScene() {
 
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
-	mWolfModel = new WolfModel();
-	mBunnyModel = new BunnyModel();
-	mBunnyModelTwo = new BunnyModel();
 	mUFOModel = new UFOModel();
+	mFighterJetModel = new FighterJetModel();
 
-	// Create the capsue for sheep
-	Capsule* sheepCapsule = new Capsule();
-	sheepCapsule->a = vec3(0, 0.25, 0);;
-	sheepCapsule->b = vec3(0, 0.5, 0);
-	sheepCapsule->r = 0.68;
-	mPlayerModel->setCapsuleBoundingVolume(sheepCapsule);
+	// Create the capsue for Player Jet
+	Capsule* JetCapsule = new Capsule();
+	JetCapsule->a = vec3(210, 0, 0);;
+	JetCapsule->b = vec3(-130, 0, 0);
+	JetCapsule->r = 450;
+	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
-	// Poop particle system for sheep
-	ci_string str = "particleSystem = \"poop\"\n";
-	ci_istringstream iss(str);
-	mPlayerModel->Load(iss);
+	// Jet Stream Particle System for Player Jet (Two Of Them)
+	ci_string PlayerJetFlame1 = "particleSystem = \"JetFlame1\"\n";
+	ci_istringstream stream1(PlayerJetFlame1);
+	mPlayerModel->Load(stream1);
+	ci_string PlayerJetFrame2 = "particleSystem = \"JetFlame2\"\n";
+	ci_istringstream stream2(PlayerJetFrame2);
+	mPlayerModel->Load(stream2);
+
+	// Jet Streaming Particle System for Enemy Jet
+	ci_string EnemyJetFlame1 = "particleSystem = \"JetFlame3\"\n";
+	ci_istringstream stream3(EnemyJetFlame1);
+	mFighterJetModel->Load(stream3);
+
+	// Enemy Jet Attack Lazer
+	ci_string EnemyLazer = "particleSystem = \"EnemyAttackLazer\"\n";
+	ci_istringstream stream4(EnemyLazer);
+	mFighterJetModel->Load(stream4);
 
 	// Beam Particle System For UFO
 	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
-	ci_istringstream isses(beamString);
-	mUFOModel->Load(isses);
+	ci_istringstream stream5(beamString);
+	mUFOModel->Load(stream5);
 
 	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
-	mModel.push_back(mWolfModel);
-	mModel.push_back(mBunnyModel);
-	mModel.push_back(mBunnyModelTwo);
 	mModel.push_back(mUFOModel);
+	mModel.push_back(mFighterJetModel);
 
-	// The wolf follows ths Player Model.
-	mWolfModel->SetParent(mPlayerModel);
+	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
+	mFighterJetModel->SetParent(mPlayerModel);
+
+	// The UFO Stays in front of the Player Jet (Yellow)
 	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
@@ -73,10 +85,8 @@ void World::LoadScene() {
 	LoadScene(sceneFile);
 
 	// Movement for Models
-	mWolfModel->setAnimation(FindAnimation("\"BackAndForth\""));
-	mBunnyModel->setAnimation(FindAnimation("\"BunnyStanding\""));
-	mBunnyModelTwo->setAnimation(FindAnimation("\"BunnyStanding2\""));
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
+	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
 
 	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();

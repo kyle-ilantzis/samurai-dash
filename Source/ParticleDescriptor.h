@@ -22,8 +22,10 @@ public:
 	// Declare the customer Emitter Descriptors
     void SetFountainDescriptor();
     void SetFireDescriptor();
-	void SetPoopDescriptor();
+	void SetJetFlameDescriptor();
 	void SetUFODescriptor();
+	void SetEnemyJetFlameDescriptor();
+	void SetEnemyJetAttackDescriptor();
     
 private:
     
