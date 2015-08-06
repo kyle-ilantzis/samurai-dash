@@ -79,9 +79,11 @@ int main(int argc, char*argv[])
 		// Update Event Manager - Frame time / input / events processing 
 		EventManager::Update();
 
+		float dt = EventManager::GetFrameTime();
+
 		// Apply fixed delta time steps to each world update,
 		// and drawing can be done if at least 1 world update was done.
-		dtAcc += EventManager::GetFrameTime();
+		dtAcc += dt;
 		bool draw = false;
 		while (dtAcc >= dtStep) {
 			dtAcc -= dtStep;
