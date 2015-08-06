@@ -61,9 +61,5 @@ void LoadingScreen::Draw() {
 
 	Renderer::BeginFrame();
 	mBillboardList->Draw();
-	Renderer::EndFrame();
-
-	Renderer::BeginFrame();
-	mBillboardList->Draw();
-	Renderer::EndFrame();
+	Renderer::EndFrame();	
 }
