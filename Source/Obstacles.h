@@ -29,7 +29,7 @@ public:
 	
 	void Reset();
 
-	void Draw();
+	obstacle_vector& getObstacles() { return listObstacles; }
 
 private:
 	void ResetObstacle(ObstacleType type, Model* model);
