@@ -82,7 +82,7 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 		break;
 	case OBSTACLE_BUNNY:
 		bModel = (BunnyModel*)model;
-		bModel->SetPosition(vec3(0));
+		bModel->SetPosition(vec3(0,3,0));
 		break;
 	case OBSTACLE_DISCO_BALL:
 		cDiscoBall = (Discoball*)model;
