@@ -164,30 +164,36 @@ void World::Draw()
 		}
 	}
 
-	// Draw Path Lines
-	// Set Shader for path lines
-	unsigned int prevShader = Renderer::GetCurrentShader();
-	Renderer::SetShader(SHADER_PATH_LINES);
-	glUseProgram(Renderer::GetShaderProgramID());
+	if (DRAW_ANIM_PATH) {
 
-	// Send the view projection constants to the shader
-	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+		// Draw Path Lines
+		// Set Shader for path lines
+		unsigned int prevShader = Renderer::GetCurrentShader();
+		Renderer::SetShader(SHADER_PATH_LINES);
+		glUseProgram(Renderer::GetShaderProgramID());
 
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+		// Send the view projection constants to the shader
+		VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
 		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-		(*it)->Draw();
-	}
+		for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-	for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+			(*it)->Draw();
+		}
 
-		(*it)->Draw();
+		for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+			(*it)->Draw();
+		}
+
+		// Restore previous shader
+		Renderer::SetShader((ShaderType)prevShader);
 	}
 
     Renderer::CheckForErrors();
@@ -201,10 +207,6 @@ void World::Draw()
 
     // Draw Billboards
     mpBillboardList->Draw();
-
-
-	// Restore previous shader
-	Renderer::SetShader((ShaderType) prevShader);
 
 	Renderer::EndFrame();
 }

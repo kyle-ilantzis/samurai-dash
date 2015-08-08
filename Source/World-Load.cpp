@@ -193,10 +193,10 @@ void World::LoadScene(const char * scene_path)
 	}
 	input.close();
 
-	// Set Animation vertex buffers
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		// Draw model
-		(*it)->CreateVertexBuffer();
+	if (DRAW_ANIM_PATH) {
+		for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+		{
+			(*it)->CreateVertexBuffer();
+		}
 	}
 }
