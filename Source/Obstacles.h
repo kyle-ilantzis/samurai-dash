@@ -6,14 +6,14 @@
 #include <GLM/glm.hpp>
 #include "CubeModel.h"
 #include "SphereModel.h"
-#include "WolfModel.h"
 #include "Discoball.h"
 #include "CapsuleModel.h"
 #include "RealTimeCollisionDetection.h"
+#include "BarrelModel.h"
 
 class PlayerModel;
 
-enum ObstacleType { OBSTACLE_CUBE, OBSTACLE_WOLF, OBSTACLE_BUNNY, OBSTACLE_DISCO_BALL, /*OBSTACLE_FIRE*/ };
+enum ObstacleType { OBSTACLE_CUBE, OBSTACLE_BARREL, OBSTACLE_BUNNY, OBSTACLE_DISCO_BALL, /*OBSTACLE_FIRE*/ };
 
 class Obstacles
 {
