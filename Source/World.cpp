@@ -140,12 +140,54 @@ void World::Draw()
 
 	// This looks for the MVP Uniform variable in the Vertex Program
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
+
+	SetLighting();
+	SetCoefficient();
 
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
+	glm::mat4 World(1.0f);
+	mat4 Projection = mCamera[mCurrentCamera]->GetProjectionMatrix();
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &World[0][0]);
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &Projection[0][0]);
 
-	mObstacles->Draw();
+	if (mObstacles)
+	{
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* model = (*it).second;
+			model->Draw();
+		}
+
+		if (DRAW_BOUNDING_VOLUME) {
+			for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+			{
+				Model* model = (*it).second;
+				Model* bvm = model->GetBoundingVolumeModel();
+
+				if (bvm) 
+				{
+					bvm->Draw();
+				}
+			}
+		}
+	}
+
+	// Set shader to use
+	glUseProgram(Renderer::GetShaderProgramID());
+
+	// This looks for the MVP Uniform variable in the Vertex Program
+	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+
+	// Send the view projection constants to the shader
+	VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
@@ -259,4 +301,38 @@ void World::RemoveParticleSystem(ParticleSystem* particleSystem)
 {
     vector<ParticleSystem*>::iterator it = std::find(mParticleSystemList.begin(), mParticleSystemList.end(), particleSystem);
     mParticleSystemList.erase(it);
+}
+
+void World::SetLighting()
+{
+	// Get a handle for Light Attributes uniform
+	GLuint LightPositionID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition");
+	GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
+	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
+
+	//const vec4 lightPosition(5.0f, 5.0f, -5.0f, 1.0f); // If w = 1.0f, we have a point light
+	const vec4 lightPosition(25.0f, 25.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
+
+	const vec3 lightColor(1.0f, 1.0f, 1.0f);
+	glUniform4f(LightPositionID, lightPosition.x, lightPosition.y, lightPosition.z, lightPosition.w);
+	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
+}
+
+void World::SetCoefficient()
+{
+	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
+	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
+	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
+	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
+	// Material Coefficients
+	const float ka = 0.2f;
+	const float kd = 0.8f;
+	const float ks = 0.2f;
+	const float n = 90.0f;
+
+	// Set shader constants
+	glUniform1f(MaterialAmbientID, ka);
+	glUniform1f(MaterialDiffuseID, kd);
+	glUniform1f(MaterialSpecularID, ks);
+	glUniform1f(MaterialExponentID, n);
 }

@@ -52,7 +52,7 @@ void Obstacles::Reset()
 	{
 		ObstacleType type = (*it).first;
 		Model* model = (*it).second;
-
+		
 		ResetObstacle(type, model);
 
 		count++;
@@ -66,34 +66,35 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 
 	CubeModel* cModel = nullptr;
 	Discoball* cDiscoBall = nullptr;
-	WolfModel* wModel = nullptr;
+	BarrelModel* wModel = nullptr;
 	BunnyModel* bModel = nullptr;
 
-	switch (type) {
-
+	switch (type) 
+	{
 	case OBSTACLE_CUBE:
 		cModel = (CubeModel*)model;
 		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
 		cModel->SetScaling(glm::vec3(3.0f, 3.0f, 3.0f));
 		break;
-	case OBSTACLE_WOLF:
-		wModel = (WolfModel*)model;
+	case OBSTACLE_BARREL:
+		wModel = (BarrelModel*)model;
+		wModel->SetScaling(glm::vec3(0.6f, 0.6f, 0.6f));
 		wModel->SetPosition(vec3(0));
 		break;
 	case OBSTACLE_BUNNY:
 		bModel = (BunnyModel*)model;
-		bModel->SetPosition(vec3(0));
+		bModel->SetPosition(vec3(0,3,0));
 		break;
 	case OBSTACLE_DISCO_BALL:
 		cDiscoBall = (Discoball*)model;
 		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
 		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
 		break;
-	/*
-	case OBSTACLE_FIRE:
+		/*
+		case OBSTACLE_FIRE:
 		...
 		break;
-	*/
+		*/
 	}
 }
 
@@ -101,40 +102,59 @@ pair<ObstacleType, Model*> Obstacles::GetRandomModel()
 {
 	int randomNumb = rand() % 4;
 
-	if (randomNumb == 0){
-		return make_pair(OBSTACLE_CUBE, new CubeModel());
+	if (randomNumb == 0)
+	{
+		// Create Collision Capsule Cube
+		Capsule* CubeCapsule = new Capsule();
+		CubeCapsule->a = vec3(0, 0.25, 0);
+		CubeCapsule->b = vec3(0, -0.25, 0);
+		CubeCapsule->r = 0.68;
+
+		Model* wCube = new CubeModel();
+		wCube->setCapsuleBoundingVolume(CubeCapsule);
+
+		return make_pair(OBSTACLE_CUBE, wCube);
 	}
 	else if (randomNumb == 1)
 	{
-		Capsule* WolfCapsule = new Capsule();
-		WolfCapsule->a = vec3(210, 0, 0);
-		WolfCapsule->b = vec3(-130, 0, 0);
-		WolfCapsule->r = 450;
+		// Create Collision Capsule Barrel
+		Capsule* BarrelCapsule = new Capsule();
+		BarrelCapsule->a = vec3(0, 5, 0);
+		BarrelCapsule->b = vec3(0, 0, 0);
+		BarrelCapsule->r = 2.2;
+		BarrelModel* wModel = new BarrelModel();
+		wModel->setCapsuleBoundingVolume(BarrelCapsule);
 
-		WolfModel* wModel = new WolfModel();
-		wModel->setCapsuleBoundingVolume(WolfCapsule);
-
-		return make_pair(OBSTACLE_WOLF, wModel);
+		return make_pair(OBSTACLE_BARREL, wModel);
 	}
 	else if (randomNumb == 2)
 	{
-		return make_pair(OBSTACLE_BUNNY, new BunnyModel());
+		// Create Collision Capsule Bunny
+		Capsule* BunnyCapsule = new Capsule();
+		BunnyCapsule->a = vec3(0, 0.95, 0);
+		BunnyCapsule->b = vec3(0, - 1.3, 0);
+		BunnyCapsule->r = 1;
+
+		Model* wBunny = new BunnyModel();
+		wBunny->setCapsuleBoundingVolume(BunnyCapsule);
+
+		return make_pair(OBSTACLE_BUNNY, wBunny);
 	}
 	else
 	{
-		return make_pair(OBSTACLE_DISCO_BALL, new Discoball());
+		// Create Collision Capsule Disco Ball
+		Capsule* DiscoCapsule = new Capsule();
+		DiscoCapsule->a = vec3(0, 0.25, 0);
+		DiscoCapsule->b = vec3(0, -0.25, 0);
+		DiscoCapsule->r = 1.1;
+
+		Model* wDiscoBall = new Discoball();
+		wDiscoBall->setCapsuleBoundingVolume(DiscoCapsule);
+
+		return make_pair(OBSTACLE_DISCO_BALL, wDiscoBall);
 	}
 	// if (...) {
 	//	FireModel* fireModel = new FireModel();
 	//	...
 	// }
-}
-
-void Obstacles::Draw()
-{
-	for (obstacle_vector_itr it = listObstacles.begin(); it != listObstacles.end(); ++it) 
-	{
-		Model* model = (*it).second;
-		model->Draw();
-	}
 }
