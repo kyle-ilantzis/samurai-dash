@@ -165,29 +165,8 @@ void World::Draw()
 			model->Draw();
 		}
 
-		if (DRAW_BOUNDING_VOLUME) {
-			for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
-			{
-				Model* model = (*it).second;
-				Model* bvm = model->GetBoundingVolumeModel();
 
-				if (bvm) 
-				{
-					bvm->Draw();
-				}
-			}
-		}
 	}
-
-	// Set shader to use
-	glUseProgram(Renderer::GetShaderProgramID());
-
-	// This looks for the MVP Uniform variable in the Vertex Program
-	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-
-	// Send the view projection constants to the shader
-	VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
@@ -196,6 +175,18 @@ void World::Draw()
 	}
 
 	if (DRAW_BOUNDING_VOLUME) {
+
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* model = (*it).second;
+			Model* bvm = model->GetBoundingVolumeModel();
+
+			if (bvm)
+			{
+				bvm->Draw();
+			}
+		}
+
 		for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 		{
 			Model* bvm = (*it)->GetBoundingVolumeModel();
@@ -203,7 +194,7 @@ void World::Draw()
 			if (bvm) {
 				bvm->Draw();
 			}		
-		}
+		}			
 	}
 
 	if (DRAW_ANIM_PATH) {
