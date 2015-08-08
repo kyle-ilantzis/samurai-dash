@@ -140,6 +140,13 @@ void World::LoadScene(const char * scene_path)
 
 				mPlayerModel = player;
 			}
+			else if (result == "discoball")
+			{
+				// Box attributes
+				Discoball* discoBallz = new Discoball();
+				discoBallz->Load(iss);
+				mModel.push_back(discoBallz);
+			}
 			else if (result == "wolf")
 			{
 				// Box attributes
