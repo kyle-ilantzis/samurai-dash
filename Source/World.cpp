@@ -24,7 +24,6 @@
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "Billboard.h"
-#include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
 #include "UFOModel.h"
@@ -122,6 +121,7 @@ World::~World()
 
 	if (mSplineModel) delete mSplineModel;
 	if (mObstacles) delete mObstacles;
+	if (mSkyboxModel) delete mSkyboxModel;
 	
 	delete mpBillboardList;
 }
@@ -249,6 +249,8 @@ void World::Draw()
 
     // Draw Billboards
     mpBillboardList->Draw();
+
+	mSkyboxModel->Draw();
 
 	Renderer::EndFrame();
 }
