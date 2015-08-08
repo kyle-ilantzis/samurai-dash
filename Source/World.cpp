@@ -149,8 +149,8 @@ void World::Draw()
 	GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
 	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
 
-	const vec4 lightPosition(5.0f, 5.0f, -5.0f, 1.0f); // If w = 1.0f, we have a point light
-	//const vec4 lightPosition(5.0f, -5.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
+	//const vec4 lightPosition(5.0f, 5.0f, -5.0f, 1.0f); // If w = 1.0f, we have a point light
+	const vec4 lightPosition(25.0f, 25.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
 
 	const vec3 lightColor(1.0f, 1.0f, 1.0f);
 	glUniform4f(LightPositionID, lightPosition.x, lightPosition.y, lightPosition.z, lightPosition.w);

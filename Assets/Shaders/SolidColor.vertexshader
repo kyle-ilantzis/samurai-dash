@@ -40,14 +40,12 @@ void main()
 
 	if(WorldLightPosition.w == 0.0)
 	{
-		//lightVector = LightPosition_cameraspace - vec4(eyeVector, 1);
-		lightVector = LightPosition_cameraspace - vec4(eyeVector,0);
+		lightVector = LightPosition_cameraspace - vec4(eyeVector, 1);
 		
 	}
 	else
 	{
-		//lightVector = LightPosition_cameraspace + vec4(eyeVector, 1);
-		lightVector = LightPosition_cameraspace - vec4(eyeVector,0);
+		lightVector = LightPosition_cameraspace + vec4(eyeVector, 1);
 	}
 
 }

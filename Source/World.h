@@ -61,6 +61,7 @@ public:
     void RemoveBillboard(Billboard* b);
     void AddParticleSystem(ParticleSystem* particleSystem);
     void RemoveParticleSystem(ParticleSystem* particleSystem);
+
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
 	
