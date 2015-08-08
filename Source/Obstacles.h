@@ -32,6 +32,7 @@ public:
 	obstacle_vector& getObstacles() { return listObstacles; }
 
 private:
+	void ResetObstacle(ObstacleType type, Model* model);
 
 	glm::vec3 RandomizeTrack(float t);
 
