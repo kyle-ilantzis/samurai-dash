@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Animation.cpp" />
+    <ClCompile Include="..\Source\BarrelModel.cpp" />
     <ClCompile Include="..\Source\Billboard.cpp" />
     <ClCompile Include="..\Source\BunnyModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
@@ -155,7 +156,6 @@
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
     <ClCompile Include="..\Source\UFOModel.cpp" />
     <ClCompile Include="..\Source\Vertexes.cpp" />
-    <ClCompile Include="..\Source\WolfModel.cpp" />
     <ClCompile Include="..\Source\World-Load.cpp" />
     <ClCompile Include="..\Source\World-Update.cpp" />
     <ClCompile Include="..\Source\World.cpp" />
@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Animation.h" />
     <ClInclude Include="..\Source\AssetsDir.h" />
+    <ClInclude Include="..\Source\BarrelModel.h" />
     <ClInclude Include="..\Source\Billboard.h" />
     <ClInclude Include="..\Source\BunnyModel.h" />
     <ClInclude Include="..\Source\Camera.h" />
@@ -197,7 +198,6 @@
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
     <ClInclude Include="..\Source\UFOModel.h" />
     <ClInclude Include="..\Source\Vertexes.h" />
-    <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
