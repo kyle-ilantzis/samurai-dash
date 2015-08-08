@@ -14,7 +14,7 @@ using namespace std;
 using namespace glm;
 
 const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.50f;
-const float PlayerModel::DEFAULT_MOVE_SPEED = 100.0f;
+const float PlayerModel::DEFAULT_MOVE_SPEED = 13.0f;
 const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 1.3f;
 
 const glm::vec3 PlayerModel::JET_SHAPE_COLORS[] = { JET_COLOR, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR,
