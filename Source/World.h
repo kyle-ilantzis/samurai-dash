@@ -22,11 +22,12 @@ class ParticleSystem;
 
 // Add Class Of Models
 class Model;
-class WolfModel;
 class PlayerModel;
 class Obstacles;
-class BunnyModel;
 class UFOModel;
+class FighterJetModel;
+
+enum WorldCameraType { WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_STATIC_ABOVE, WORLD_CAMERA_STATIC_ORIGIN, WORLD_CAMERA_NIL };
 
 class World
 {
@@ -34,12 +35,17 @@ public:
 	static const char* sceneFile;
 	// If true then models with bounding volumes will draw the volumes
 	static const bool DRAW_BOUNDING_VOLUME = true;
+	// If true the animations will draw their key frames points as a path
+	static const bool DRAW_ANIM_PATH = true;
+	// How long to wait after the player has died or reached the goal before restarting.
+	static const int RESTART_DELAY_SECONDS = 3;
 
 	World();
 	~World();
 	
     static World* GetInstance();
 
+	void Reset();
 	void Update(float dt);
 	void Draw();
 
@@ -57,6 +63,9 @@ public:
     void RemoveParticleSystem(ParticleSystem* particleSystem);
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
+	
+	WorldCameraType GetWorldCameraType() { return (WorldCameraType)mCurrentCamera; }
+	void SetWorldCameraType(WorldCameraType type) { if (type != WORLD_CAMERA_NIL) mCurrentCamera = (int)type; }
 
 	SplineModel* GetSpline() { return mSplineModel; };
 
@@ -81,12 +90,7 @@ private:
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
-	Obstacles* mObstacles;
-
-	// Create Model Structure
-	WolfModel* mWolfModel;
-	Discoball* mDiscoBall;
-	BunnyModel* mBunnyModel;
-	BunnyModel* mBunnyModelTwo;
+	FighterJetModel* mFighterJetModel;
 	UFOModel* mUFOModel;
+	Obstacles* mObstacles;
 };

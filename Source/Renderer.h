@@ -33,6 +33,8 @@ enum ShaderType
 class Renderer
 {
 public:
+	static const glm::vec4 DEFAULT_CLEAR_COLOR;
+
 	static void Initialize();
 	static void Shutdown();
 
@@ -48,11 +50,15 @@ public:
     static void CheckForErrors();
     static bool PrintError();
 
+	static glm::vec4 GetClearColor() { return sClearColor; }
+	static void SetClearColor(glm::vec4 c) { sClearColor = c; glClearColor(c.r, c.g, c.b, c.a); }
+
 private:
 	static GLFWwindow* spWindow;
 
 	static std::vector<unsigned int> sShaderProgramID;
 	static unsigned int sCurrentShader;
 
+	static glm::vec4 sClearColor;
 };
 

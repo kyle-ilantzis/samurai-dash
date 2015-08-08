@@ -135,25 +135,41 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
         {
             assert(token.size() > 2);
             assert(token[1] == "=");
-			assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"poop\"" || token[2] == "\"UFOBeam\""); // only to hardcoded particle systems
+			assert(token[2] == "\"fire\"" || token[2] == "\"fountain\"" || token[2] == "\"JetFlame1\"" || token[2] == "\"UFOBeam\"" || token[2] == "\"JetFlame2\"" || token[2] == "\"JetFlame3\"" || token[2] == "\"EnemyAttackLazer\""); // only to hardcoded particle systems
 
+			// Create Particle Emitter
 			ParticleEmitter* emitter;
 
-			if (token[2] == "\"poop\"")
+			// Define flame location in World
+			if (token[2] == "\"JetFlame1\"")
 			{
-				emitter = new ParticleEmitter(vec3(0.0f, 2.0f, 1.7f), this);
+				emitter = new ParticleEmitter(vec3(0.3f, 0.4f, 3.2f), this);
+			}
+			else if (token[2] == "\"JetFlame2\"")
+			{
+				emitter = new ParticleEmitter(vec3(-0.3f, 0.4f, 3.2f), this);
+			}
+			else if (token[2] == "\"JetFlame3\"")
+			{
+				emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 3.5f), this);
 			}
 			else if (token[2] == "\"UFOBeam\"")
 			{
 				emitter = new ParticleEmitter(vec3(0.0f, -1.0f, 0.0f), this);
+			}
+			else if (token[2] == "\"EnemyAttackLazer\"")
+			{
+				emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 3.5f), this);
 			}
 			else
 			{
 				emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this);
 			}
    
+			// Create new particle descriptor
             ParticleDescriptor* desc = new ParticleDescriptor();
             
+			// The descriptor being set for plane Engines.
             if (token[2] == "\"fire\"")
             {
                 desc->SetFireDescriptor();
@@ -162,18 +178,32 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
             {
                 desc->SetFountainDescriptor();
             }
-			else if (token[2] == "\"poop\"")
+			else if (token[2] == "\"JetFlame1\"")
 			{
-				desc->SetPoopDescriptor();
+				desc->SetJetFlameDescriptor();
+			}
+			else if (token[2] == "\"JetFlame2\"")
+			{
+				desc->SetJetFlameDescriptor();
+			}
+			else if (token[2] == "\"JetFlame3\"")
+			{
+				desc->SetEnemyJetFlameDescriptor();
+			}
+			else if (token[2] == "\"EnemyAttackLazer\"")
+			{
+				desc->SetEnemyJetAttackDescriptor();
 			}
 			else if (token[2] == "\"UFOBeam\"")
 			{
 				desc->SetUFODescriptor();
 			}
             
+			// Create Particle System & Get World Instance
             mParticleSystem = new ParticleSystem(emitter, desc);
             World::GetInstance()->AddParticleSystem(mParticleSystem);
         }
+		// Code for collision capsule creation
 		else if (token[0] == "boundingVolume") {
 
 			assert(token.size() > 15 );
@@ -193,21 +223,18 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 			assert(token[14] == "=");
 			float r = static_cast<float>(atof(token[15].c_str()));
 			
-			setCapsuleBoundingVolume(new Capsule({ vec3(ax, ay, ax), vec3(bx, by, bx), r }));
+			setCapsuleBoundingVolume(new Capsule(vec3(ax, ay, az), vec3(bx, by, bz), r));
 		}
 		else
 		{
 			return false;
 		}
 	}
-
 	return true;
 }
 
 glm::mat4 Model::GetWorldMatrix() const
 {
-	// @TODO 2 - You must build the world matrix from the position, scaling and rotation informations
-    //           If the model has an animation, get the world transform from the animation.
 	mat4 worldMatrix(1.0f);
 
     // Solution TRS
@@ -222,16 +249,15 @@ glm::mat4 Model::GetWorldMatrix() const
         mat4 t = glm::translate(mat4(1.0f), mPosition);
         mat4 r = glm::rotate(mat4(1.0f), mRotationAngleInDegrees, mRotationAxis);
         mat4 s = glm::scale(mat4(1.0f), mScaling);
-        worldMatrix = t * r * s;
-
-		
+        worldMatrix = t * r * s;	
     }
 
-	if (mParent) {
+	if (mParent) 
+	{
 		worldMatrix = mParent->GetWorldMatrix() * worldMatrix;
 	}
 #endif
-    
+ 
 	return worldMatrix;
 }
 

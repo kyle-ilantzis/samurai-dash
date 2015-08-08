@@ -14,22 +14,36 @@ using namespace std;
 using namespace glm;
 
 const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.50f;
-const float PlayerModel::DEFAULT_MOVE_SPEED = 100.0f;
-const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 0.0f;
+const float PlayerModel::DEFAULT_MOVE_SPEED = 13.0f;
+const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 1.3f;
 
-const glm::vec3 PlayerModel::SHEEP_SHAPE_COLORS[] = { vec3{ 0.0f, 0.0f, 0.0f }, vec3{ 0.0f, 0.0f, 0.0f }, vec3{ 0.686275f, 0.933333f, 0.933333f } };
+const glm::vec3 PlayerModel::JET_SHAPE_COLORS[] = { JET_COLOR, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR,
+													  JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR,
+													  JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2,
+													  JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR };
 
 PlayerModel::PlayerModel() : 
-	ObjectModel(HOLY_SHEEP, HOLY_SHEEP_MATERIAL, SHEEP_SHAPE_COLORS),
+ObjectModel(HOLY_JET, HOLY_JET_MATERIAL, JET_SHAPE_COLORS),
 	mCurrentSplineTime(),
 	mSplineTimeSpeed(DEFAULT_SPLINE_TIME_SPEED),
 	mMoveSpeed(DEFAULT_MOVE_SPEED),
 	mTrack(TRACK_MIDDLE),
 	mTrackState(*this),
 	mMoveState(*this),
+	mDeadState(*this),
+	mGoalState(*this),
 	mPlayerState(&mTrackState) {
 
-	SetScaling(vec3(3));
+	SetScaling(vec3(0.005));
+
+	Reset();
+}
+
+void PlayerModel::Reset() {
+
+	mCurrentSplineTime = 0;
+	mTrack = TRACK_MIDDLE;
+	changeState(&mTrackState);
 }
 
 void PlayerModel::Update(float dt) {
@@ -54,11 +68,16 @@ void PlayerModel::UpdatePosition(float dt) {
 	bool uphill = dot(j, p.tangent) > 0;
 	float rotation = degrees(acos(dot(B, j))) * (uphill ? -1 : 1);
 
-	quat quat1 = angleAxis(180.0f, vec3(0,1,0));
+	quat quat1 = angleAxis(270.0f, vec3(0,1,0));
 	quat quat2 = angleAxis(rotation, p.normal);
 
 	quat quatRotation = quat2 * quat1;
 	SetRotation(axis(quatRotation), angle(quatRotation));
+}
+
+void PlayerModel::changeState(PlayerState* state) {
+	state->setup();
+	mPlayerState = state;
 }
 
 void TrackState::setup() {
@@ -88,10 +107,11 @@ void TrackState::Update(float dt) {
 	}
 
 	if (left || right) {
-		mPlayer.mMoveState.setup();
-		mPlayer.mPlayerState = &mPlayer.mMoveState;
+		mPlayer.changeState(&mPlayer.mMoveState);
 	}
 }
+
+void TrackState::Draw() { mPlayer.DrawPlayer(); }
 
 void MoveState::SetTrackMove(Track dir) {
 	mDir = dir;
@@ -113,7 +133,12 @@ void MoveState::Update(float dt) {
 
 		mPlayer.mTrack = nextTrack;
 
-		mPlayer.mTrackState.setup();
-		mPlayer.mPlayerState = &mPlayer.mTrackState;
+		mPlayer.changeState(&mPlayer.mTrackState);
 	}
 }
+
+void MoveState::Draw() { mPlayer.DrawPlayer(); }
+
+void DeadState::Draw() {}
+
+void GoalState::Draw() { mPlayer.DrawPlayer(); }

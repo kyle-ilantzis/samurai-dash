@@ -87,19 +87,25 @@ void World::Update(float dt)
 	mpBillboardList->Update(dt);
 
 	UpdateCollision(dt);
+
+	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
+		Reset();
+	}
 }
 
 void World::UpdateCollision(float dt) {
 
 	static int ctr = 1;
 
-	if (!mPlayerModel) { return; }
+	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
 
 	if (mSplineModel) {
 		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
 		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
 			cout << "collision " << ctr++ << "! You Win!" << endl;
+			mPlayerModel->ReachedGoal();
+			return;
 		}
 	}
 

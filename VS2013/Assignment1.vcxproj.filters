@@ -184,9 +184,6 @@
     <ClCompile Include="..\Source\ObjectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\WolfModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Obstacles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -203,6 +200,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\UFOModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\LoadingScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\FighterJetModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\BarrelModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -297,9 +303,6 @@
     <ClInclude Include="..\Source\ObjectModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\WolfModel.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Obstacles.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -313,6 +316,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\UFOModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\LoadingScreen.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\FighterJetModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\BarrelModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

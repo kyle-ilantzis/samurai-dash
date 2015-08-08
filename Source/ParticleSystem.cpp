@@ -54,6 +54,14 @@ ParticleSystem::~ParticleSystem()
 	mParticleList.resize(0);
 }
 
+void ParticleSystem::Reset() {
+
+	for (std::list<Particle*>::iterator it = mParticleList.begin(); it != mParticleList.end();)
+	{
+		it = Deactivate(it);
+	}
+}
+
 void ParticleSystem::Update(float dt)
 {
     // Emit particle according to the emission rate
@@ -147,17 +155,17 @@ void ParticleSystem::Update(float dt)
         // Remove the billboard from the world
         if (p->currentTime > p->lifeTime)
         {
-            mInactiveParticles.push_back(*it);
-            
-            World::GetInstance()->RemoveBillboard(&(*it)->billboard);
-            it = mParticleList.erase(it);
+			it = Deactivate(it);
         }
         else
         {
             ++it;
         }
     }
-    
-    
+}
 
+std::list<Particle*>::iterator ParticleSystem::Deactivate(std::list<Particle*>::iterator it) {
+	mInactiveParticles.push_back(*it);
+	World::GetInstance()->RemoveBillboard(&(*it)->billboard);
+	return mParticleList.erase(it);
 }
