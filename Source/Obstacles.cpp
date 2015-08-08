@@ -66,7 +66,7 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 
 	CubeModel* cModel = nullptr;
 	Discoball* cDiscoBall = nullptr;
-	WolfModel* wModel = nullptr;
+	BarrelModel* wModel = nullptr;
 	BunnyModel* bModel = nullptr;
 
 	switch (type) 
@@ -76,8 +76,9 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 		cModel->SetPosition(glm::vec3(0, 1.6f, 0));
 		cModel->SetScaling(glm::vec3(3.0f, 3.0f, 3.0f));
 		break;
-	case OBSTACLE_WOLF:
-		wModel = (WolfModel*)model;
+	case OBSTACLE_BARREL:
+		wModel = (BarrelModel*)model;
+		wModel->SetScaling(glm::vec3(0.6f, 0.6f, 0.6f));
 		wModel->SetPosition(vec3(0));
 		break;
 	case OBSTACLE_BUNNY:
@@ -116,16 +117,15 @@ pair<ObstacleType, Model*> Obstacles::GetRandomModel()
 	}
 	else if (randomNumb == 1)
 	{
-		// Create Collision Capsule Wolf
-		Capsule* WolfCapsule = new Capsule();
-		WolfCapsule->a = vec3(0, 70, 50);
-		WolfCapsule->b = vec3(0, 70, -80);
-		WolfCapsule->r = 100;
+		// Create Collision Capsule Barrel
+		Capsule* BarrelCapsule = new Capsule();
+		BarrelCapsule->a = vec3(0, 5, 0);
+		BarrelCapsule->b = vec3(0, 0, 0);
+		BarrelCapsule->r = 2.2;
+		BarrelModel* wModel = new BarrelModel();
+		wModel->setCapsuleBoundingVolume(BarrelCapsule);
 
-		WolfModel* wModel = new WolfModel();
-		wModel->setCapsuleBoundingVolume(WolfCapsule);
-
-		return make_pair(OBSTACLE_WOLF, wModel);
+		return make_pair(OBSTACLE_BARREL, wModel);
 	}
 	else if (randomNumb == 2)
 	{

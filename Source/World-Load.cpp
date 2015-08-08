@@ -8,7 +8,6 @@
 
 // Models
 #include "BunnyModel.h"
-#include "WolfModel.h"
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "PlayerModel.h"
@@ -18,6 +17,7 @@
 #include "Discoball.h"
 #include "UFOModel.h"
 #include "FighterJetModel.h"
+#include "BarrelModel.h"
 
 using namespace std;
 using namespace glm;
@@ -147,19 +147,19 @@ void World::LoadScene(const char * scene_path)
 				discoBallz->Load(iss);
 				mModel.push_back(discoBallz);
 			}
-			else if (result == "wolf")
-			{
-				// Box attributes
-				WolfModel* wolf = new WolfModel();
-				wolf->Load(iss);
-				mModel.push_back(wolf);
-			}
 			else if (result == "bunnny")
 			{
 				// Box attributes
 				BunnyModel* bunny = new BunnyModel();
 				bunny->Load(iss);
 				mModel.push_back(bunny);
+			}
+			else if (result == "barrel")
+			{
+				// Box attributes
+				BarrelModel* barrel = new BarrelModel();
+				barrel->Load(iss);
+				mModel.push_back(barrel);
 			}
 			else if (result == "cube")
 			{
