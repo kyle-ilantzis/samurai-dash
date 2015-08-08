@@ -247,10 +247,10 @@ void World::Draw()
 		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
 	}
 
+	mSkyboxModel->Draw();
+
     // Draw Billboards
     mpBillboardList->Draw();
-
-	mSkyboxModel->Draw();
 
 	Renderer::EndFrame();
 }
