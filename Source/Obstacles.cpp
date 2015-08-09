@@ -1,6 +1,7 @@
 #include "Obstacles.h"
 #include "CapsuleModel.h"
 #include "BunnyModel.h"
+#include "FireModel.h"
 #include "RealTimeCollisionDetection.h"
 #include "PlayerModel.h"
 #include "SplineModel.h"
@@ -15,7 +16,7 @@ using namespace glm;
 Obstacles::Obstacles() : listObstacles()
 {
 	obstacle_difficulty = OBSTACLE_EASY;
-	bool hasAnimation;
+	existing_fire = 0;
 }
 
 glm::vec3 Obstacles::RandomizeTrack(float t)
@@ -151,6 +152,8 @@ glm::vec3 Obstacles::GetScalingType(ObstacleType type)
 		return glm::vec3(1.5f, 1.5f, 1.5f);
 	case OBSTACLE_DISCO_BALL:
 		return glm::vec3(2.0f, 2.0f, 2.0f);
+	case OBSTACLE_FIRE:
+		return glm::vec3(1.0f, 1.0f, 1.0f);
 	}
 }
 
@@ -181,6 +184,7 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 	Discoball* cDiscoBall = nullptr;
 	BarrelModel* wModel = nullptr;
 	BunnyModel* bModel = nullptr;
+	FireModel* fModel = nullptr;
 
 	switch (type) 
 	{
@@ -202,10 +206,12 @@ void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
 		cDiscoBall = (Discoball*)model;
 		cDiscoBall->SetPosition(glm::vec3(0, 2.2f, 0));
 		cDiscoBall->SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
+		break;	
+	case OBSTACLE_FIRE:
+		fModel = (FireModel*)model;
+		fModel->SetPosition(glm::vec3(0, 0, 0));
+		fModel->SetScaling(glm::vec3(1.0f, 1.0f, 1.0f));
 		break;
-		
-	//case OBSTACLE_FIRE:
-		//break;
 	}
 }
 
@@ -251,6 +257,19 @@ pair<ObstacleType, Model*> Obstacles::GetRandomModel()
 
 		return make_pair(OBSTACLE_BUNNY, wBunny);
 	}
+	else if (randomNumb == 3 && existing_fire <= MAX_FIRE) {
+		existing_fire++;
+		//Create Collision Capsule FireModel
+		Capsule* FireCapsule = new Capsule();
+		FireCapsule->a = vec3(0, 0.25, 0);
+		FireCapsule->b = vec3(0, -0.25, 0);
+		FireCapsule->r = 1;
+		Model* wFire = new FireModel();
+		wFire->setCapsuleBoundingVolume(FireCapsule);
+
+		return make_pair(OBSTACLE_FIRE, wFire);
+		
+	}
 	else
 	{
 		// Create Collision Capsule Disco Ball
@@ -264,8 +283,5 @@ pair<ObstacleType, Model*> Obstacles::GetRandomModel()
 
 		return make_pair(OBSTACLE_DISCO_BALL, wDiscoBall);
 	}
-	// if (...) {
-	//	FireModel* fireModel = new FireModel();
-	//	...
-	// }
+	
 }
