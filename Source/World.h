@@ -12,6 +12,8 @@
 #include "ParsingHelper.h"
 #include "Billboard.h"
 #include <vector>
+#include "ThirdPersonCamera.h"
+#include "ThirdPersonCameraFar.h"
 #include "Discoball.h"
 #include "SkyboxModel.h"
 
@@ -28,7 +30,7 @@ class Obstacles;
 class UFOModel;
 class FighterJetModel;
 
-enum WorldCameraType { WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_STATIC_ABOVE, WORLD_CAMERA_STATIC_ORIGIN, WORLD_CAMERA_NIL };
+enum WorldCameraType { WORLD_CAMERA_THIRD_PERSON, WORLD_CAMERA_THIRD_PERSON_FAR, WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_NIL };
 
 class World
 {
