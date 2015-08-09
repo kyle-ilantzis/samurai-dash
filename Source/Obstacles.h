@@ -10,10 +10,11 @@
 #include "CapsuleModel.h"
 #include "RealTimeCollisionDetection.h"
 #include "BarrelModel.h"
+#include "Animation.h"
 
 class PlayerModel;
 
-enum ObstacleType { OBSTACLE_CUBE, OBSTACLE_BARREL, OBSTACLE_BUNNY, OBSTACLE_DISCO_BALL, /*OBSTACLE_FIRE*/ };
+enum ObstacleType { OBSTACLE_CUBE, OBSTACLE_BARREL, OBSTACLE_BUNNY, OBSTACLE_DISCO_BALL, OBSTACLE_FIRE };
 enum ObstacleDifficulty { OBSTACLE_EASY, OBSTACLE_MEDIUM, OBSTACLE_HARD};
 
 class Obstacles
@@ -26,11 +27,12 @@ public:
 	float maxTime;
 	ObstacleDifficulty obstacle_difficulty;
 	Obstacles();
-
+	glm::vec3 GetScalingType(ObstacleType type);
+	Animation* CreateAnimation(float time,glm::vec3 position, ObstacleDifficulty diff, ObstacleType type);
 	void LoadObstacles();
 	
+	void Update(float t);
 	void Reset();
-
 	ObstacleDifficulty GetDifficulty(float t);
 
 	obstacle_vector& getObstacles() { return listObstacles; }
@@ -38,7 +40,7 @@ public:
 private:
 	void ResetObstacle(ObstacleType type, Model* model);
 
-	glm::vec3 RandomizeTrack(float t, ObstacleDifficulty difficulty);
+	glm::vec3 RandomizeTrack(float t);
 
 	std::pair<ObstacleType,Model*> GetRandomModel();
 
