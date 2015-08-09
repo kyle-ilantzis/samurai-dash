@@ -157,7 +157,6 @@ void World::Draw()
 			model->Draw();
 		}
 
-
 	}
 
 	// Draw models

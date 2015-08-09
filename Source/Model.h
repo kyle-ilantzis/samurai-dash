@@ -43,6 +43,7 @@ public:
 		mAnimation = passedAnimation;
 	}
 
+	Animation* GetAnimation() { return mAnimation; }
 	glm::vec3 GetPosition() const		{ return mPosition; }
 	glm::vec3 GetScaling() const		{ return mScaling; }
 	glm::vec3 GetRotationAxis() const	{ return mRotationAxis; }
