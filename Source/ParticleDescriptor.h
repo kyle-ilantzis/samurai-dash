@@ -47,6 +47,10 @@ private:
     float fadeOutTime;                  // time from mid to end stage
     float totalLifetime;                // amount of time in seconds the particle will remain alive
     float totalLifetimeDelta;
+
+	bool spawnWhenPlayerDead;			// if particles should still spawn when the player dies
+	bool spawnWhenPlayerReachedGoal;	// if particles should still spawn when the player reaches the goal
+	bool spawnWhenPlayerAlive;			// if particles should still spawn when the player is not dead or has not reached the goal
     
     friend class ParticleSystem;
 };
