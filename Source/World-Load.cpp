@@ -69,12 +69,6 @@ void World::LoadScene() {
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mUFOModel);
 	mModel.push_back(mFighterJetModel);
-
-	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
-	mFighterJetModel->SetParent(mPlayerModel);
-
-	// The UFO Stays in front of the Player Jet (Yellow)
-	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
 	mObstacles = new Obstacles();
