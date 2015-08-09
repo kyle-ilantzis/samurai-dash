@@ -232,15 +232,16 @@ void World::Draw()
 
     Renderer::CheckForErrors();
     
+
+	if (mSkyboxModel) {
+		mSkyboxModel->Draw();
+	}
+
 	// Draw Spline
 	if (mSplineModel) {
 		mSplineModel->Draw();
 		Model* bvm = mSplineModel->GetBoundingVolumeModel();
 		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
-	}
-
-	if (mSkyboxModel) {
-		mSkyboxModel->Draw();
 	}
 
     // Draw Billboards
@@ -307,7 +308,7 @@ void World::SetLighting()
 	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
 
 	//const vec4 lightPosition(5.0f, 5.0f, -5.0f, 1.0f); // If w = 1.0f, we have a point light
-	const vec4 lightPosition(25.0f, 25.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
+	const vec4 lightPosition(15.0f, 25.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
 
 	const vec3 lightColor(1.0f, 1.0f, 1.0f);
 	glUniform4f(LightPositionID, lightPosition.x, lightPosition.y, lightPosition.z, lightPosition.w);
@@ -321,7 +322,7 @@ void World::SetCoefficient()
 	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
 	// Material Coefficients
-	const float ka = 0.2f;
+	const float ka = 0.3f;
 	const float kd = 0.8f;
 	const float ks = 0.2f;
 	const float n = 90.0f;
