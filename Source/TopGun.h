@@ -10,12 +10,15 @@ public:
 	TopGun();
 	void Update(float dt);
 	void Draw();
+	void Reset();
+
+	static const int MAX_TGBillboards = 5;
 
 private:
 	// New Lists
-	BillboardList* mpBillboardList2;
-	BillboardList* mpBillboardList3;
-	BillboardList* mpBillboardList4;
-	BillboardList* mpBillboardList5;
-	BillboardList* mpBillboardList6;
+	BillboardList* mpBillboardListGoose;
+	BillboardList* mpBillboardListIceman;
+	BillboardList* mpBillboardListMaverick;
+	BillboardList* mpBillboardListTGend;
+	BillboardList* mpBillboardListTG;
 };

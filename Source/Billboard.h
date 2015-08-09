@@ -35,6 +35,8 @@ public:
     
     void AddBillboard(Billboard* b);
     void RemoveBillboard(Billboard* b);
+
+	void DeleteAll();
     
     void Update(float dt);
     void Draw();

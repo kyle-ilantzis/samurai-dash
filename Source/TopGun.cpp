@@ -4,68 +4,155 @@
 #include "Camera.h"
 #include <GL/glew.h>
 #include "TopGun.h"
+#include "SplineModel.h"
+#include "SplineFactory.h"
+
+using namespace std;
+using namespace glm;
 
 TopGun::TopGun()
 {
 	// Add Different Textures
-	int billboardTextureID2 = TextureLoader::LoadTexture("../Assets/Textures/Goose.jpg");
-	int billboardTextureID3 = TextureLoader::LoadTexture("../Assets/Textures/Iceman.jpg");
-	int billboardTextureID4 = TextureLoader::LoadTexture("../Assets/Textures/Maverick.jpg");
-	int billboardTextureID5 = TextureLoader::LoadTexture("../Assets/Textures/Top_Gun_Ending.jpg");
-	int billboardTextureID6 = TextureLoader::LoadTexture("../Assets/Textures/TopGun.jpg");
+	int billboardTextureGoose= TextureLoader::LoadTexture("../Assets/Textures/Goose.jpg");
+	int billboardTextureIceman = TextureLoader::LoadTexture("../Assets/Textures/Iceman.jpg");
+	int billboardTextureMaverick = TextureLoader::LoadTexture("../Assets/Textures/Maverick.jpg");
+	int billboardTextureTGend = TextureLoader::LoadTexture("../Assets/Textures/Top_Gun_Ending.jpg");
+	int billboardTextureTG = TextureLoader::LoadTexture("../Assets/Textures/TopGun.jpg");
 
 
-	assert(billboardTextureID2 != 0);
-	assert(billboardTextureID3 != 0);
-	assert(billboardTextureID4 != 0);
-	assert(billboardTextureID5 != 0);
-	assert(billboardTextureID6 != 0);
+	assert(billboardTextureGoose != 0);
+	assert(billboardTextureIceman != 0);
+	assert(billboardTextureMaverick != 0);
+	assert(billboardTextureTGend != 0);
+	assert(billboardTextureTG != 0);
 
 	// Create New BillboardLists for them
-	mpBillboardList2 = new BillboardList(10, billboardTextureID2);
-	mpBillboardList3 = new BillboardList(10, billboardTextureID3);
-	mpBillboardList4 = new BillboardList(10, billboardTextureID4);
-	mpBillboardList5 = new BillboardList(10, billboardTextureID5);
-	mpBillboardList6 = new BillboardList(10, billboardTextureID6);
+	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose);
+	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman);
+	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick);
+	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend);
+	mpBillboardListTG = new BillboardList(10, billboardTextureTG);
 
-
-	// Testing different billboards
-	Billboard* b = new Billboard();
-	b->size = glm::vec2(20.0, 10.0);
-	b->position = glm::vec3(35.0, 5.0, -5.0);
-	b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	Billboard* b2 = new Billboard();
-	b2->size = glm::vec2(20.0, 10.0);
-	b2->position = glm::vec3(-35.0, 5.0, -5.0);
-	b2->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	Billboard* b3 = new Billboard();
-	b3->size = glm::vec2(20.0, 10.0);
-	b3->position = glm::vec3(35.0, 5.0, -30.0);
-	b3->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	mpBillboardList2->AddBillboard(b);
-	mpBillboardList3->AddBillboard(b2);
-	mpBillboardList4->AddBillboard(b3);
-	mpBillboardList5->AddBillboard();
-	mpBillboardList6->AddBillboard();
 }
 
 void TopGun::Update(float dt)
 {
-	mpBillboardList2->Update(dt);
-	mpBillboardList3->Update(dt);
-	mpBillboardList4->Update(dt);
-	mpBillboardList5->Update(dt);
-	mpBillboardList6->Update(dt);
+	mpBillboardListGoose->Update(dt);
+	mpBillboardListIceman->Update(dt);
+	mpBillboardListMaverick->Update(dt);
+	mpBillboardListTGend->Update(dt);
+	mpBillboardListTG->Update(dt);
 }
 
 void TopGun::Draw()
 {
-	mpBillboardList2->Draw();
-	mpBillboardList3->Draw();
-	mpBillboardList4->Draw();
-	mpBillboardList5->Draw();
-	mpBillboardList6->Draw();
+	mpBillboardListGoose->Draw();
+	mpBillboardListIceman->Draw();
+	mpBillboardListMaverick->Draw();
+	mpBillboardListTGend->Draw();
+	mpBillboardListTG->Draw();
+}
+
+void TopGun::Reset()
+{
+	mpBillboardListGoose->DeleteAll();
+	mpBillboardListIceman->DeleteAll();
+	mpBillboardListMaverick->DeleteAll();
+	mpBillboardListTGend->DeleteAll();
+	mpBillboardListTG->DeleteAll();
+
+	int count = 1;
+	float maxTime = World::GetInstance()->GetSpline()->MaxTime();
+	float distanceTime = maxTime / MAX_TGBillboards;
+
+	for(int i=0; i < 2; i++)
+	{
+		Billboard* b = new Billboard();
+		b->size = glm::vec2(20.0, 10.0);
+		b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
+		
+		if (i == 0)
+		{ 
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		else
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		mpBillboardListTG->AddBillboard(b);
+	}
+
+	count++;
+
+	for (int i = 0; i < 2; i++)
+	{
+		Billboard* b = new Billboard();
+		b->size = glm::vec2(20.0, 10.0);
+		b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
+
+		if (i == 0)
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		else
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		mpBillboardListMaverick->AddBillboard(b);
+	}
+
+	count++;
+
+	for (int i = 0; i < 2; i++)
+	{
+		Billboard* b = new Billboard();
+		b->size = glm::vec2(20.0, 10.0);
+		b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
+
+		if (i == 0)
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		else
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		mpBillboardListGoose->AddBillboard(b);
+	}
+
+	count++;
+
+	for (int i = 0; i < 2; i++)
+	{
+		Billboard* b = new Billboard();
+		b->size = glm::vec2(20.0, 10.0);
+		b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
+
+		if (i == 0)
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		else
+		{
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+		}
+		mpBillboardListIceman->AddBillboard(b);
+	}
+
+	count++;
+
+	// Above End of Track
+	Billboard* b = new Billboard();
+	b->size = glm::vec2(40.0, 20.0);
+	b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
+
+	b->position = p.position + vec3(0.0f,SplineFactory::trackWidth,0.0f);
+
+	mpBillboardListTGend->AddBillboard(b);
+
 }
