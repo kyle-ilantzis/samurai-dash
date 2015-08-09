@@ -24,7 +24,6 @@
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "Billboard.h"
-#include "SkyboxModel.h"
 #include "Obstacles.h"
 #include "Discoball.h"
 #include "UFOModel.h"
@@ -58,6 +57,7 @@ World::World()
 	mFighterJetModel = nullptr;
 	mUFOModel = nullptr;
 	mObstacles = nullptr;
+	mSkyboxModel = nullptr;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -122,6 +122,7 @@ World::~World()
 
 	if (mSplineModel) delete mSplineModel;
 	if (mObstacles) delete mObstacles;
+	if (mSkyboxModel) delete mSkyboxModel;
 	
 	delete mpBillboardList;
 }
@@ -236,6 +237,10 @@ void World::Draw()
 		mSplineModel->Draw();
 		Model* bvm = mSplineModel->GetBoundingVolumeModel();
 		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	}
+
+	if (mSkyboxModel) {
+		mSkyboxModel->Draw();
 	}
 
     // Draw Billboards

@@ -13,6 +13,7 @@
 #include "Billboard.h"
 #include <vector>
 #include "Discoball.h"
+#include "SkyboxModel.h"
 
 class Camera;
 class SplineModel;
@@ -95,4 +96,5 @@ private:
 	FighterJetModel* mFighterJetModel;
 	UFOModel* mUFOModel;
 	Obstacles* mObstacles;
+	SkyboxModel* mSkyboxModel;
 };

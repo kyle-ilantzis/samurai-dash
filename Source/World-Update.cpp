@@ -86,6 +86,10 @@ void World::Update(float dt)
 
 	mpBillboardList->Update(dt);
 
+	if (mSkyboxModel) {
+		mSkyboxModel->Update(dt);
+	}
+
 	UpdateCollision(dt);
 
 	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {

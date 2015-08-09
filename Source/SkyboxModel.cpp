@@ -36,8 +36,11 @@ void SkyboxModel::Update(float dt) {
 
 void SkyboxModel::Draw() {
 
+	ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
+
 	GLint oldDepthFuncMode;
 	glGetIntegerv(GL_DEPTH_FUNC, &oldDepthFuncMode);
+
 
 	// Since the skybox is on the far plane of the projection frustrum
 	// we want the skybox to pass the z-buffer test if if it LESS-THAN-OR-EQUAL
@@ -45,12 +48,16 @@ void SkyboxModel::Draw() {
 	// (see the skybox vertex shader for more info).
 	glDepthFunc(GL_LEQUAL);
 
+
 	Shader shader = RendererHelper::GetShader(SHADER_SKYBOX);
+	Renderer::SetShader(SHADER_SKYBOX);
 	shader.Bind();
+
 	shader.SetMatrix("ViewProjectionTransform", World::GetInstance()->GetCamera()->GetViewProjectionMatrix());
 	shader.SetTexture("TextureCubemap", mCubemap, GL_TEXTURE0);
 
 	CubeModel::Draw();
 
 	glDepthFunc(oldDepthFuncMode);
+	Renderer::SetShader(oldShader);
 }

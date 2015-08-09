@@ -80,16 +80,15 @@ void World::LoadScene() {
 	mObstacles = new Obstacles();
 	mObstacles->LoadObstacles();
 
+	// Create skybox and push to scene
+	mSkyboxModel = new SkyboxModel();
+
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
 
 	// Movement for Models
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
-
-	// Create skybox and push to scene
-	SkyboxModel* skybox = new SkyboxModel();
-	mModel.push_back(skybox);
 
 	Reset();
 }
