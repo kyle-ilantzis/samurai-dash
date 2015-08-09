@@ -96,8 +96,14 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\Assets\Scenes\Animal.scene" />
     <None Include="..\Assets\Scenes\AnimatedScene.scene" />
+    <None Include="..\Assets\Scenes\AnimatedSceneWithParticles.scene" />
+    <None Include="..\Assets\Scenes\CollisionDemo.scene" />
     <None Include="..\Assets\Scenes\CoordinateSystem.scene" />
+    <None Include="..\Assets\Scenes\Discoball.scene" />
+    <None Include="..\Assets\Scenes\Player.scene" />
+    <None Include="..\Assets\Scenes\SamuraiDash.scene" />
     <None Include="..\Assets\Scenes\StaticScene.scene" />
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader" />
     <None Include="..\Assets\Shaders\PathLines.fragmentshader" />
@@ -106,51 +112,24 @@
     <None Include="..\Assets\Shaders\SolidColor.vertexshader" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Animation.cpp" />
-    <ClCompile Include="..\Source\Billboard.cpp" />
-    <ClCompile Include="..\Source\Camera.cpp" />
-    <ClCompile Include="..\Source\CapsuleModel.cpp" />
-    <ClCompile Include="..\Source\CubeModel.cpp" />
-    <ClCompile Include="..\Source\EventManager.cpp" />
-    <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
-    <ClCompile Include="..\Source\main.cpp" />
-    <ClCompile Include="..\Source\Math.cpp" />
-    <ClCompile Include="..\Source\Model.cpp" />
-    <ClCompile Include="..\Source\ObjectModel.cpp" />
-    <ClCompile Include="..\Source\ParticleDescriptor.cpp" />
-    <ClCompile Include="..\Source\ParticleEmitter.cpp" />
-    <ClCompile Include="..\Source\ParticleSystem.cpp" />
-    <ClCompile Include="..\Source\PlayerModel.cpp" />
-    <ClCompile Include="..\Source\RealTimeCollisionDetection.cpp" />
-    <ClCompile Include="..\Source\Renderer.cpp" />
-    <ClCompile Include="..\Source\RendererHelper.cpp" />
-    <ClCompile Include="..\Source\SkyboxModel.cpp" />
-    <ClCompile Include="..\Source\SphereModel.cpp" />
-    <ClCompile Include="..\Source\SplineFactory.cpp" />
-    <ClCompile Include="..\Source\SplineModel.cpp" />
-    <ClCompile Include="..\Source\StaticCamera.cpp" />
-    <ClCompile Include="..\Source\TextureLoader.cpp" />
-    <ClCompile Include="..\Source\Textures.cpp" />
-    <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
-    <ClCompile Include="..\Source\tiny_obj_loader.cc" />
-    <ClCompile Include="..\Source\Vertexes.cpp" />
-    <ClCompile Include="..\Source\WolfModel.cpp" />
-    <ClCompile Include="..\Source\World-Load.cpp" />
-    <ClCompile Include="..\Source\World-Update.cpp" />
-    <ClCompile Include="..\Source\World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\Source\Animation.h" />
     <ClInclude Include="..\Source\AssetsDir.h" />
     <ClInclude Include="..\Source\Billboard.h" />
+    <ClInclude Include="..\Source\BunnyModel.h" />
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\CapsuleModel.h" />
     <ClInclude Include="..\Source\CubeModel.h" />
+    <ClInclude Include="..\Source\Discoball.h" />
     <ClInclude Include="..\Source\EventManager.h" />
+    <ClInclude Include="..\Source\FighterJetModel.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
+    <ClInclude Include="..\Source\Header.h" />
+    <ClInclude Include="..\Source\LoadingScreen.h" />
     <ClInclude Include="..\Source\Math.h" />
     <ClInclude Include="..\Source\Model.h" />
+    <ClInclude Include="..\Source\MoonLighting.h" />
     <ClInclude Include="..\Source\ObjectModel.h" />
+    <ClInclude Include="..\Source\Obstacles.h" />
     <ClInclude Include="..\Source\ParsingHelper.h" />
     <ClInclude Include="..\Source\ParticleDescriptor.h" />
     <ClInclude Include="..\Source\ParticleEmitter.h" />
@@ -168,10 +147,58 @@
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
     <ClInclude Include="..\Source\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\ThirdPersonCameraFar.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
+    <ClInclude Include="..\Source\UFOModel.h" />
     <ClInclude Include="..\Source\Vertexes.h" />
     <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\Animation.cpp" />
+    <ClCompile Include="..\Source\Billboard.cpp" />
+    <ClCompile Include="..\Source\BunnyModel.cpp" />
+    <ClCompile Include="..\Source\Camera.cpp" />
+    <ClCompile Include="..\Source\CapsuleModel.cpp" />
+    <ClCompile Include="..\Source\CubeModel.cpp" />
+    <ClCompile Include="..\Source\Discoball.cpp" />
+    <ClCompile Include="..\Source\EventManager.cpp" />
+    <ClCompile Include="..\Source\FighterJetModel.cpp" />
+    <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="..\Source\LoadingScreen.cpp" />
+    <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\Math.cpp" />
+    <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\MoonLighting.cpp" />
+    <ClCompile Include="..\Source\ObjectModel.cpp" />
+    <ClCompile Include="..\Source\Obstacles.cpp" />
+    <ClCompile Include="..\Source\ParticleDescriptor.cpp" />
+    <ClCompile Include="..\Source\ParticleEmitter.cpp" />
+    <ClCompile Include="..\Source\ParticleSystem.cpp" />
+    <ClCompile Include="..\Source\PlayerModel.cpp" />
+    <ClCompile Include="..\Source\RealTimeCollisionDetection.cpp" />
+    <ClCompile Include="..\Source\Renderer.cpp" />
+    <ClCompile Include="..\Source\RendererHelper.cpp" />
+    <ClCompile Include="..\Source\SkyboxModel.cpp" />
+    <ClCompile Include="..\Source\SphereModel-VertexBuffer.cpp" />
+    <ClCompile Include="..\Source\SphereModel.cpp" />
+    <ClCompile Include="..\Source\SplineFactory.cpp" />
+    <ClCompile Include="..\Source\SplineModel.cpp" />
+    <ClCompile Include="..\Source\StaticCamera.cpp" />
+    <ClCompile Include="..\Source\TextureLoader.cpp" />
+    <ClCompile Include="..\Source\Textures.cpp" />
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\ThirdPersonCameraFar.cpp" />
+    <ClCompile Include="..\Source\tiny_obj_loader.cc" />
+    <ClCompile Include="..\Source\UFOModel.cpp" />
+    <ClCompile Include="..\Source\Vertexes.cpp" />
+    <ClCompile Include="..\Source\WolfModel.cpp" />
+    <ClCompile Include="..\Source\World-Load.cpp" />
+    <ClCompile Include="..\Source\World-Update.cpp" />
+    <ClCompile Include="..\Source\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\Scenes\Animal.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

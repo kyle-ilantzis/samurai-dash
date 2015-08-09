@@ -13,14 +13,23 @@
 #include "Billboard.h"
 #include <vector>
 #include "ThirdPersonCamera.h"
+#include "ThirdPersonCameraFar.h"
 
 class Camera;
-class Model;
 class SplineModel;
 class PlayerModel;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
+
+// Add Class Of Models
+class Model;
+class PlayerModel;
+class Obstacles;
+class UFOModel;
+class FighterJetModel;
+
+enum WorldCameraType { WORLD_CAMERA_THIRD_PERSON, WORLD_CAMERA_THIRD_PERSON_FAR, WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_NIL };
 
 class World
 {
@@ -28,12 +37,17 @@ public:
 	static const char* sceneFile;
 	// If true then models with bounding volumes will draw the volumes
 	static const bool DRAW_BOUNDING_VOLUME = true;
+	// If true the animations will draw their key frames points as a path
+	static const bool DRAW_ANIM_PATH = true;
+	// How long to wait after the player has died or reached the goal before restarting.
+	static const float RESTART_DELAY_SECONDS;
 
 	World();
 	~World();
 	
     static World* GetInstance();
 
+	void Reset();
 	void Update(float dt);
 	void Draw();
 
@@ -51,6 +65,9 @@ public:
     void RemoveParticleSystem(ParticleSystem* particleSystem);
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
+	
+	WorldCameraType GetWorldCameraType() { return (WorldCameraType)mCurrentCamera; }
+	void SetWorldCameraType(WorldCameraType type) { if (type != WORLD_CAMERA_NIL) mCurrentCamera = (int)type; }
 
 	SplineModel* GetSpline() { return mSplineModel; };
 
@@ -73,4 +90,9 @@ private:
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
+	FighterJetModel* mFighterJetModel;
+	UFOModel* mUFOModel;
+	Obstacles* mObstacles;
+
+	float mCurrentTime;
 };

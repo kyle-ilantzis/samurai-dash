@@ -1,16 +1,23 @@
+// Other
 #include "World.h"
 #include "ParsingHelper.h"
+#include "RealTimeCollisionDetection.h"
+#include "Animation.h"
+#include "SplineFactory.h"
+#include "ParticleSystem.h"
 
+// Models
+#include "BunnyModel.h"
 #include "WolfModel.h"
 #include "CubeModel.h"
 #include "SphereModel.h"
 #include "PlayerModel.h"
-#include "Animation.h"
-#include "SplineFactory.h"
-#include "SkyboxModel.h"
 #include "CapsuleModel.h"
-
-#include "RealTimeCollisionDetection.h"
+#include "SkyboxModel.h"
+#include "Obstacles.h"
+#include "Discoball.h"
+#include "UFOModel.h"
+#include "FighterJetModel.h"
 
 using namespace std;
 using namespace glm;
@@ -24,23 +31,87 @@ void World::LoadScene() {
 	// Do any complex dynamic initialization in here
 
 	mSplineModel = SplineFactory::LoadSpline();
-	mModel.push_back(mSplineModel);
 
-
+	// Creating the Models
 	mPlayerModel = new PlayerModel();
-	((ThirdPersonCamera*) mCamera[0])->SetTargetModel(mPlayerModel);
+	mUFOModel = new UFOModel();
+	mFighterJetModel = new FighterJetModel();
 
-	ci_string str = "particleSystem = \"poop\"\n";
-	ci_istringstream iss(str);
-	mPlayerModel->Load(iss);
+	// Create the capsue for Player Jet
+	Capsule* JetCapsule = new Capsule();
+	JetCapsule->a = vec3(210, 0, 0);;
+	JetCapsule->b = vec3(-130, 0, 0);
+	JetCapsule->r = 450;
+	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
+	// Jet Stream Particle System for Player Jet (Two Of Them)
+	ci_string PlayerJetFlame1 = "particleSystem = \"JetFlame1\"\n";
+	ci_istringstream stream1(PlayerJetFlame1);
+	mPlayerModel->Load(stream1);
+	ci_string PlayerJetFrame2 = "particleSystem = \"JetFlame2\"\n";
+	ci_istringstream stream2(PlayerJetFrame2);
+	mPlayerModel->Load(stream2);
+
+	// Jet Streaming Particle System for Enemy Jet
+	ci_string EnemyJetFlame1 = "particleSystem = \"JetFlame3\"\n";
+	ci_istringstream stream3(EnemyJetFlame1);
+	mFighterJetModel->Load(stream3);
+
+	// Enemy Jet Attack Lazer
+	ci_string EnemyLazer = "particleSystem = \"EnemyAttackLazer\"\n";
+	ci_istringstream stream4(EnemyLazer);
+	mFighterJetModel->Load(stream4);
+
+	// Beam Particle System For UFO
+	ci_string beamString = "particleSystem = \"UFOBeam\"\n";
+	ci_istringstream stream5(beamString);
+	mUFOModel->Load(stream5);
+
+	// Pushing Models To the World.
 	mModel.push_back(mPlayerModel);
+	mModel.push_back(mUFOModel);
+	mModel.push_back(mFighterJetModel);
+
+	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
+	mFighterJetModel->SetParent(mPlayerModel);
+	// The UFO Stays in front of the Player Jet (Yellow)
+	mUFOModel->SetParent(mPlayerModel);
+	
+	//Third Person camera set on player model
+	((ThirdPersonCamera*) mCamera[0])->SetTargetModel(mPlayerModel);
+	((ThirdPersonCameraFar*) mCamera[1])->SetTargetModel(mPlayerModel);
+	
+	// Create the obstacles
+	mObstacles = new Obstacles();
+	mObstacles->LoadObstacles();
 
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
 
+	// Movement for Models
+	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
+	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
+
+	// Create skybox and push to scene
 	SkyboxModel* skybox = new SkyboxModel();
 	mModel.push_back(skybox);
+
+	Reset();
+}
+
+void World::Reset() {
+
+	if (mSplineModel) delete mSplineModel;
+	mSplineModel = SplineFactory::LoadSpline();
+
+	mPlayerModel->Reset();
+
+	mObstacles->Reset();
+
+	for (vector<ParticleSystem*>::iterator it = mParticleSystemList.begin(); it != mParticleSystemList.end(); ++it)
+	{
+		(*it)->Reset();
+	}
 }
 
 void World::LoadScene(const char * scene_path)
@@ -74,12 +145,26 @@ void World::LoadScene(const char * scene_path)
 
 				mPlayerModel = player;
 			}
+			else if (result == "discoball")
+			{
+				// Box attributes
+				Discoball* discoBallz = new Discoball();
+				discoBallz->Load(iss);
+				mModel.push_back(discoBallz);
+			}
 			else if (result == "wolf")
 			{
 				// Box attributes
 				WolfModel* wolf = new WolfModel();
 				wolf->Load(iss);
 				mModel.push_back(wolf);
+			}
+			else if (result == "bunnny")
+			{
+				// Box attributes
+				BunnyModel* bunny = new BunnyModel();
+				bunny->Load(iss);
+				mModel.push_back(bunny);
 			}
 			else if (result == "cube")
 			{
@@ -120,10 +205,10 @@ void World::LoadScene(const char * scene_path)
 	}
 	input.close();
 
-	// Set Animation vertex buffers
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		// Draw model
-		(*it)->CreateVertexBuffer();
+	if (DRAW_ANIM_PATH) {
+		for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+		{
+			(*it)->CreateVertexBuffer();
+		}
 	}
 }

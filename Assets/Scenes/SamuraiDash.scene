@@ -31,17 +31,15 @@ scaling = 0.12f 0.12f 0.12f
 
 [AnimationKey]
 name     = "KeyForth"
-position = -3.0 1.5 -5.5
-scaling = 0.03f 0.03f 0.03f
-rotation =  1.0f 0.0f 0.0f 0.0f
-
+position =  2600.0f 1000.0f 500.0f
+scaling = 0.9f 0.9f 0.9f
+rotation =  1.0f 0.0f 2.0f -10.0f
 
 [AnimationKey]
 name     = "KeyBack"
-position =  3.0 1.5 -5.5
-scaling = 0.03f 0.03f 0.03f
-rotation =  1.0f 0.0f 0.0f 40.0f
-
+position =  2900.0f 1000.0f -500.0f
+scaling = 0.9f 0.9f 0.9f
+rotation =  1.0f 0.0f 1.0f 25.0f
 
 [Animation]
 name     = "BackAndForth"
@@ -49,3 +47,56 @@ key      = "KeyForth"     time = 0.0f
 key      = "KeyBack"      time = 2.0f
 key      = "KeyForth"     time = 4.0f
 
+[AnimationKey]
+name = "Standing"
+position = -20.0 20.0 -60.0
+scaling = 8.0f 8.0f 8.0f
+rotation =  1.0f 0.0f -1.0f 40.0f
+
+[AnimationKey]
+name = "Standings"
+position = -25.0 20.0 -90.0
+scaling = 8.0f 8.0f 8.0f
+rotation =  1.0f 0.0f 0.0f 40.0f
+
+[Animation]
+name	= "BunnyStanding"
+key		= "Standing"		time = 0.0f
+key		= "Standings"		time = 1.0f
+key		= "Standing"		time = 2.0f
+
+[AnimationKey]
+name = "Standing2"
+position = 20 20.0 -60.0
+scaling = 8.0f 8.0f 8.0f
+rotation =  1.0f 0.0f 1.0f 40.0f
+
+[AnimationKey]
+name = "Standings2"
+position = 25 20.0 -90.0
+scaling = 8.0f 8.0f 8.0f
+rotation =  1.0f 0.0f 0.0f 40.0f
+
+[Animation]
+name	= "BunnyStanding2"
+key		= "Standing2"		time = 0.0f
+key		= "Standings2"		time = 1.0f
+key		= "Standing2"		time = 2.0f
+
+[AnimationKey]
+name     = "UFOUp"
+position = -2000 2000 500
+scaling = 40f 40f 40f
+rotation =  0.0f 1.0f 0.0f 6000.0f
+
+[AnimationKey]
+name     = "UFODown"
+position =  -1500 1800 -500
+scaling = 40f 40f 40f
+rotation =  0.0f 1.0f 1.0f 10.0f
+
+[Animation]
+name	= "UFOMove"
+key		= "UFOUp"		time = 0.0f
+key		= "UFODown"		time = 2.0f
+key		= "UFOUp"		time = 4.0f

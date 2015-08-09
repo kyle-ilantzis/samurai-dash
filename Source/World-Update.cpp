@@ -86,13 +86,36 @@ void World::Update(float dt)
 	mpBillboardList->Update(dt);
 
 	UpdateCollision(dt);
+
+	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
+		Reset();
+	}
+
+	
+	if (!mPlayerModel->IsDead()) {
+		mCurrentTime += dt;
+		if (mCurrentTime > 5) {
+			mPlayerModel->Died();
+			mCurrentTime = 0;
+		}
+	}
 }
 
 void World::UpdateCollision(float dt) {
 
 	static int ctr = 1;
 
-	if (!mPlayerModel) { return; }
+	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
+
+	if (mSplineModel) {
+		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
+		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
+
+			cout << "collision " << ctr++ << "! You Win!" << endl;
+			mPlayerModel->ReachedGoal();
+			return;
+		}
+	}
 
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{

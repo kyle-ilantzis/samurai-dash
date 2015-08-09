@@ -12,11 +12,11 @@
 #include "Model.h"
 #include "Animation.h"
 
-class ThirdPersonCamera : public Camera
+class ThirdPersonCameraFar : public Camera
 {
 public:
-	ThirdPersonCamera(glm::vec3 position);
-	virtual ~ThirdPersonCamera();
+	ThirdPersonCameraFar(glm::vec3 position);
+	virtual ~ThirdPersonCameraFar();
 
 	virtual void Update(float dt);
 
@@ -33,7 +33,6 @@ private:
 	float mSpeed;			// World units per second
 	float mAngularSpeed;    // Degrees per pixel
 	glm::vec3 mLookAt;
-	glm::vec3 prevPos;
 	Animation myAnimate;
 	AnimationKey* k1;
 	AnimationKey* k2;

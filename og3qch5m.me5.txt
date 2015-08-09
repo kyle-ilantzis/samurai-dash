@@ -1,0 +1,96 @@
+﻿Merge remote-tracking branch 'origin/master' into third-person-camera
+
+Conflicts:
+	Source/Model.cpp
+	Source/PlayerModel.cpp
+	Source/PlayerModel.h
+	Source/RealTimeCollisionDetection.cpp
+	Source/RealTimeCollisionDetection.h
+	Source/SplineFactory.cpp
+	Source/World-Load.cpp
+	Source/World-Update.cpp
+	Source/World.cpp
+	Source/World.h
+	Source/main.cpp
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch third-person-camera
+# Your branch is up-to-date with 'origin/third-person-camera'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   Assets/Models/Bunny/Bunny.obj
+#	new file:   Assets/Models/Bunny/rabbids_models.mtl
+#	new file:   Assets/Models/Jet/5
+#	new file:   Assets/Models/Jet/Jet.obj
+#	deleted:    Assets/Models/Sheep/SHEEP.3DS
+#	deleted:    Assets/Models/Sheep/SHEEP.DXF
+#	deleted:    Assets/Models/Sheep/SHEEP.LWO
+#	deleted:    Assets/Models/Sheep/read me first .txt
+#	new file:   Assets/Models/UFO/UFO.mtl
+#	new file:   Assets/Models/UFO/UFO.obj
+#	deleted:    Assets/Models/Wolf/Wolf.c4d
+#	modified:   Assets/Scenes/Animal.scene
+#	modified:   Assets/Scenes/Player.scene
+#	modified:   Assets/Scenes/SamuraiDash.scene
+#	new file:   Assets/Textures/Loading.jpg
+#	modified:   Source/AssetsDir.h
+#	new file:   Source/BunnyModel.cpp
+#	new file:   Source/BunnyModel.h
+#	modified:   Source/CapsuleModel.cpp
+#	new file:   Source/FighterJetModel.cpp
+#	new file:   Source/FighterJetModel.h
+#	new file:   Source/Header.h
+#	new file:   Source/LoadingScreen.cpp
+#	new file:   Source/LoadingScreen.h
+#	modified:   Source/Model.cpp
+#	modified:   Source/Model.h
+#	modified:   Source/ObjectModel.cpp
+#	modified:   Source/Obstacles.cpp
+#	modified:   Source/Obstacles.h
+#	modified:   Source/ParticleDescriptor.cpp
+#	modified:   Source/ParticleDescriptor.h
+#	modified:   Source/ParticleSystem.cpp
+#	modified:   Source/ParticleSystem.h
+#	modified:   Source/PlayerModel.cpp
+#	modified:   Source/PlayerModel.h
+#	modified:   Source/RealTimeCollisionDetection.cpp
+#	modified:   Source/RealTimeCollisionDetection.h
+#	modified:   Source/Renderer.cpp
+#	modified:   Source/Renderer.h
+#	modified:   Source/SphereModel.cpp
+#	modified:   Source/SphereModel.h
+#	modified:   Source/SplineFactory.cpp
+#	modified:   Source/SplineFactory.h
+#	modified:   Source/SplineModel.cpp
+#	modified:   Source/SplineModel.h
+#	modified:   Source/Textures.h
+#	modified:   Source/ThirdPersonCamera.cpp
+#	modified:   Source/ThirdPersonCamera.h
+#	new file:   Source/ThirdPersonCameraFar.cpp
+#	new file:   Source/ThirdPersonCameraFar.h
+#	new file:   Source/UFOModel.cpp
+#	new file:   Source/UFOModel.h
+#	modified:   Source/WolfModel.cpp
+#	modified:   Source/World-Load.cpp
+#	deleted:    Source/World-Load.cpp.orig
+#	modified:   Source/World-Update.cpp
+#	modified:   Source/World.cpp
+#	deleted:    Source/World.cpp.orig
+#	modified:   Source/World.h
+#	modified:   Source/main.cpp
+#	deleted:    Source/main.cpp.orig
+#	modified:   VS2012/Assignment1.vcxproj
+#	modified:   VS2012/Assignment1.vcxproj.filters
+#	modified:   VS2013/Assignment1.vcxproj
+#	modified:   VS2013/Assignment1.vcxproj.filters
+#
+

@@ -38,7 +38,11 @@ public:
 	void SetScaling(glm::vec3 scaling);
 	void SetRotation(glm::vec3 axis, float angleDegrees);
 	void setCapsuleBoundingVolume(rtcd::Capsule* capsule);
-	
+	void setAnimation(Animation* passedAnimation)
+	{
+		mAnimation = passedAnimation;
+	}
+
 	glm::vec3 GetPosition() const		{ return mPosition; }
 	glm::vec3 GetScaling() const		{ return mScaling; }
 	glm::vec3 GetRotationAxis() const	{ return mRotationAxis; }

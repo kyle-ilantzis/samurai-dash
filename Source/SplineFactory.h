@@ -1,7 +1,7 @@
 #ifndef SPLINEFACTORY_H
 #define SPLINEFACTORY_H
 
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 #include "ParsingHelper.h"
 #include "SplineModel.h"
 
@@ -45,7 +45,7 @@ private:
 	/**
 	 *
 	 */
-	static const glm::vec3 controlPointsColor;
+	static const glm::vec4 controlPointsColor;
 
 	/**
 	 * Create random control points for the spline

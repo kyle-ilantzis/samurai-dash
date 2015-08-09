@@ -33,7 +33,7 @@ const vec2 SplineFactory::controlPointsCount = vec2(20, 30);
 const vec2 SplineFactory::deltaMinControlPoint = vec2(20.0f, -10.0f);
 const vec2 SplineFactory::deltaMaxControlPoint = vec2(21.0f, 10.0f);
 
-const glm::vec3 SplineFactory::controlPointsColor = vec3(1.0f, 0.0f, 0.0f);
+const glm::vec4 SplineFactory::controlPointsColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
 void SplineFactory::makeControlPoints(SplineModel& spline) {
 
@@ -72,9 +72,9 @@ void SplineFactory::makeTriangleStrip(SplineModel& spline) {
 
 	std::vector<SplineModel::Vertex> points;
 
-	vec3 red = vec3(1.0f, 0.0f, 0.0f);
-	vec3 green = vec3(0.0f, 1.0f, 0.0f);
-	vec3 blue = vec3(0.0f, 1.0f, 0.0f);
+	vec4 red = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	vec4 green = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	vec4 blue = vec4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	vec3 shift = vec3(trackWidth / 2, 0, 0);
 	float timeStep = 1.0f / triangleStripSegmentCount;
@@ -130,7 +130,7 @@ void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
 
 	std::vector<SplineModel::Vertex> points;
 	
-	vec3 color(1); // white
+	vec4 color(1); // white
 
 	for (float t = 0; t < spline.MaxTime(); t += 0.5f) {
 

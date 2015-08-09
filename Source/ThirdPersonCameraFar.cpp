@@ -7,7 +7,7 @@
 //
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "ThirdPersonCamera.h"
+#include "ThirdPersonCameraFar.h"
 #include "EventManager.h"
 #include <GLM/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -18,8 +18,8 @@
 #include <algorithm>
 using namespace glm;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f),
-	prevPos(0)
+ThirdPersonCameraFar::ThirdPersonCameraFar(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f)
+	
 {
 	k1 = new AnimationKey();
 	k2 = new AnimationKey();
@@ -45,11 +45,11 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(
 
 }
 
-ThirdPersonCamera::~ThirdPersonCamera()
+ThirdPersonCameraFar::~ThirdPersonCameraFar()
 {
 }
 
-void ThirdPersonCamera::Update(float dt)
+void ThirdPersonCameraFar::Update(float dt)
 {
 	
 	if(World::GetInstance()->GetPlayer()->IsDead()){
@@ -58,9 +58,6 @@ void ThirdPersonCamera::Update(float dt)
 
 	// Prevent from having the camera move only when the cursor is within the windows
 	EventManager::DisableMouseCursor();
-	
-	if(prevPos == vec3(0))
-		prevPos = mTargetModel->GetPosition();
 
 	// The Camera moves based on the User inputs
 	// - You can access the mouse motion with EventManager::GetMouseMotionXY()
@@ -70,37 +67,17 @@ void ThirdPersonCamera::Update(float dt)
 	// Mouse motion to get the variation in angle
 	mHorizontalAngle -= EventManager::GetMouseMotionX() * mAngularSpeed * dt;
 	mVerticalAngle   -= EventManager::GetMouseMotionY() * mAngularSpeed * dt;
-
-	/*
-	if (mHorizontalAngle > 180)
-	{
-		mHorizontalAngle -= 180;
-	}
-	else if (mHorizontalAngle < -180)
-	{
-		mHorizontalAngle += 180;
-	}*/
 	
-	mHorizontalAngle = std::max(180.0f, std::min(360.0f, mHorizontalAngle));
+	// Clamp vertical angle to [40, 65] degrees
+	mHorizontalAngle = std::max(40.0f, std::min(65.0f, mHorizontalAngle));
 
-	vec3 currentPos = mTargetModel->GetPosition();
-
-	if(dt==0 || mTargetModel->GetPosition().z == 0){
-		mVerticalAngle = std::max(40.0f, std::min(75.0f, mVerticalAngle));
-	}
-	if(currentPos.y < prevPos.y){
-		mVerticalAngle = std::max(20.0f, std::min(75.0f, mVerticalAngle));
-	}else{
-		// Clamp vertical angle to [0, 75] degrees
-		mVerticalAngle = std::max(0.0f, std::min(75.0f, mVerticalAngle));
-	}
-	prevPos = currentPos;
+	mVerticalAngle = 30;
 	
 }
 
-glm::mat4 ThirdPersonCamera::GetViewMatrix() const
+glm::mat4 ThirdPersonCameraFar::GetViewMatrix() const
 {
-	int radius = 15;
+	int radius = 50;
 
 	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
 	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
@@ -126,7 +103,7 @@ glm::mat4 ThirdPersonCamera::GetViewMatrix() const
 	}
 }
 
-void ThirdPersonCamera::SetTargetModel(Model* m)
+void ThirdPersonCameraFar::SetTargetModel(Model* m)
 {
 	mTargetModel = m;
 }

@@ -10,17 +10,15 @@ using namespace glm;
 
 ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 colorForShapeI[]) : Model(), shapesVertexBuffer()
 {
-	// Vector Array for Shape
+	// Vector Array for Model
 	vector<shape_t> shapes;
 	vector<material_t> materials;
 
-	// Import the Sheep
+	// Import the Model
 	string name = LoadObj(shapes, materials, objFile, matFile);
 
 	// Create a vertex array
 	glGenVertexArrays(1, &mVertexArrayID);
-
-	// Adds elements of the sheep (Body, Iris, Eye)
 
 	// Main loop for creating the sheep
 	for (int index = 0; index < shapes.size(); ++index)
@@ -30,12 +28,27 @@ ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 co
 		unsigned int i;
 		unsigned int s;
 		unsigned int colorVertexBuffer;
+		unsigned int n;
 
 		// Vertex Buffer
 		glGenBuffers(1, &v);
 		glBindBuffer(GL_ARRAY_BUFFER, v);
 		glBufferData(GL_ARRAY_BUFFER, shapes[index].mesh.positions.size() * sizeof(float), &shapes[index].mesh.positions[0], GL_STATIC_DRAW);
-		
+
+		// Normal Buffer
+		if (shapes[index].mesh.normals.size() == 0)
+		{
+			glGenBuffers(1, &n);
+			glBindBuffer(GL_ARRAY_BUFFER, n);
+			glBufferData(GL_ARRAY_BUFFER, shapes[index].mesh.normals.size() * sizeof(float), 0, GL_STATIC_DRAW);
+		}
+		else
+		{
+			glGenBuffers(1, &n);
+			glBindBuffer(GL_ARRAY_BUFFER, n);
+			glBufferData(GL_ARRAY_BUFFER, shapes[index].mesh.normals.size() * sizeof(float), &shapes[index].mesh.normals[0], GL_STATIC_DRAW);
+		}
+
 		// Color Buffer
 		vector<vec3> colors(shapes[index].mesh.positions.size() * sizeof(float), colorForShapeI[index]);
 		glGenBuffers(1, &colorVertexBuffer);
@@ -53,6 +66,7 @@ ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 co
 		shapesVertexBuffer.push_back(i);
 		shapesVertexBuffer.push_back(s);
 		shapesVertexBuffer.push_back(colorVertexBuffer);
+		shapesVertexBuffer.push_back(n);
 	}
 }
 
@@ -60,12 +74,13 @@ void ObjectModel::Draw()
 {
 	glBindVertexArray(mVertexArrayID);
 
-	for (int index = 0; index < shapesVertexBuffer.size(); index += 4)
+	for (int index = 0; index < shapesVertexBuffer.size(); index += 5)
 	{
 		unsigned int vertex = shapesVertexBuffer[index];
 		unsigned int indice = shapesVertexBuffer[index + 1];
 		unsigned int size = shapesVertexBuffer[index + 2];
 		unsigned int color = shapesVertexBuffer[index + 3];
+		unsigned int normal = shapesVertexBuffer[index + 4];
 
 		GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
 		glUniformMatrix4fv(WorldMatrixLocation, 1, GL_FALSE, &GetWorldMatrix()[0][0]);
@@ -83,7 +98,7 @@ void ObjectModel::Draw()
 
 		// Third Attribute (Normal)
 		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, normal);
 		glVertexAttribPointer(1,
 			3,
 			GL_FLOAT,

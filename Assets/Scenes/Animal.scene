@@ -1,9 +1,4 @@
-[Wolf]
-scaling = 0.01f 0.01f 0.01f 
-
-[Player]
-position = 2.0f 2.0f 2.0f
-scaling = 5.0f 5.0f 5.0f 
+[Wolf] 
 
 [Cube]
 name = "X-axis"

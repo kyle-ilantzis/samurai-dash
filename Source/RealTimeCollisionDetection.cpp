@@ -47,7 +47,7 @@ bool TestBoundingVolumes(Model& m1, Model& m2) {
 		const Capsule& c1 = *((Capsule*) b1.GetData());
 		const Capsule& c2 = *((Capsule*) b2.GetData());
 
-		return TestCapsuleCapsule(c1.transform(m1.GetWorldMatrix()), c2.transform(m2.GetWorldMatrix()));
+		return TestCapsuleCapsule(c1.transform(m1), c2.transform(m2));
 	}
 
 	cout << "TestBoundingVolumes intersection of unsupported pairing " 
@@ -57,16 +57,23 @@ bool TestBoundingVolumes(Model& m1, Model& m2) {
 	return false;
 }
 
-Capsule Capsule::transform(const mat4& M) const {
+Capsule Capsule::transform(const Model& m) const {
 
-	glm::vec3 a (M * vec4(a,1));
-	glm::vec3 b (M * vec4(b, 1));
-	Capsule cap;
-	cap.a = a;
-	cap.b = b;
-	cap.r = r;
+	// The transformafion of the radius only makes sense when
+	// scaling is vec3(a,a,a), report the issue.
+	vec3 scaling = m.GetScaling();
+	if (scaling.x != scaling.y || scaling.x != scaling.z) {
+		printf("invalid capsule scaling: %.2f %.2f %.2f", scaling.x, scaling.y, scaling.z);
+	}
 
-	return cap;
+	mat4 M = m.GetWorldMatrix();
+	float s = scaling.x;
+
+	vec3 newA = vec3(M * vec4(a, 1));
+	vec3 newB = vec3(M * vec4(b, 1));
+	float newR = r * s;
+
+	return Capsule(newA, newB, newR);
 }
 	
 

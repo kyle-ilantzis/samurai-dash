@@ -7,18 +7,23 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
+// Other Assets
 #include "World.h"
 #include "Renderer.h"
 #include "ParsingHelper.h"
-
 #include "StaticCamera.h"
 #include "FirstPersonCamera.h"
+#include <GLFW/glfw3.h>
+#include "EventManager.h"
+#include "TextureLoader.h"
+#include "SplineFactory.h"
+#include "Animation.h"
+#include "ParticleSystem.h"
 
+// Model Assets
 #include "CubeModel.h"
 #include "SphereModel.h"
-#include "Animation.h"
 #include "Billboard.h"
-#include "SplineFactory.h"
 #include "SkyboxModel.h"
 
 #include <GLFW/glfw3.h>
@@ -27,8 +32,15 @@
 
 #include "ParticleSystem.h"
 
+#include "Obstacles.h"
+#include "Discoball.h"
+#include "UFOModel.h"
+#include "FighterJetModel.h"
+
 using namespace std;
 using namespace glm;
+
+const float  World::RESTART_DELAY_SECONDS = 1;
 
 World* World::instance;
 
@@ -37,15 +49,16 @@ World::World()
     instance = this;
 
 	//New Camera
-	ThirdPersonCamera* newCamera = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f));
-	mCamera.push_back(newCamera);
+	ThirdPersonCamera* firstCamera = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f));
+	mCamera.push_back(firstCamera);
 
-	// Previous Camera
+	ThirdPersonCameraFar* secondCamera = new ThirdPersonCameraFar(vec3(3.0f,1.0f,5.0f));
+	mCamera.push_back(secondCamera);
+	
+	// Setup Camera
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
-	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 	// int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
@@ -56,6 +69,11 @@ World::World()
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
+	mFighterJetModel = nullptr;
+	mUFOModel = nullptr;
+	mObstacles = nullptr;
+
+	mCurrentTime = 0;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -118,6 +136,8 @@ World::~World()
 	}
 	mCamera.clear();
 
+	if (mSplineModel) delete mSplineModel;
+	if (mObstacles) delete mObstacles;
 	delete mpBillboardList;
 }
 
@@ -140,6 +160,38 @@ void World::Draw()
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
+	if (mObstacles)
+	{
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* model = (*it).second;
+			model->Draw();
+		}
+
+		if (DRAW_BOUNDING_VOLUME) {
+			for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+			{
+				Model* model = (*it).second;
+				Model* bvm = model->GetBoundingVolumeModel();
+
+				if (bvm) 
+				{
+					bvm->Draw();
+				}
+			}
+		}
+	}
+
+	// Set shader to use
+	glUseProgram(Renderer::GetShaderProgramID());
+
+	// This looks for the MVP Uniform variable in the Vertex Program
+	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+
+	// Send the view projection constants to the shader
+	VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{
@@ -157,40 +209,49 @@ void World::Draw()
 		}
 	}
 
-	// Draw Path Lines
-	
-	// Set Shader for path lines
-	unsigned int prevShader = Renderer::GetCurrentShader();
-	Renderer::SetShader(SHADER_PATH_LINES);
-	glUseProgram(Renderer::GetShaderProgramID());
+	if (DRAW_ANIM_PATH) {
 
-	// Send the view projection constants to the shader
-	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+		// Draw Path Lines
+		// Set Shader for path lines
+		unsigned int prevShader = Renderer::GetCurrentShader();
+		Renderer::SetShader(SHADER_PATH_LINES);
+		glUseProgram(Renderer::GetShaderProgramID());
 
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+		// Send the view projection constants to the shader
+		VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
 		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-		(*it)->Draw();
-	}
+		for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-	for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+			(*it)->Draw();
+		}
 
-		(*it)->Draw();
+		for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+			(*it)->Draw();
+		}
+
+		// Restore previous shader
+		Renderer::SetShader((ShaderType)prevShader);
 	}
 
     Renderer::CheckForErrors();
     
+	// Draw Spline
+	if (mSplineModel) {
+		mSplineModel->Draw();
+		Model* bvm = mSplineModel->GetBoundingVolumeModel();
+		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	}
+
     // Draw Billboards
     mpBillboardList->Draw();
-
-	// Restore previous shader
-	Renderer::SetShader((ShaderType) prevShader);
 
 	Renderer::EndFrame();
 }
