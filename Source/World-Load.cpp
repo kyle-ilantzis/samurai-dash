@@ -17,6 +17,7 @@
 #include "UFOModel.h"
 #include "FighterJetModel.h"
 #include "BarrelModel.h"
+#include "TopGun.h"
 
 using namespace std;
 using namespace glm;
@@ -98,6 +99,8 @@ void World::Reset() {
 	mPlayerModel->Reset();
 
 	mObstacles->Reset();
+
+	mTopGun->Reset();
 
 	for (vector<ParticleSystem*>::iterator it = mParticleSystemList.begin(); it != mParticleSystemList.end(); ++it)
 	{

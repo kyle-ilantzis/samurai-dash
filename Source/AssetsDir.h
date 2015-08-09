@@ -14,6 +14,8 @@
 
 #define SKYBOX_DIR TEXTURES_DIR "/Skybox"
 #define SKYBOX_NIGHTSKY SKYBOX_DIR "/Nightsky"
+#define SKYBOX_BLUESKY SKYBOX_DIR "/Bluesky"
+#define SKYBOX_DUNES SKYBOX_DIR "/Dunes"
 
 #define SHEEP_DIR "/Sheep"
 #define HOLY_SHEEP ASSET_DIR MODEL_DIR SHEEP_DIR "/SHEEP.obj"

@@ -29,6 +29,7 @@ class PlayerModel;
 class Obstacles;
 class UFOModel;
 class FighterJetModel;
+class TopGun;
 
 enum WorldCameraType { WORLD_CAMERA_THIRD_PERSON, WORLD_CAMERA_THIRD_PERSON_FAR, WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_NIL };
 
@@ -99,4 +100,6 @@ private:
 	UFOModel* mUFOModel;
 	Obstacles* mObstacles;
 	SkyboxModel* mSkyboxModel;
+
+	TopGun* mTopGun;
 };
