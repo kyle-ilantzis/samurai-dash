@@ -9,6 +9,8 @@
 #include "Obstacles.h"
 #include "SplineFactory.h"
 
+#include "TopGun.h"
+
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
 
@@ -71,7 +73,8 @@ void World::Update(float dt)
 
 	// Update current Camera
 	mCamera[mCurrentCamera]->Update(dt);
-
+	mObstacles->Update(dt);
+	
 	// Update models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{
@@ -86,6 +89,7 @@ void World::Update(float dt)
 	}
 
 	mpBillboardList->Update(dt);
+	mTopGun->Update(dt);
 
 	if (mSkyboxModel) {
 		mSkyboxModel->Update(dt);

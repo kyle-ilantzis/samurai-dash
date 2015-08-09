@@ -6,6 +6,7 @@ using namespace glm;
 
 Discoball::Discoball(vec3 size) : SphereModel(size, GL_TRIANGLES, &forEachVertex)
 {
+	SetScaling(glm::vec3(2.0f, 2.0f, 2.0f));
 }
 
 Discoball::~Discoball() {}
