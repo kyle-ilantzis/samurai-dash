@@ -35,6 +35,8 @@ public:
     
     void AddBillboard(Billboard* b);
     void RemoveBillboard(Billboard* b);
+
+	void DeleteAll();
     
     void Update(float dt);
     void Draw();
@@ -52,7 +54,7 @@ private:
     
     std::vector<BillboardVertex> mVertexBuffer;
     std::list<Billboard*> mBillboardList;
-    
+
     int mTextureID;
     unsigned int mMaxNumBillboards;
 

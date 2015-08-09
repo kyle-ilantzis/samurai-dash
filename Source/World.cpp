@@ -19,6 +19,7 @@
 #include "SplineFactory.h"
 #include "Animation.h"
 #include "ParticleSystem.h"
+#include "TopGun.h"
 
 // Model Assets
 #include "CubeModel.h"
@@ -48,9 +49,11 @@ World::World()
 
 	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
+
     assert(billboardTextureID != 0);
 
     mpBillboardList = new BillboardList(2048, billboardTextureID);
+	mTopGun = new TopGun();
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
@@ -61,20 +64,8 @@ World::World()
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
-    /*    Billboard *b = new Billboard();
-     b->size  = glm::vec2(2.0, 2.0);
-     b->position = glm::vec3(0.0, 3.0, 0.0);
-     b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-     
-     Billboard *b2 = new Billboard();
-     b2->size  = glm::vec2(2.0, 2.0);
-     b2->position = glm::vec3(0.0, 3.0, 1.0);
-     b2->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
-     mpBillboardList->AddBillboard(b);
-     mpBillboardList->AddBillboard(b2);
-
-     
+	/*
      ParticleDescriptor* fountainDescriptor = new ParticleDescriptor();
      fountainDescriptor->SetFireDescriptor();
      
@@ -246,6 +237,7 @@ void World::Draw()
 
     // Draw Billboards
     mpBillboardList->Draw();
+	mTopGun->Draw();
 
 	Renderer::EndFrame();
 }
@@ -321,6 +313,7 @@ void World::SetCoefficient()
 	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
 	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
+	
 	// Material Coefficients
 	const float ka = 0.3f;
 	const float kd = 0.8f;
