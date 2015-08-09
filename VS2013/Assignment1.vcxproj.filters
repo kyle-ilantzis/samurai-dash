@@ -30,6 +30,9 @@
     <Filter Include="Resource Files\Models">
       <UniqueIdentifier>{88a9a53b-bed6-41b3-9047-a8a370ae47ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Textures\Skybox\NewFilter1">
+      <UniqueIdentifier>{31f2293b-7b0c-42c5-b450-4927fcb85ce1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader">
