@@ -6,7 +6,9 @@
 //
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
-
+#define FOG_EQUATION_LINEAR 0 
+#define FOG_EQUATION_EXP 1 
+#define FOG_EQUATION_EXP2 2 
 // Other Assets
 #include "World.h"
 #include "Renderer.h"
@@ -143,7 +145,7 @@ void World::Draw()
 
 	SetLighting();
 	SetCoefficient();
-
+	SetFog();
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
@@ -329,4 +331,24 @@ void World::SetCoefficient()
 	glUniform1f(MaterialDiffuseID, kd);
 	glUniform1f(MaterialSpecularID, ks);
 	glUniform1f(MaterialExponentID, n);
+}
+
+void World::SetFog()
+{
+	float fDensity = 0.04f;
+	float fStart = 10.0f;
+	float fEnd = 75.0f;
+	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
+	int iFogEquation = FOG_EQUATION_EXP; // 0 = linear, 1 = exp, 2 = exp2
+
+	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
+	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
+	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
+	GLuint FogDensityID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fDensity");
+
+	glUniform4f(FogColorID, vFogColor.x, vFogColor.y, vFogColor.z , vFogColor.w);
+	glUniform1f(FogStartID, fStart);
+	glUniform1f(FogEndID, fEnd);
+	glUniform1f(FogDensityID, fDensity);
+
 }
