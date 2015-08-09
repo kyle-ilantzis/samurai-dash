@@ -16,8 +16,8 @@ class Camera
 public:
 	static const float fieldOfView;
 	static const float aspect;
-	static const float near;
-	static const float far;
+	static const float nearView;
+	static const float farView;
 
 	Camera();
 	virtual ~Camera();

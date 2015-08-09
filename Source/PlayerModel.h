@@ -1,5 +1,5 @@
 #ifndef PLAYERMODEL_H
-#define PLAYERMODE_H
+#define PLAYERMODEL_H
 
 #include "ObjectModel.h"
 #include "SplineModel.h"
@@ -79,6 +79,8 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Draw() { mPlayerState->Draw(); }
+
+	float GetCurrentSplineTime() { return mCurrentSplineTime; }
 
 	void Died() { changeState(&mDeadState); }
 	bool IsDead() { return mPlayerState == &mDeadState; }

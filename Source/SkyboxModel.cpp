@@ -24,7 +24,7 @@ SkyboxModel::SkyboxModel() : mCubemap() {
 	mCubemap.SetPosZData(front);
 	mCubemap.SetNegZData(back);
 
-	mScaling = vec3(Camera::far);
+	mScaling = vec3(Camera::farView);
 }
 
 void SkyboxModel::Update(float dt) {

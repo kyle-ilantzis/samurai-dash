@@ -214,6 +214,12 @@
     <ClCompile Include="..\Source\BarrelModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\ThirdPersonCameraFar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Source\TopGun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -331,6 +337,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\BarrelModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ThirdPersonCameraFar.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ThirdPersonCamera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\TopGun.h">
