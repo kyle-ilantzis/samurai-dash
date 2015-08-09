@@ -40,4 +40,6 @@ private:
 	AnimationKey* k4;
 	AnimationKey* k5;
 	AnimationKey* k6;
+
+	glm::vec3 mCenter;
 };
