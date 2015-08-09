@@ -9,7 +9,6 @@
 // Models
 #include "BunnyModel.h"
 #include "CubeModel.h"
-#include "SphereModel.h"
 #include "PlayerModel.h"
 #include "CapsuleModel.h"
 #include "SkyboxModel.h"
@@ -71,6 +70,10 @@ void World::LoadScene() {
 	mModel.push_back(mUFOModel);
 	mModel.push_back(mFighterJetModel);
 	
+	//Third Person camera set on player model
+	((ThirdPersonCamera*)mCamera[0])->SetTargetModel(mPlayerModel);
+	((ThirdPersonCameraFar*)mCamera[1])->SetTargetModel(mPlayerModel);
+
 	// Create the obstacles
 	mObstacles = new Obstacles();
 	mObstacles->LoadObstacles();

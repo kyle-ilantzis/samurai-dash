@@ -156,6 +156,8 @@
     <ClCompile Include="..\Source\StaticCamera.cpp" />
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\Textures.cpp" />
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\ThirdPersonCameraFar.cpp" />
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
     <ClCompile Include="..\Source\TopGun.cpp" />
     <ClCompile Include="..\Source\UFOModel.cpp" />
@@ -202,6 +204,8 @@
     <ClInclude Include="..\Source\StaticCamera.h" />
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
+    <ClInclude Include="..\Source\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\ThirdPersonCameraFar.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
     <ClInclude Include="..\Source\TopGun.h" />
     <ClInclude Include="..\Source\UFOModel.h" />

@@ -28,14 +28,14 @@ LoadingScreen::LoadingScreen() :
 	World* w = World::GetInstance();
 	
 	mOldWorldCameraType = w->GetWorldCameraType();
-	w->SetWorldCameraType(WORLD_CAMERA_STATIC_ABOVE);
+	w->SetWorldCameraType(WORLD_CAMERA_FIRST_PERSON);
 
 	Camera* c = w->GetCamera();
 	vec3 cameraPosition = c->GetPosition();
 	mat4 viewMatrix = c->GetViewMatrix();
 	vec3 back = vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);
 
-	mLoadingMsgBillboard.position = cameraPosition + -back * Camera::near * LOADING_MSG_DISTANCE;
+	mLoadingMsgBillboard.position = cameraPosition + -back * Camera::nearView * LOADING_MSG_DISTANCE;
 	mLoadingMsgBillboard.size = vec2(LOADING_MSG_SIZE);
 	mLoadingMsgBillboard.color = vec4(1);
 
