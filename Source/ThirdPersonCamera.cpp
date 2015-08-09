@@ -18,7 +18,16 @@
 #include <algorithm>
 using namespace glm;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  
+	Camera(), 
+	mPosition(position), 
+	mLookAt(0.0f, 0.0f, -1.0f), 
+	mHorizontalAngle(90.0f), 
+	mVerticalAngle(0.0f), 
+	mSpeed(5.0f), 
+	mAngularSpeed(2.5f),
+	deadAnimation(),
+	winAnimation()
 {
 	k1 = new AnimationKey();
 	k2 = new AnimationKey();
@@ -26,11 +35,6 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(
 	k4 = new AnimationKey();
 	k5 = new AnimationKey();
 	k6 = new AnimationKey();
-
-	w1 = new AnimationKey();
-	w2 = new AnimationKey();
-	w3 = new AnimationKey();
-	w4 = new AnimationKey();
 	
 	k1->SetPosition(vec3(-2.5,0,0));
 	k2->SetPosition(vec3(0,2.5,0));
@@ -46,6 +50,20 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(
 	deadAnimation.AddKey(k4, dt+0.15);
 	deadAnimation.AddKey(k5, dt+0.2);
 	deadAnimation.AddKey(k6, dt+0.25);
+
+	
+	w1 = new AnimationKey();
+	w2 = new AnimationKey();
+
+	int r1, r2;
+	r1 = 15;
+	r2 = 60;
+
+	w1->SetPosition(vec3(r1,0,0));
+	w2->SetPosition(vec3(r2,0,0));
+
+	winAnimation.AddKey(w1, 0);
+	winAnimation.AddKey(w2, 1);
 }
 
 ThirdPersonCamera::~ThirdPersonCamera()
@@ -87,49 +105,35 @@ void ThirdPersonCamera::Update(float dt)
 	mVerticalAngle = acos(dot(j, splTan))+20;	
 
 	mHorizontalAngle = std::max(250.0f, std::min(290.0f, mHorizontalAngle));
+	
+	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
+	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
+	
+	mCenter = mTargetModel->GetPosition();
 
 	int radius = 15;
 
-	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
-	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
+	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
 
+		mat4 matWin = winAnimation.GetAnimationWorldMatrix();
+		vec3 vecWin = vec3(matWin[3][0], matWin[3][1], matWin[3][2]);
+		
+		float rWin = vecWin.x;
+		radius = rWin;
+	}
+		
 	float posX = radius * cos (radianValueTheta) * cos (radianValueBeta);
 	float posY = radius * sin (radianValueTheta);
 	float posZ = -radius * cos (radianValueTheta) * sin (radianValueBeta);
 
-	mCenter = mTargetModel->GetPosition();
-
 	mPosition = mCenter + vec3(posX,posY,posZ);
-	
+
 	if(World::GetInstance()->GetPlayer()->IsDead()){
 
-		mat4 animateMat = deadAnimation.GetAnimationWorldMatrix();
-		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
-		mCenter += animateVec;
+		mat4 matDead = deadAnimation.GetAnimationWorldMatrix();
+		vec3 vecDead = vec3(matDead[3][0], matDead[3][1], matDead[3][2]);
+		mCenter += vecDead;
 	}
-		
-	/*else 	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
-
-		
-		w1->SetPosition(vec3(0,camPos,0));
-		w2->SetPosition(vec3(0,camPos+vec3(0,15,0),0));
-		w2->SetPosition(vec3(0,camPos+vec3(0,25,0),0));
-		w2->SetPosition(vec3(0,camPos+vec3(0,35,0),0));
-
-		float dt = 0;
-		deadAnimation.AddKey(k1, dt);
-		deadAnimation.AddKey(k2, dt+0.05);
-		deadAnimation.AddKey(k3, dt+0.1);
-		deadAnimation.AddKey(k4, dt+0.15);
-		deadAnimation.AddKey(k5, dt+0.2);
-		deadAnimation.AddKey(k6, dt+0.25);
-
-		mat4 animateMat = winAnimation.GetAnimationWorldMatrix();
-		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
-
-		return glm::lookAt(	camPos, center+animateVec, vec3(0.0f, 1.0f, 0.0f) );
-	}*/
-
 }
 
 glm::mat4 ThirdPersonCamera::GetViewMatrix() const

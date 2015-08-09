@@ -29,7 +29,7 @@ SplineModel* SplineFactory::LoadSpline() {
 	return splineModel;
 }
 
-const vec2 SplineFactory::controlPointsCount = vec2(20, 30);
+const vec2 SplineFactory::controlPointsCount = vec2(7, 8);
 const vec2 SplineFactory::deltaMinControlPoint = vec2(20.0f, -10.0f);
 const vec2 SplineFactory::deltaMaxControlPoint = vec2(21.0f, 10.0f);
 
