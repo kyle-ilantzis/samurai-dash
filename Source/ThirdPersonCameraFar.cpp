@@ -75,7 +75,18 @@ void ThirdPersonCameraFar::Update(float dt)
 
 	mVerticalAngle = 30;
 
+	int radius = 50;
+
+	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
+	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
+
+	float posX = radius * cos (radianValueTheta) * cos (radianValueBeta);
+	float posY = radius * sin (radianValueTheta);
+	float posZ = -radius * cos (radianValueTheta) * sin (radianValueBeta);
+
 	mCenter = mTargetModel->GetPosition();
+
+	mPosition = mCenter + vec3(posX,posY,posZ);
 	
 	if(World::GetInstance()->GetPlayer()->IsDead()){
 

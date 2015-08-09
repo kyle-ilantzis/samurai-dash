@@ -84,7 +84,7 @@ void ThirdPersonCamera::Update(float dt)
 	vec3 j = vec3(0, 1, 0);
 	vec3 B = normalize(cross(splTan, splNorm));
 
-	mVerticalAngle = acos(dot(j, splTan))+25;	
+	mVerticalAngle = acos(dot(j, splTan))+20;	
 
 	mHorizontalAngle = std::max(250.0f, std::min(290.0f, mHorizontalAngle));
 
