@@ -71,6 +71,11 @@ private:
 	static void makeTriangleStrip(SplineModel& spline);
 
 	/**
+	 * If the oscullating planes should be created.
+	 */
+	static bool MAKE_OSCULATTING_PLANES;
+
+	/**
 	 * 
 	 */
 	static void makeOscullatingPlanes(SplineModel& spline);

@@ -123,7 +123,11 @@ SplineModel::Plane SplineFactoryPlaneDelegate::At(SplineModel& spline, float t) 
 	return { position, tangent, normal };
 }
 
+bool SplineFactory::MAKE_OSCULATTING_PLANES = true;
+
 void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
+
+	if (!MAKE_OSCULATTING_PLANES) { return; }
 
 	std::vector<SplineModel::Vertex> points;
 	
