@@ -16,6 +16,10 @@ using namespace glm;
 
 ParticleDescriptor::ParticleDescriptor()
 {
+	spawnWhenPlayerDead = true;
+	spawnWhenPlayerReachedGoal = true;
+	spawnWhenPlayerAlive = true;
+
     SetFountainDescriptor();
 }
 
@@ -182,6 +186,9 @@ void ParticleDescriptor::SetJetFlameDescriptor()
 	fadeOutTime = 3.5f;
 	totalLifetime = 0.7f;
 	totalLifetimeDelta = 0.0f;
+
+	spawnWhenPlayerDead = false;
+	spawnWhenPlayerReachedGoal = false;
 }
 
 void ParticleDescriptor::SetUFODescriptor()
@@ -205,6 +212,8 @@ void ParticleDescriptor::SetUFODescriptor()
 	fadeOutTime = 1.5f;
 	totalLifetime = 2.0f;
 	totalLifetimeDelta = 0.0f;
+
+	spawnWhenPlayerDead = false;
 }
 
 void ParticleDescriptor::SetEnemyJetFlameDescriptor()
@@ -251,4 +260,6 @@ void ParticleDescriptor::SetEnemyJetAttackDescriptor()
 	fadeOutTime = 3.0f;
 	totalLifetime = 2.5f;
 	totalLifetimeDelta = 0.1f;
+
+	spawnWhenPlayerDead = false;
 }
