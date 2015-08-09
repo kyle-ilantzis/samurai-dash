@@ -86,7 +86,9 @@ void World::Update(float dt)
 
 	mpBillboardList->Update(dt);
 
-	mSkyboxModel->Update(dt);
+	if (mSkyboxModel) {
+		mSkyboxModel->Update(dt);
+	}
 
 	UpdateCollision(dt);
 

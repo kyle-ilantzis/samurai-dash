@@ -57,6 +57,7 @@ World::World()
 	mFighterJetModel = nullptr;
 	mUFOModel = nullptr;
 	mObstacles = nullptr;
+	mSkyboxModel = nullptr;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -247,7 +248,9 @@ void World::Draw()
 		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
 	}
 
-	mSkyboxModel->Draw();
+	if (mSkyboxModel) {
+		mSkyboxModel->Draw();
+	}
 
     // Draw Billboards
     mpBillboardList->Draw();
