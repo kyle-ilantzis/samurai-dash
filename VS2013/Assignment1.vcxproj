@@ -108,6 +108,8 @@
     <None Include="..\Assets\Scenes\SamuraiDash.scene" />
     <None Include="..\Assets\Scenes\StaticScene.scene" />
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader" />
+    <None Include="..\Assets\Shaders\Fog.fragmentshader" />
+    <None Include="..\Assets\Shaders\Fog.vertexshader" />
     <None Include="..\Assets\Shaders\PathLines.fragmentshader" />
     <None Include="..\Assets\Shaders\PathLines.vertexshader" />
     <None Include="..\Assets\Shaders\Skybox.fragmentshader" />
