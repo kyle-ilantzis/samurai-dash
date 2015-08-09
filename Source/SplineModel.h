@@ -8,7 +8,7 @@
 
 class SplineModelPlaneDelegate;
 
-enum Track { TRACK_LEFT, TRACK_MIDDLE, TRACK_RIGHT, TRACK_MEDIUM, TRACK_HARD };
+enum Track { TRACK_LEFT, TRACK_MIDDLE, TRACK_RIGHT };
 class SplineModel : public Model {
 
 public:
