@@ -90,15 +90,6 @@ void World::Update(float dt)
 	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
 		Reset();
 	}
-
-	
-	if (!mPlayerModel->IsDead()) {
-		mCurrentTime += dt;
-		if (mCurrentTime > 5) {
-			mPlayerModel->Died();
-			mCurrentTime = 0;
-		}
-	}
 }
 
 void World::UpdateCollision(float dt) {

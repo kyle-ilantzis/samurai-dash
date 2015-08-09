@@ -17,14 +17,12 @@
 
 class Camera;
 class SplineModel;
-class PlayerModel;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
 
 // Add Class Of Models
 class Model;
-class PlayerModel;
 class Obstacles;
 class UFOModel;
 class FighterJetModel;

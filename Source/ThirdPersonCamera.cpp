@@ -11,15 +11,14 @@
 #include "EventManager.h"
 #include <GLM/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "PlayerModel.h"
 #include "World.h"
+#include <glm/gtx/quaternion.hpp>
 
 #include <GLFW/glfw3.h>
 #include <algorithm>
 using namespace glm;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f),
-	prevPos(0)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f)
 {
 	k1 = new AnimationKey();
 	k2 = new AnimationKey();
@@ -27,6 +26,11 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(
 	k4 = new AnimationKey();
 	k5 = new AnimationKey();
 	k6 = new AnimationKey();
+
+	w1 = new AnimationKey();
+	w2 = new AnimationKey();
+	w3 = new AnimationKey();
+	w4 = new AnimationKey();
 	
 	k1->SetPosition(vec3(-2.5,0,0));
 	k2->SetPosition(vec3(0,2.5,0));
@@ -36,13 +40,12 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :  Camera(), mPosition(
 	k6->SetPosition(vec3(-2.5,0,0));
 
 	float dt = 0;
-	myAnimate.AddKey(k1, dt);
-	myAnimate.AddKey(k2, dt+0.05);
-	myAnimate.AddKey(k3, dt+0.1);
-	myAnimate.AddKey(k4, dt+0.15);
-	myAnimate.AddKey(k5, dt+0.2);
-	myAnimate.AddKey(k6, dt+0.25);
-
+	deadAnimation.AddKey(k1, dt);
+	deadAnimation.AddKey(k2, dt+0.05);
+	deadAnimation.AddKey(k3, dt+0.1);
+	deadAnimation.AddKey(k4, dt+0.15);
+	deadAnimation.AddKey(k5, dt+0.2);
+	deadAnimation.AddKey(k6, dt+0.25);
 }
 
 ThirdPersonCamera::~ThirdPersonCamera()
@@ -53,14 +56,14 @@ void ThirdPersonCamera::Update(float dt)
 {
 	
 	if(World::GetInstance()->GetPlayer()->IsDead()){
-		myAnimate.Update(dt);
+		deadAnimation.Update(dt);
+	}
+	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+		winAnimation.Update(dt);
 	}
 
 	// Prevent from having the camera move only when the cursor is within the windows
 	EventManager::DisableMouseCursor();
-	
-	if(prevPos == vec3(0))
-		prevPos = mTargetModel->GetPosition();
 
 	// The Camera moves based on the User inputs
 	// - You can access the mouse motion with EventManager::GetMouseMotionXY()
@@ -71,35 +74,20 @@ void ThirdPersonCamera::Update(float dt)
 	mHorizontalAngle -= EventManager::GetMouseMotionX() * mAngularSpeed * dt;
 	mVerticalAngle   -= EventManager::GetMouseMotionY() * mAngularSpeed * dt;
 
-	/*
-	if (mHorizontalAngle > 180)
-	{
-		mHorizontalAngle -= 180;
-	}
-	else if (mHorizontalAngle < -180)
-	{
-		mHorizontalAngle += 180;
-	}*/
-	
-	mHorizontalAngle = std::max(180.0f, std::min(360.0f, mHorizontalAngle));
-
 	vec3 currentPos = mTargetModel->GetPosition();
 
-	if(dt==0 || mTargetModel->GetPosition().z == 0){
-		mVerticalAngle = std::max(40.0f, std::min(75.0f, mVerticalAngle));
-	}
-	if(currentPos.y < prevPos.y){
-		mVerticalAngle = std::max(20.0f, std::min(75.0f, mVerticalAngle));
-	}else{
-		// Clamp vertical angle to [0, 75] degrees
-		mVerticalAngle = std::max(0.0f, std::min(75.0f, mVerticalAngle));
-	}
-	prevPos = currentPos;
-	
-}
+	SplineModel::Plane spline = World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime());
 
-glm::mat4 ThirdPersonCamera::GetViewMatrix() const
-{
+	vec3 splNorm = spline.normal;
+	vec3 splTan = spline.tangent;
+
+	vec3 j = vec3(0, 1, 0);
+	vec3 B = normalize(cross(splTan, splNorm));
+
+	mVerticalAngle = acos(dot(j, splTan))+25;	
+
+	mHorizontalAngle = std::max(250.0f, std::min(290.0f, mHorizontalAngle));
+
 	int radius = 15;
 
 	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
@@ -109,24 +97,47 @@ glm::mat4 ThirdPersonCamera::GetViewMatrix() const
 	float posY = radius * sin (radianValueTheta);
 	float posZ = -radius * cos (radianValueTheta) * sin (radianValueBeta);
 
-	vec3 center = mTargetModel->GetPosition();
+	mCenter = mTargetModel->GetPosition();
 
-	vec3 camPos = center + vec3(posX,posY,posZ);
+	mPosition = mCenter + vec3(posX,posY,posZ);
 	
 	if(World::GetInstance()->GetPlayer()->IsDead()){
 
-		mat4 animateMat = myAnimate.GetAnimationWorldMatrix();
+		mat4 animateMat = deadAnimation.GetAnimationWorldMatrix();
+		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
+		mCenter += animateVec;
+	}
+		
+	/*else 	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+
+		
+		w1->SetPosition(vec3(0,camPos,0));
+		w2->SetPosition(vec3(0,camPos+vec3(0,15,0),0));
+		w2->SetPosition(vec3(0,camPos+vec3(0,25,0),0));
+		w2->SetPosition(vec3(0,camPos+vec3(0,35,0),0));
+
+		float dt = 0;
+		deadAnimation.AddKey(k1, dt);
+		deadAnimation.AddKey(k2, dt+0.05);
+		deadAnimation.AddKey(k3, dt+0.1);
+		deadAnimation.AddKey(k4, dt+0.15);
+		deadAnimation.AddKey(k5, dt+0.2);
+		deadAnimation.AddKey(k6, dt+0.25);
+
+		mat4 animateMat = winAnimation.GetAnimationWorldMatrix();
 		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
 
 		return glm::lookAt(	camPos, center+animateVec, vec3(0.0f, 1.0f, 0.0f) );
-		
-	}else{
+	}*/
 
-		return glm::lookAt(	camPos, center, vec3(0.0f, 1.0f, 0.0f) );
-	}
 }
 
-void ThirdPersonCamera::SetTargetModel(Model* m)
+glm::mat4 ThirdPersonCamera::GetViewMatrix() const
+{
+	return glm::lookAt(	mPosition, mCenter, vec3(0.0f, 1.0f, 0.0f) );	
+}
+
+void ThirdPersonCamera::SetTargetModel(PlayerModel* m)
 {
 	mTargetModel = m;
 }
