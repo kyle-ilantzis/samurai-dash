@@ -240,9 +240,9 @@ void World::Draw()
 	}
 
     // Draw Billboards
-    mpBillboardList->Draw();
 	mTopGun->Draw();
-
+    mpBillboardList->Draw();
+	
 	Renderer::EndFrame();
 }
 
