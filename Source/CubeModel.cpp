@@ -102,9 +102,11 @@ void CubeModel::Draw()
 	// The Model View Projection transforms are computed in the Vertex Shader
 	glBindVertexArray(mVertexArrayID);
 
+
 	GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform"); 
 	glUniformMatrix4fv(WorldMatrixLocation, 1, GL_FALSE, &GetWorldMatrix()[0][0]);
 	
+
 	// 1st attribute buffer : vertex Positions
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferID);
@@ -115,6 +117,7 @@ void CubeModel::Draw()
 							sizeof(Vertex), // stride
 							(void*)0        // array buffer offset
 						);
+
 
 	// 2nd attribute buffer : vertex normal
 	glEnableVertexAttribArray(1);
@@ -145,6 +148,7 @@ void CubeModel::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+	
 }
 
 bool CubeModel::ParseLine(const std::vector<ci_string> &token)

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -121,14 +121,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Animation.cpp" />
+    <ClCompile Include="..\Source\BarrelModel.cpp" />
     <ClCompile Include="..\Source\Billboard.cpp" />
+    <ClCompile Include="..\Source\BunnyModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\CapsuleModel.cpp" />
     <ClCompile Include="..\Source\CubeModel.cpp" />
     <ClCompile Include="..\Source\Discoball.cpp" />
     <ClCompile Include="..\Source\EventManager.cpp" />
+    <ClCompile Include="..\Source\FighterJetModel.cpp" />
     <ClCompile Include="..\Source\FireModel.cpp" />
     <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="..\Source\LoadingScreen.cpp" />
     <ClCompile Include="..\Source\FlameSystem.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Math.cpp" />
@@ -153,8 +157,8 @@
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\Textures.cpp" />
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
+    <ClCompile Include="..\Source\UFOModel.cpp" />
     <ClCompile Include="..\Source\Vertexes.cpp" />
-    <ClCompile Include="..\Source\WolfModel.cpp" />
     <ClCompile Include="..\Source\World-Load.cpp" />
     <ClCompile Include="..\Source\World-Update.cpp" />
     <ClCompile Include="..\Source\World.cpp" />
@@ -162,15 +166,19 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Animation.h" />
     <ClInclude Include="..\Source\AssetsDir.h" />
+    <ClInclude Include="..\Source\BarrelModel.h" />
     <ClInclude Include="..\Source\Billboard.h" />
+    <ClInclude Include="..\Source\BunnyModel.h" />
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\CapsuleModel.h" />
     <ClInclude Include="..\Source\CubeModel.h" />
     <ClInclude Include="..\Source\Discoball.h" />
     <ClInclude Include="..\Source\EventManager.h" />
     <ClInclude Include="..\Source\FireModel.h" />
+    <ClInclude Include="..\Source\FighterJetModel.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
     <ClInclude Include="..\Source\FlameSystem.h" />
+    <ClInclude Include="..\Source\LoadingScreen.h" />
     <ClInclude Include="..\Source\Math.h" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\MoonLighting.h" />
@@ -194,8 +202,8 @@
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
+    <ClInclude Include="..\Source\UFOModel.h" />
     <ClInclude Include="..\Source\Vertexes.h" />
-    <ClInclude Include="..\Source\WolfModel.h" />
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -211,9 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Assets\Sounds\RainbowRoad.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Assignment1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

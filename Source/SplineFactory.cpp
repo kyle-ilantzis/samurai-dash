@@ -123,7 +123,11 @@ SplineModel::Plane SplineFactoryPlaneDelegate::At(SplineModel& spline, float t) 
 	return { position, tangent, normal };
 }
 
+bool SplineFactory::MAKE_OSCULATTING_PLANES = true;
+
 void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
+
+	if (!MAKE_OSCULATTING_PLANES) { return; }
 
 	std::vector<SplineModel::Vertex> points;
 	
@@ -149,8 +153,8 @@ void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
 	spline.SetOscullatingPlanes(points);
 }
 
-float SplineFactory::endOfTrackCapsuleTimeOffset = 0.75f;
-float SplineFactory::endOfTrackCapsuleRadius = 5;
+float SplineFactory::endOfTrackCapsuleTimeOffset = 0.5f;
+float SplineFactory::endOfTrackCapsuleRadius = 3;
 
 void SplineFactory::makeEndOfTrackBoundingVolume(SplineModel& spline) {
 

@@ -11,10 +11,10 @@
 #include "ParticleDescriptor.h"
 #include "ParticleEmitter.h"
 #include "EventManager.h"
+#include "PlayerModel.h"
 #include "World.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm\gtx\rotate_vector.hpp>
 #include <glm/common.hpp>
 
 using namespace glm;
@@ -39,7 +39,6 @@ ParticleSystem::ParticleSystem(ParticleEmitter* emitter, ParticleDescriptor* des
 
 ParticleSystem::~ParticleSystem()
 {
-	// @blenkz - the framework didn't delete this before? Well guess we will do it.
 	delete mpEmitter;
 	delete mpDescriptor;
 
@@ -59,12 +58,27 @@ ParticleSystem::~ParticleSystem()
 	mParticleList.resize(0);
 }
 
+void ParticleSystem::Reset() {
+
+	for (std::list<Particle*>::iterator it = mParticleList.begin(); it != mParticleList.end();)
+	{
+		it = Deactivate(it);
+	}
+}
+
 void ParticleSystem::Update(float dt)
 {
+	PlayerModel* player = World::GetInstance()->GetPlayer();
+
+	bool spawnForPlayer = (mpDescriptor->spawnWhenPlayerDead && player->IsDead()) ||
+						  (mpDescriptor->spawnWhenPlayerReachedGoal && player->HasReachedGoal()) ||
+						  (mpDescriptor->spawnWhenPlayerAlive && !(player->IsDead() || player->HasReachedGoal()));
+
     // Emit particle according to the emission rate
     float averageTimeBetweenEmission = 1.0f / mpDescriptor->emissionRate;
     float randomValue = EventManager::GetRandomFloat(0.0f, 1.0f) * averageTimeBetweenEmission;
-    while (mInactiveParticles.size() > 0 && randomValue < dt)
+
+    while (mInactiveParticles.size() > 0 && randomValue < dt && spawnForPlayer)
     {
         randomValue += averageTimeBetweenEmission;
         
@@ -90,8 +104,7 @@ void ParticleSystem::Update(float dt)
         //          mpDescriptor->velocityDeltaAngle.
         // Step 2 : You can rotate the result in step 1 by an random angle from 0 to
         //          360 degrees about the original velocity vector
-		
-		/**
+
 		vec3 i = vec3(1, 0, 0);
 		vec3 j = vec3(0, 1, 0);
 		vec3 velocity = mpDescriptor->velocity;
@@ -107,10 +120,8 @@ void ParticleSystem::Update(float dt)
 
 		vec4 randomHomogeneousVelocity = r2 * r1 * vec4(velocity, 1.0f);
 		vec3 randomVelocity = vec3(randomHomogeneousVelocity);
-		**/
 
-		vec3 velocity = rotateZ(newParticle->velocity,EventManager::GetRandomFloat(-mpDescriptor->velocityDeltaAngle,mpDescriptor->velocityDeltaAngle));
-		newParticle->velocity = velocity;
+		newParticle->velocity = randomVelocity;
 
 		World::GetInstance()->AddBillboard(&newParticle->billboard);
     }
@@ -155,17 +166,17 @@ void ParticleSystem::Update(float dt)
         // Remove the billboard from the world
         if (p->currentTime > p->lifeTime)
         {
-            mInactiveParticles.push_back(*it);
-            
-            World::GetInstance()->RemoveBillboard(&(*it)->billboard);
-            it = mParticleList.erase(it);
+			it = Deactivate(it);
         }
         else
         {
             ++it;
         }
     }
-    
-    
+}
 
+std::list<Particle*>::iterator ParticleSystem::Deactivate(std::list<Particle*>::iterator it) {
+	mInactiveParticles.push_back(*it);
+	World::GetInstance()->RemoveBillboard(&(*it)->billboard);
+	return mParticleList.erase(it);
 }

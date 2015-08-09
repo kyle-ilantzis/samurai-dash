@@ -7,27 +7,27 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
+// Other Assets
 #include "World.h"
 #include "Renderer.h"
 #include "ParsingHelper.h"
-
 #include "StaticCamera.h"
 #include "FirstPersonCamera.h"
-
-#include "CubeModel.h"
-#include "SphereModel.h"
-#include "Animation.h"
-#include "Billboard.h"
-#include "SplineFactory.h"
-#include "SkyboxModel.h"
-#include "Obstacles.h"
-#include "Discoball.h"
-
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
 #include "TextureLoader.h"
-
+#include "SplineFactory.h"
+#include "Animation.h"
 #include "ParticleSystem.h"
+
+// Model Assets
+#include "CubeModel.h"
+#include "SphereModel.h"
+#include "Billboard.h"
+#include "Obstacles.h"
+#include "Discoball.h"
+#include "UFOModel.h"
+#include "FighterJetModel.h"
 
 using namespace std;
 using namespace glm;
@@ -37,14 +37,13 @@ World* World::instance;
 World::World()
 {
     instance = this;
-	mObstacles = new Obstacles();
+	
 	// Setup Camera
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 
 	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
@@ -55,7 +54,10 @@ World::World()
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
-	mWolfModel = nullptr;
+	mFighterJetModel = nullptr;
+	mUFOModel = nullptr;
+	mObstacles = nullptr;
+	mSkyboxModel = nullptr;
 
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
@@ -118,7 +120,10 @@ World::~World()
 	}
 	mCamera.clear();
 
-	delete mObstacles;
+	if (mSplineModel) delete mSplineModel;
+	if (mObstacles) delete mObstacles;
+	if (mSkyboxModel) delete mSkyboxModel;
+	
 	delete mpBillboardList;
 }
 
@@ -136,12 +141,33 @@ void World::Draw()
 
 	// This looks for the MVP Uniform variable in the Vertex Program
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
+
+	SetLighting();
+	SetCoefficient();
 
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
+	glm::mat4 World(1.0f);
+	mat4 Projection = mCamera[mCurrentCamera]->GetProjectionMatrix();
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &World[0][0]);
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &Projection[0][0]);
 
-	mObstacles->Draw();
+	if (mObstacles)
+	{
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* model = (*it).second;
+			model->Draw();
+		}
+
+
+	}
 
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
@@ -150,6 +176,18 @@ void World::Draw()
 	}
 
 	if (DRAW_BOUNDING_VOLUME) {
+
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* model = (*it).second;
+			Model* bvm = model->GetBoundingVolumeModel();
+
+			if (bvm)
+			{
+				bvm->Draw();
+			}
+		}
+
 		for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 		{
 			Model* bvm = (*it)->GetBoundingVolumeModel();
@@ -157,47 +195,56 @@ void World::Draw()
 			if (bvm) {
 				bvm->Draw();
 			}		
+		}			
+	}
+
+	if (DRAW_ANIM_PATH) {
+
+		// Draw Path Lines
+		// Set Shader for path lines
+		unsigned int prevShader = Renderer::GetCurrentShader();
+		Renderer::SetShader(SHADER_PATH_LINES);
+		glUseProgram(Renderer::GetShaderProgramID());
+
+		// Send the view projection constants to the shader
+		VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+		for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+			(*it)->Draw();
 		}
-	}
 
-	// Draw Path Lines
-	// Set Shader for path lines
-	unsigned int prevShader = Renderer::GetCurrentShader();
-	Renderer::SetShader(SHADER_PATH_LINES);
-	glUseProgram(Renderer::GetShaderProgramID());
+		for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
+		{
+			mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+			glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
-	// Send the view projection constants to the shader
-	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+			(*it)->Draw();
+		}
 
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-		(*it)->Draw();
-	}
-
-	for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-		(*it)->Draw();
+		// Restore previous shader
+		Renderer::SetShader((ShaderType)prevShader);
 	}
 
     Renderer::CheckForErrors();
     
+	// Draw Spline
+	if (mSplineModel) {
+		mSplineModel->Draw();
+		Model* bvm = mSplineModel->GetBoundingVolumeModel();
+		if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
+	}
+
+	if (mSkyboxModel) {
+		mSkyboxModel->Draw();
+	}
+
     // Draw Billboards
     mpBillboardList->Draw();
-
-	// Draw Spline
-	mSplineModel->Draw();
-	Model* bvm = mSplineModel->GetBoundingVolumeModel();
-	if (DRAW_BOUNDING_VOLUME && bvm) { bvm->Draw(); }
-
-	// Restore previous shader
-	Renderer::SetShader((ShaderType) prevShader);
 
 	Renderer::EndFrame();
 }
@@ -250,4 +297,38 @@ void World::RemoveParticleSystem(ParticleSystem* particleSystem)
 {
     vector<ParticleSystem*>::iterator it = std::find(mParticleSystemList.begin(), mParticleSystemList.end(), particleSystem);
     mParticleSystemList.erase(it);
+}
+
+void World::SetLighting()
+{
+	// Get a handle for Light Attributes uniform
+	GLuint LightPositionID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition");
+	GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
+	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
+
+	//const vec4 lightPosition(5.0f, 5.0f, -5.0f, 1.0f); // If w = 1.0f, we have a point light
+	const vec4 lightPosition(25.0f, 25.0f, 5.0f, 0.0f); // If w = 0.0f, we have a directional light
+
+	const vec3 lightColor(1.0f, 1.0f, 1.0f);
+	glUniform4f(LightPositionID, lightPosition.x, lightPosition.y, lightPosition.z, lightPosition.w);
+	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
+}
+
+void World::SetCoefficient()
+{
+	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
+	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
+	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
+	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
+	// Material Coefficients
+	const float ka = 0.2f;
+	const float kd = 0.8f;
+	const float ks = 0.2f;
+	const float n = 90.0f;
+
+	// Set shader constants
+	glUniform1f(MaterialAmbientID, ka);
+	glUniform1f(MaterialDiffuseID, kd);
+	glUniform1f(MaterialSpecularID, ks);
+	glUniform1f(MaterialExponentID, n);
 }

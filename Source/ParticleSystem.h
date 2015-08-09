@@ -28,9 +28,12 @@ public:
     ParticleSystem(ParticleEmitter* emitter, ParticleDescriptor* descriptor);
 	~ParticleSystem();
 
+    void Reset();
 	virtual void Update(float dt);
 
 protected:
+	std::list<Particle*>::iterator Deactivate(std::list<Particle*>::iterator it);
+
     ParticleDescriptor* mpDescriptor;
     ParticleEmitter* mpEmitter;
     std::list<Particle*> mParticleList;

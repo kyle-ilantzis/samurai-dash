@@ -101,9 +101,9 @@ void CapsuleModel::makeCapsuleLineSegments(std::vector<Vertex>& vertexes, const 
 void CapsuleModel::makeHalfCircleLineSegments(std::vector<Vertex>& vertexes, vec3 p, vec3 q, vec3 direction) {
 
 	vec3 qpCenter = 0.5f * (p + q);
-	vec3 midDestination = qpCenter + direction;
 	float r = 0.5f * length(q - p);
-
+	vec3 midDestination = qpCenter + r * direction;
+	
 	makeQuarterCircleLineSegments(vertexes, p, midDestination, qpCenter, r);
 	makeQuarterCircleLineSegments(vertexes, q, midDestination, qpCenter, r);
 }
@@ -111,7 +111,7 @@ void CapsuleModel::makeHalfCircleLineSegments(std::vector<Vertex>& vertexes, vec
 void CapsuleModel::makeQuarterCircleLineSegments(std::vector<Vertex>& vertexes, glm::vec3 p, glm::vec3 q, glm::vec3 center, float radius) {
 
 	vec3 prevU = p;
-	for (int i = 0; i < SPHERE_SEGMENTS; i++) {
+	for (int i = 0; i <= SPHERE_SEGMENTS; i++) {
 
 		float t = i / (float)SPHERE_SEGMENTS;
 		vec3 v = p + t * (q - p);
