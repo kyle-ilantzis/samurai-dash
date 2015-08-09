@@ -14,24 +14,56 @@ using namespace glm;
 
 Obstacles::Obstacles() : listObstacles()
 {
-
+	obstacle_difficulty = OBSTACLE_EASY;
 }
 
-glm::vec3 Obstacles::RandomizeTrack(float t)
+glm::vec3 Obstacles::RandomizeTrack(float t, ObstacleDifficulty difficulty)
 {
 	int rng = rand() % 3;
-	if (rng == 0)
+
+	switch (difficulty)
 	{
-		return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, t) * SplineFactory::trackWidth*(1.0f/3.0f);
+	case OBSTACLE_EASY:
+		if (rng == 0)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, t) * SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else if (rng == 1)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_MIDDLE, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+	case OBSTACLE_MEDIUM:
+		if (rng == 0)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, t) * SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else if (rng == 1)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_MIDDLE, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		};
+	case OBSTACLE_HARD:
+		if (rng == 0)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, t) * SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else if (rng == 1)
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		}
+		else
+		{
+			return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_MIDDLE, t)* SplineFactory::trackWidth*(1.0f / 3.0f);
+		};
 	}
-	else if (rng == 1)
-	{
-		return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, t)* SplineFactory::trackWidth*float(1.0f/3.0f);
-	}
-	else
-	{
-		return World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_MIDDLE, t)* SplineFactory::trackWidth*float(1.0f/3.0f);
-	}
+	
 }
 
 void Obstacles::LoadObstacles()
@@ -57,9 +89,31 @@ void Obstacles::Reset()
 
 		count++;
 		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
-		glm::vec3 newPosition = p.position + model->GetPosition() + RandomizeTrack(distanceTime*count);
+		obstacle_difficulty = GetDifficulty(distanceTime*count);
+		glm::vec3 newPosition = p.position + model->GetPosition() + RandomizeTrack(distanceTime*count, obstacle_difficulty);
 		model->SetPosition(newPosition);
+		//add function taht will set the scale to take 2 rooms, and also change the trackhard, trackmedium
 	}
+}
+
+ObstacleDifficulty Obstacles::GetDifficulty(float t)
+{
+	maxTime = World::GetInstance()->GetSpline()->MaxTime();
+
+	float LEVEL_1 = 1.0/maxTime;
+	float LEVEL_2 = (1.0/maxTime) * 2;
+	float LEVEL_3 = (1.0/maxTime) * 3;
+
+	if (t >= LEVEL_1 && t < LEVEL_2)
+	{
+		return OBSTACLE_EASY;
+	}
+	else if (t >= LEVEL_2 && t < LEVEL_3)
+	{
+		return OBSTACLE_MEDIUM;
+	}
+	else
+		return OBSTACLE_HARD;
 }
 
 void Obstacles::ResetObstacle(ObstacleType type, Model* model) {
