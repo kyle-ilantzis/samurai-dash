@@ -156,6 +156,7 @@
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\Textures.cpp" />
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
+    <ClCompile Include="..\Source\TopGun.cpp" />
     <ClCompile Include="..\Source\UFOModel.cpp" />
     <ClCompile Include="..\Source\Vertexes.cpp" />
     <ClCompile Include="..\Source\World-Load.cpp" />
@@ -198,12 +199,16 @@
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
+    <ClInclude Include="..\Source\TopGun.h" />
     <ClInclude Include="..\Source\UFOModel.h" />
     <ClInclude Include="..\Source\Vertexes.h" />
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
+    <Image Include="..\Assets\Textures\Goose.jpg" />
+    <Image Include="..\Assets\Textures\Iceman.jpg" />
+    <Image Include="..\Assets\Textures\Maverick.jpg" />
     <Image Include="..\Assets\Textures\Particle.png" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\back.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg" />
@@ -211,6 +216,9 @@
     <Image Include="..\Assets\Textures\Skybox\Nightsky\left.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\right.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\top.jpg" />
+    <Image Include="..\Assets\Textures\TopGun.jpg" />
+    <Image Include="..\Assets\Textures\Top_Gun_Ending.jpg" />
+    <Image Include="..\Assets\Textures\top_gun_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Assets\Sounds\RainbowRoad.wav" />

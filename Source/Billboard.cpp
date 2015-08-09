@@ -87,6 +87,17 @@ void BillboardList::RemoveBillboard(Billboard* b)
     mBillboardList.remove(*it);
 }
 
+void BillboardList::DeleteAll()
+{
+	for (list<Billboard*>::iterator it = mBillboardList.begin(); it != mBillboardList.end(); it++)
+	{
+		Billboard* b = *it;
+		delete b;
+	}
+	mBillboardList.clear();
+}
+
+
 void BillboardList::Update(float dt)
 {
     // Sort billboards according to their depth, the functor CompareBillboardAlongZ does the magic!
