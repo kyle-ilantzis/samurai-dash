@@ -97,29 +97,6 @@ void ParticleDescriptor::SetFountainDescriptor()
 }
 #endif
 
-void ParticleDescriptor::SetPoopDescriptor()
-{
-	velocity = vec3(0.0f, 0.1f, 0.0f);
-	velocityDeltaAngle = 4.0f;
-
-	acceleration = vec3(0.0f, 0.0f, 0.0f);
-
-	initialSize = vec2(2.0f, 2.0f);
-	initialSizeDelta = vec2(0.02f, 0.02f);
-
-	sizeGrowthVelocity = vec2(0.6f, 0.5f);
-
-	initialColor = vec4(0.545098f, 0.270588f, 0.0745098f, 1.0f);
-	midColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.8f);
-	endColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.4f);
-
-	emissionRate = 40.0f;
-	fadeInTime = 0.0f;
-	fadeOutTime = 1.5f;
-	totalLifetime = 1.0f;
-	totalLifetimeDelta = 0.0f;
-}
-
 void ParticleDescriptor::SetFireDescriptor()
 {
 	velocity = vec3(0.0f, 2.4f, 0.0f);
@@ -140,30 +117,6 @@ void ParticleDescriptor::SetFireDescriptor()
 	fadeInTime = 1.5f;
 	fadeOutTime = 0.2f;
 	totalLifetime = 1.7f;
-	totalLifetimeDelta = 0.0f;
-}
-#endif
-
-void ParticleDescriptor::SetPoopDescriptor()
-{
-	velocity = vec3(0.0f, 0.1f, 0.0f);
-	velocityDeltaAngle = 4.0f;
-
-	acceleration = vec3(0.0f, 0.0f, 0.0f);
-
-	initialSize = vec2(2.0f, 2.0f);
-	initialSizeDelta = vec2(0.02f, 0.02f);
-
-	sizeGrowthVelocity = vec2(0.6f, 0.5f);
-
-	initialColor = vec4(0.545098f, 0.270588f, 0.0745098f, 1.0f);
-	midColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.8f);
-	endColor = vec4(0.545098f, 0.270588f, 0.0745098f, 0.4f);
-
-	emissionRate = 40.0f;
-	fadeInTime = 0.0f;
-	fadeOutTime = 1.5f;
-	totalLifetime = 1.0f;
 	totalLifetimeDelta = 0.0f;
 }
 
