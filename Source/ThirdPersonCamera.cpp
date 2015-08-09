@@ -96,34 +96,31 @@ void ThirdPersonCamera::Update(float dt)
 	}
 	prevPos = currentPos;
 	
-}
-
-glm::mat4 ThirdPersonCamera::GetViewMatrix() const
-{
 	int radius = 15;
 
-	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
-	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
+	float radianValueTheta = mVerticalAngle * M_PI / 180.0;
+	float radianValueBeta = mHorizontalAngle * M_PI / 180.0;
 
-	float posX = radius * cos (radianValueTheta) * cos (radianValueBeta);
-	float posY = radius * sin (radianValueTheta);
-	float posZ = -radius * cos (radianValueTheta) * sin (radianValueBeta);
+	float posX = radius * cos(radianValueTheta) * cos(radianValueBeta);
+	float posY = radius * sin(radianValueTheta);
+	float posZ = -radius * cos(radianValueTheta) * sin(radianValueBeta);
 
-	vec3 center = mTargetModel->GetPosition();
+	mCenter = mTargetModel->GetPosition();
 
-	vec3 camPos = center + vec3(posX,posY,posZ);
-	
-	if(World::GetInstance()->GetPlayer()->IsDead()){
+	mPosition = mCenter + vec3(posX, posY, posZ);
+
+	if (World::GetInstance()->GetPlayer()->IsDead()){
 
 		mat4 animateMat = myAnimate.GetAnimationWorldMatrix();
 		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
 
-		return glm::lookAt(	camPos, center+animateVec, vec3(0.0f, 1.0f, 0.0f) );
-		
-	}else{
-
-		return glm::lookAt(	camPos, center, vec3(0.0f, 1.0f, 0.0f) );
+		mCenter += animateVec;
 	}
+}
+
+glm::mat4 ThirdPersonCamera::GetViewMatrix() const
+{
+	return glm::lookAt( mPosition, mCenter, vec3(0.0f, 1.0f, 0.0f) );
 }
 
 void ThirdPersonCamera::SetTargetModel(Model* m)
