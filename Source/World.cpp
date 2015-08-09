@@ -312,6 +312,7 @@ void World::SetCoefficient()
 	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
 	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
+	
 	// Material Coefficients
 	const float ka = 0.2f;
 	const float kd = 0.8f;

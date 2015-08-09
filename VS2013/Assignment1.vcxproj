@@ -203,13 +203,10 @@
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\Goose.jpg" />
-    <Image Include="..\..\Iceman.jpg" />
-    <Image Include="..\..\Maverick.jpg" />
-    <Image Include="..\..\TopGun.jpg" />
-    <Image Include="..\..\Top_Gun_Ending.jpg" />
-    <Image Include="..\..\top_gun_logo.png" />
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
+    <Image Include="..\Assets\Textures\Goose.jpg" />
+    <Image Include="..\Assets\Textures\Iceman.jpg" />
+    <Image Include="..\Assets\Textures\Maverick.jpg" />
     <Image Include="..\Assets\Textures\Particle.png" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\back.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg" />
@@ -217,6 +214,9 @@
     <Image Include="..\Assets\Textures\Skybox\Nightsky\left.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\right.jpg" />
     <Image Include="..\Assets\Textures\Skybox\Nightsky\top.jpg" />
+    <Image Include="..\Assets\Textures\TopGun.jpg" />
+    <Image Include="..\Assets\Textures\Top_Gun_Ending.jpg" />
+    <Image Include="..\Assets\Textures\top_gun_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Assets\Sounds\RainbowRoad.wav" />

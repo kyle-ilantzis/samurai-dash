@@ -359,22 +359,22 @@
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg">
       <Filter>Resource Files\Textures\Skybox\Nightsky</Filter>
     </Image>
-    <Image Include="..\..\Goose.jpg">
+    <Image Include="..\Assets\Textures\Goose.jpg">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="..\..\Iceman.jpg">
+    <Image Include="..\Assets\Textures\Iceman.jpg">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="..\..\Maverick.jpg">
+    <Image Include="..\Assets\Textures\Maverick.jpg">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="..\..\Top_Gun_Ending.jpg">
+    <Image Include="..\Assets\Textures\Top_Gun_Ending.jpg">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="..\..\top_gun_logo.png">
+    <Image Include="..\Assets\Textures\top_gun_logo.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="..\..\TopGun.jpg">
+    <Image Include="..\Assets\Textures\TopGun.jpg">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

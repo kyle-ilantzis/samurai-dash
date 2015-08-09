@@ -16,4 +16,6 @@ private:
 	BillboardList* mpBillboardList2;
 	BillboardList* mpBillboardList3;
 	BillboardList* mpBillboardList4;
+	BillboardList* mpBillboardList5;
+	BillboardList* mpBillboardList6;
 };
