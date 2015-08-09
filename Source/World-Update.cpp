@@ -6,6 +6,7 @@
 
 #include "Animation.h"
 #include "Billboard.h"
+#include "Obstacles.h"
 #include "SplineFactory.h"
 
 #include <GLFW/glfw3.h>
@@ -86,6 +87,10 @@ void World::Update(float dt)
 
 	mpBillboardList->Update(dt);
 
+	if (mSkyboxModel) {
+		mSkyboxModel->Update(dt);
+	}
+
 	UpdateCollision(dt);
 
 	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
@@ -109,16 +114,14 @@ void World::UpdateCollision(float dt) {
 		}
 	}
 
-	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
+	for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
 	{
-		if (mPlayerModel == *it) { continue; }
-		
-		Model* m = *it;
+		Model* obstacle = (*it).second;
 
-		bool r = TestBoundingVolumes(*mPlayerModel, *m);
-		
-		if (!r) { continue; }
-
-		cout << "collision " << ctr++ << "! You Died!" << endl;
+		if (TestBoundingVolumes(*mPlayerModel, *obstacle)) { 
+			mPlayerModel->Died();
+			cout << "collision " << ctr++ << "! You Died!" << endl;
+			return;
+		}
 	}
 }

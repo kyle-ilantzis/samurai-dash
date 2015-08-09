@@ -31,14 +31,14 @@ scaling = 0.12f 0.12f 0.12f
 
 [AnimationKey]
 name     = "KeyForth"
-position =  2600.0f 1000.0f 500.0f
-scaling = 0.9f 0.9f 0.9f
+position = 0f 0f -5f
+scaling = 0.0045f 0.0045f 0.0045f
 rotation =  1.0f 0.0f 2.0f -10.0f
 
 [AnimationKey]
 name     = "KeyBack"
-position =  2900.0f 1000.0f -500.0f
-scaling = 0.9f 0.9f 0.9f
+position =  0f 0f 5f
+scaling = 0.0045f 0.0045f 0.0045f
 rotation =  1.0f 0.0f 1.0f 25.0f
 
 [Animation]
@@ -85,14 +85,14 @@ key		= "Standing2"		time = 2.0f
 
 [AnimationKey]
 name     = "UFOUp"
-position = -2000 2000 500
-scaling = 40f 40f 40f
+position = -10 15 -10
+scaling = 0.2f 0.2f 0.2f
 rotation =  0.0f 1.0f 0.0f 6000.0f
 
 [AnimationKey]
 name     = "UFODown"
-position =  -1500 1800 -500
-scaling = 40f 40f 40f
+position = 10 15 -15
+scaling = 0.2f 0.2f 0.2f
 rotation =  0.0f 1.0f 1.0f 10.0f
 
 [Animation]

@@ -69,16 +69,13 @@ void World::LoadScene() {
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mUFOModel);
 	mModel.push_back(mFighterJetModel);
-
-	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
-	mFighterJetModel->SetParent(mPlayerModel);
-
-	// The UFO Stays in front of the Player Jet (Yellow)
-	mUFOModel->SetParent(mPlayerModel);
 	
 	// Create the obstacles
 	mObstacles = new Obstacles();
 	mObstacles->LoadObstacles();
+
+	// Create skybox and push to scene
+	mSkyboxModel = new SkyboxModel();
 
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
@@ -86,10 +83,6 @@ void World::LoadScene() {
 	// Movement for Models
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
-
-	// Create skybox and push to scene
-	SkyboxModel* skybox = new SkyboxModel();
-	mModel.push_back(skybox);
 
 	Reset();
 }

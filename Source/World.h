@@ -13,6 +13,7 @@
 #include "Billboard.h"
 #include <vector>
 #include "Discoball.h"
+#include "SkyboxModel.h"
 
 class Camera;
 class SplineModel;
@@ -61,6 +62,8 @@ public:
     void RemoveBillboard(Billboard* b);
     void AddParticleSystem(ParticleSystem* particleSystem);
     void RemoveParticleSystem(ParticleSystem* particleSystem);
+	void SetLighting();
+	void SetCoefficient();
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
 	
@@ -93,4 +96,5 @@ private:
 	FighterJetModel* mFighterJetModel;
 	UFOModel* mUFOModel;
 	Obstacles* mObstacles;
+	SkyboxModel* mSkyboxModel;
 };
