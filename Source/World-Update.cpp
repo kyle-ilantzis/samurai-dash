@@ -8,6 +8,8 @@
 #include "Billboard.h"
 #include "SplineFactory.h"
 
+#include "TopGun.h"
+
 #include <GLFW/glfw3.h>
 #include "EventManager.h"
 
@@ -85,6 +87,7 @@ void World::Update(float dt)
 	}
 
 	mpBillboardList->Update(dt);
+	mTopGun->Update(dt);
 
 	if (mSkyboxModel) {
 		mSkyboxModel->Update(dt);

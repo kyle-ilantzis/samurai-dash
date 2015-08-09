@@ -52,7 +52,7 @@ private:
     
     std::vector<BillboardVertex> mVertexBuffer;
     std::list<Billboard*> mBillboardList;
-    
+
     int mTextureID;
     unsigned int mMaxNumBillboards;
 

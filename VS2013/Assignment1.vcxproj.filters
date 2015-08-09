@@ -211,6 +211,9 @@
     <ClCompile Include="..\Source\BarrelModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\TopGun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\ParticleDescriptor.h">
@@ -327,6 +330,9 @@
     <ClInclude Include="..\Source\BarrelModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\TopGun.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp">
@@ -352,6 +358,24 @@
     </Image>
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg">
       <Filter>Resource Files\Textures\Skybox\Nightsky</Filter>
+    </Image>
+    <Image Include="..\..\Goose.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\..\Iceman.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\..\Maverick.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\..\Top_Gun_Ending.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\..\top_gun_logo.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\..\TopGun.jpg">
+      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
