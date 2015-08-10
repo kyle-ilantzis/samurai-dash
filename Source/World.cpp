@@ -347,10 +347,12 @@ void World::SetFog()
 	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
 	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
 	GLuint FogDensityID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fDensity");
+	GLuint FogEquationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "iFogEuation");
 
 	glUniform4f(FogColorID, vFogColor.x, vFogColor.y, vFogColor.z , vFogColor.w);
 	glUniform1f(FogStartID, fStart);
 	glUniform1f(FogEndID, fEnd);
 	glUniform1f(FogDensityID, fDensity);
+	glUniform1i(FogEquationID, iFogEquation);
 
 }

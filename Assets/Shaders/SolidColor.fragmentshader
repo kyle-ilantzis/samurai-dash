@@ -12,8 +12,7 @@ uniform vec4 vFogColor; // Fog color
 uniform float fStart; // This is only for linear fog
 uniform float fEnd; // This is only for linear fog
 uniform float fDensity; // For exp and exp2 equation
-    
-   int iEquation; // 0 = linear, 1 = exp, 2 = exp2
+uniform int iEquation; // 0 = linear, 1 = exp, 2 = exp2
 
 uniform vec3 lightColor;
 uniform vec3 lightAttenuation; // x: Constant  y: Linear  z: Quadratic
@@ -30,21 +29,21 @@ in vec4 eyeSpacePos;
 
 // Ouput to fragment shader
 out vec4 color;
-/*
-float getFogFactor(FogParameters params, float fFogCoord) 
+
+float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float fFogCoord) 
 { 
    float fResult = 0.0; 
-   if(params.iEquation == 0) 
-      fResult = (params.fEnd-fFogCoord)/(params.fEnd-params.fStart); 
-   else if(params.iEquation == 1) 
-      fResult = exp(-params.fDensity*fFogCoord); 
-   else if(params.iEquation == 2) 
-      fResult = exp(-pow(params.fDensity*fFogCoord, 2.0)); 
+   if(iEquation == 0) 
+      fResult = (fEnd-fFogCoord)/(fEnd-fStart); 
+   else if(iEquation == 1) 
+      fResult = exp(-fDensity*fFogCoord); 
+   else if(iEquation == 2) 
+      fResult = exp(-pow(fDensity*fFogCoord, 2.0)); 
        
    fResult = 1.0-clamp(fResult, 0.0, 1.0); 
     
-   return fResult; 
-}*/
+   return fResult;
+}
 
 void main()
 {
@@ -67,7 +66,7 @@ void main()
 	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
 	
 	color =  vec4(MaterialAmbientColor + MaterialDiffuseColor + MaterialSpecularColor, 1.0f);
-	//color = mix(color,fogParams.vFogColor, getFogFactor(fogParams, fFogCoord));
+	color = mix(color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
 	//color = v_color;
 }
 
