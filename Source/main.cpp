@@ -7,8 +7,6 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
-
-
 #include <Windows.h>
 #include <MMSystem.h>
 #define SLEEP_FUNC(x) Sleep((x))

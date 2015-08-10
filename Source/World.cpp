@@ -20,6 +20,7 @@
 #include "Animation.h"
 #include "ParticleSystem.h"
 #include "TopGun.h"
+#include "RendererHelper.h"
 
 // Model Assets
 #include "CubeModel.h"
@@ -61,6 +62,9 @@ World::World()
 
     mpBillboardList = new BillboardList(2048, billboardTextureID);
 	mTopGun = new TopGun();
+
+	FreeImage barrelPic(TEXTURE_BARREL);
+	mBarrelTexture.SetData(barrelPic);
 
 	mSplineModel = nullptr;
 	mPlayerModel = nullptr;
@@ -135,6 +139,7 @@ void World::Draw()
 	Renderer::BeginFrame();
 
 	// Set shader to use
+	Renderer::SetShader(SHADER_SOLID_COLOR);
 	glUseProgram(Renderer::GetShaderProgramID());
 
 	// This looks for the MVP Uniform variable in the Vertex Program
@@ -160,6 +165,10 @@ void World::Draw()
 	{
 		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
 		{
+			ObstacleType type = (*it).first;
+
+			if (type == OBSTACLE_BARREL) { continue; }
+
 			Model* model = (*it).second;
 			model->Draw();
 		}
@@ -170,6 +179,32 @@ void World::Draw()
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
 	{
 		(*it)->Draw();
+	}
+
+	if (mObstacles)
+	{
+		Shader shader = RendererHelper::GetShader(SHADER_TEXTURED);
+		Renderer::SetShader(SHADER_TEXTURED);
+		shader.Bind();
+
+		shader.SetMatrix("ViewProjectionTransform", World::GetInstance()->GetCamera()->GetViewProjectionMatrix());
+		shader.SetMatrix("ViewTransform", World::GetInstance()->GetCamera()->GetViewMatrix());
+		shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
+
+		World::GetInstance()->SetCoefficient();
+		World::GetInstance()->SetLighting();
+
+		shader.SetTexture("myTextureSampler", mBarrelTexture, GL_TEXTURE0);
+
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			ObstacleType type = (*it).first;
+
+			if (type != OBSTACLE_BARREL) { continue; }
+
+			Model* model = (*it).second;
+			model->Draw();
+		}
 	}
 
 	if (DRAW_BOUNDING_VOLUME) {
