@@ -1,9 +1,7 @@
 #ifndef BARRELMODEL_H
 #define BARRELMODEL_H
 
-#include "Model.h"
 #include "ObjectModel.h"
-#include "Textures.h"
 
 class BarrelModel : public ObjectModel
 {
@@ -14,7 +12,6 @@ public:
 	virtual void Draw();
 
 private:
-	Texture2D barrelTexture;
 
 };
 #endif

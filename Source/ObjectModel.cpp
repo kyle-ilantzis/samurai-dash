@@ -8,8 +8,10 @@ using namespace tinyobj;
 using namespace glm;
 
 
-ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 colorForShapeI[]) : Model(), shapesVertexBuffer()
+ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 colorForShapeI[], bool isTextured) : Model(), shapesVertexBuffer()
 {
+	mIsTextured = isTextured;
+
 	// Vector Array for Model
 	vector<shape_t> shapes;
 	vector<material_t> materials;
@@ -29,6 +31,7 @@ ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 co
 		unsigned int s;
 		unsigned int colorVertexBuffer;
 		unsigned int n;
+		unsigned int t;
 
 		// Vertex Buffer
 		glGenBuffers(1, &v);
@@ -60,6 +63,12 @@ ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 co
 		glBindBuffer(GL_ARRAY_BUFFER, i);
 		glBufferData(GL_ARRAY_BUFFER, shapes[index].mesh.indices.size() * sizeof(int32), &shapes[index].mesh.indices[0], GL_STATIC_DRAW);
 
+		if (mIsTextured) {
+			glGenBuffers(1, &t);
+			glBindBuffer(GL_ARRAY_BUFFER, t);
+			glBufferData(GL_ARRAY_BUFFER, shapes[index].mesh.texcoords.size() * sizeof(int32), &shapes[index].mesh.texcoords[0], GL_STATIC_DRAW);
+		}
+
 		s = shapes[index].mesh.indices.size() * sizeof(int32);
 
 		shapesVertexBuffer.push_back(v);
@@ -67,6 +76,9 @@ ObjectModel::ObjectModel(const char* objFile, const char* matFile, const vec3 co
 		shapesVertexBuffer.push_back(s);
 		shapesVertexBuffer.push_back(colorVertexBuffer);
 		shapesVertexBuffer.push_back(n);
+		if (mIsTextured) {
+			shapesVertexBuffer.push_back(t);
+		}
 	}
 }
 
@@ -74,13 +86,14 @@ void ObjectModel::Draw()
 {
 	glBindVertexArray(mVertexArrayID);
 
-	for (int index = 0; index < shapesVertexBuffer.size(); index += 5)
+	for (int index = 0; index < shapesVertexBuffer.size(); index += mIsTextured ? 6 : 5)
 	{
 		unsigned int vertex = shapesVertexBuffer[index];
 		unsigned int indice = shapesVertexBuffer[index + 1];
 		unsigned int size = shapesVertexBuffer[index + 2];
 		unsigned int color = shapesVertexBuffer[index + 3];
 		unsigned int normal = shapesVertexBuffer[index + 4];
+		unsigned int texture = mIsTextured ? shapesVertexBuffer[index + 5] : 0;
 
 		GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
 		glUniformMatrix4fv(WorldMatrixLocation, 1, GL_FALSE, &GetWorldMatrix()[0][0]);
@@ -118,6 +131,18 @@ void ObjectModel::Draw()
 			(void*)0		// array buffer offset
 			);
 
+		if (mIsTextured) {
+			glEnableVertexAttribArray(3);
+			glBindBuffer(GL_ARRAY_BUFFER, texture);
+			glVertexAttribPointer(3,				// attribute. No particular reason for 0, but must match the layout in the shader.
+				2,				// size
+				GL_FLOAT,		// type
+				GL_FALSE,		// normalized?
+				0,	// stride
+				(void*)0		// array buffer offset
+				);
+		}
+
 		// Bind the Buffer.
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indice);
 
@@ -128,6 +153,9 @@ void ObjectModel::Draw()
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
+		if (mIsTextured) {
+			glEnableVertexAttribArray(3);
+		}
 	}
 }
 
