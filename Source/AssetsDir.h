@@ -12,6 +12,8 @@
 #define TEXTURE_BILLBOARD_TEST TEXTURES_DIR "/BillboardTest.bmp"
 #define TEXTURE_LOADING_MSG TEXTURES_DIR "/Loading.jpg"
 
+#define TEXTURE_BARREL TEXTURES_DIR "/Barrel.jpg"
+
 #define SKYBOX_DIR TEXTURES_DIR "/Skybox"
 #define SKYBOX_NIGHTSKY SKYBOX_DIR "/Nightsky"
 #define SKYBOX_BLUESKY SKYBOX_DIR "/Bluesky"
