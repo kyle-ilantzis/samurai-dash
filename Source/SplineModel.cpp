@@ -23,33 +23,17 @@ SplineModel::~SplineModel()
 
 void SplineModel::Draw()
 {
+	ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
+
 	Shader shader = RendererHelper::GetShader(SHADER_SPLINE);
+	Renderer::SetShader(SHADER_SPLINE);
 	shader.Bind();
 	shader.SetMatrix("ViewProjectonTransform", World::GetInstance()->GetCamera()->GetViewProjectionMatrix());
 	shader.SetMatrix("WorldTransform", mat4(1));
 	shader.SetMatrix("ViewTransform", World::GetInstance()->GetCamera()->GetViewMatrix());
 	shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
-	//World::GetInstance()->SetCoefficient();
-	//World::GetInstance()->SetFog();
-	World::GetInstance()->SetLighting();
+	World::GetInstance()->SetFog();
 	
-	/*
-//	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
-	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
-//	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
-//	GLuint FogDensityID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fDensity");
-//	GLuint FogEquationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "iFogEuation");
-	const float fDensity = 0.04f;
-	const float fStart = 10.0f;
-	const float fEnd = 75.0f;
-	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
-	int iFogEquation = 1; // 0 = linear, 1 = exp, 2 = exp2
-	//glUniform4f(FogColorID, vFogColor.x, vFogColor.y, vFogColor.z, vFogColor.w);
-	glUniform1f(FogStartID, fStart);
-//	glUniform1f(FogEndID, fEnd);
-//	glUniform1f(FogDensityID, fDensity);
-//	glUniform1i(FogEquationID, iFogEquation);
-*/
 	mArray.Bind();
 
 	int stride = sizeof(Vertex);
@@ -64,6 +48,8 @@ void SplineModel::Draw()
 	glDrawArrays(GL_LINES, 0, mOscullatingPlanesBuffer.GetSize() / sizeof(Vertex));
 	
 	shader.DisableVertexAttrib(0);
+	shader.DisableVertexAttrib(2);
+	Renderer::SetShader(oldShader);
 }
 
 vec3 SplineModel::TrackShiftDir(Track dir, float t) {

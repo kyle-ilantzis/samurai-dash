@@ -1,73 +1,16 @@
-
 #version 330 core
 
-//uniform vec4 vFogColor; // Fog color
-uniform float fStart; // This is only for linear fog
-//uniform float fEnd; // This is only for linear fog
-//uniform float fDensity; // For exp and exp2 equation
-//uniform int iEquation; // 0 = linear, 1 = exp, 2 = exp2
-
-//output
-out vec4 color;
-//input
-in vec3 eyeVector;  
-in vec4 lightVector; 
-in vec4 v_color;
-in vec4 eyeSpacePos;
-
-float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float fFogCoord) 
-{ 
-   float fResult = 0.0; 
-   if(iEquation == 0) 
-      fResult = (fEnd-fFogCoord)/(fEnd-fStart); 
-   else if(iEquation == 1) 
-      fResult = exp(-fDensity*fFogCoord); 
-   else if(iEquation == 2) 
-      fResult = exp(-pow(fDensity*fFogCoord, 2.0)); 
-       
-   fResult = 1.0-clamp(fResult, 0.0, 1.0); 
-    
-   return fResult;
-}
-
-void main()
-{
-	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
-//	float test = fStart;
-	color = v_color.rgba;
-//	color = mix(color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
-}
-/*
-#version 330 core
-// Light and Material Uniform Variables
-uniform float materialAmbient; // Ambient Term
-uniform float materialDiffuse; // Diffuse Term
-uniform float materialSpecular; // Specular Term
-uniform float materialExponent; // Specular Exponent
-
-//fog color
- 
 uniform vec4 vFogColor; // Fog color
 uniform float fStart; // This is only for linear fog
 uniform float fEnd; // This is only for linear fog
 uniform float fDensity; // For exp and exp2 equation
 uniform int iEquation; // 0 = linear, 1 = exp, 2 = exp2
 
-uniform vec3 lightColor;
-uniform vec3 lightAttenuation; // x: Constant  y: Linear  z: Quadratic
-
-
-
-in vec4 v_color;
-in vec3 normal; // You will need this when you do per-fragment lighting
-in vec3 eyeVector;       // Vector from the vertex to the Camera in View Space
-in vec4 lightVector;     // Vector from the vertex to the Light in View Space
-						 // Length of lightVector is the distance between light and vertex
-						 // if w = 1: Point light, if w = 0: directional light
-in vec4 eyeSpacePos;
-
-// Ouput to fragment shader
+//output
 out vec4 color;
+//input
+in vec4 v_color;
+in vec4 eyeSpacePos;
 
 float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float fFogCoord) 
 { 
@@ -86,26 +29,6 @@ float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float
 
 void main()
 {
-	// set the fragment color to the interpolated vertex color
-	vec3 n = normalize(normal);
-	vec3 l = normalize(lightVector.xyz);
-	float cosTheta = clamp( dot( n,l ), 0,1 );
-	
-	vec3 E = normalize(eyeVector);
-	vec3 R = normalize(reflect(-l,n));
-	float cosAlpha = clamp(dot(E,R), 0,1);	
-
-	float distance = length(lightVector.xyz);
-	float Attenuation = 1.0/(lightAttenuation.x + (lightAttenuation.y * distance) + (lightAttenuation.z * (distance*distance)));
-
-	vec3 MaterialAmbientColor =  v_color.xyz  * materialAmbient;
-	vec3 MaterialDiffuseColor = materialDiffuse* lightColor * v_color.xyz * cosTheta;
-	vec3 MaterialSpecularColor = v_color.xyz*  materialSpecular *lightColor * pow(cosAlpha,materialExponent);
-	
 	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
-	
-	//color =  vec4(MaterialAmbientColor + MaterialDiffuseColor + MaterialSpecularColor, 1.0f);
-	//color = mix(color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
-	color = v_color.rgba;
+	color = mix(v_color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
 }
-*/
