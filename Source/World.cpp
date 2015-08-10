@@ -381,13 +381,13 @@ void World::SetFog()
 	float fStart = 10.0f;
 	float fEnd = 75.0f;
 	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
-	int iFogEquation = FOG_EQUATION_EXP; // 0 = linear, 1 = exp, 2 = exp2
+	int iFogEquation = FOG_EQUATION_LINEAR; // FOG_EQUATION_LINEAR, FOG_EQUATION_EXP, FOG_EQUATION_EXP2
 
 	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
 	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
 	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
 	GLuint FogDensityID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fDensity");
-	GLuint FogEquationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "iFogEuation");
+	GLuint FogEquationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "iEquation");
 
 	glUniform4f(FogColorID, vFogColor.x, vFogColor.y, vFogColor.z , vFogColor.w);
 	glUniform1f(FogStartID, fStart);
