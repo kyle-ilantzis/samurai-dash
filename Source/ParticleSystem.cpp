@@ -11,6 +11,7 @@
 #include "ParticleDescriptor.h"
 #include "ParticleEmitter.h"
 #include "EventManager.h"
+#include "PlayerModel.h"
 #include "World.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,6 +39,9 @@ ParticleSystem::ParticleSystem(ParticleEmitter* emitter, ParticleDescriptor* des
 
 ParticleSystem::~ParticleSystem()
 {
+	delete mpEmitter;
+	delete mpDescriptor;
+
 	for (std::list<Particle*>::iterator it = mInactiveParticles.begin(); it != mInactiveParticles.end(); ++it)
 	{
 		delete *it;
@@ -64,10 +68,17 @@ void ParticleSystem::Reset() {
 
 void ParticleSystem::Update(float dt)
 {
+	PlayerModel* player = World::GetInstance()->GetPlayer();
+
+	bool spawnForPlayer = (mpDescriptor->spawnWhenPlayerDead && player->IsDead()) ||
+						  (mpDescriptor->spawnWhenPlayerReachedGoal && player->HasReachedGoal()) ||
+						  (mpDescriptor->spawnWhenPlayerAlive && !(player->IsDead() || player->HasReachedGoal()));
+
     // Emit particle according to the emission rate
     float averageTimeBetweenEmission = 1.0f / mpDescriptor->emissionRate;
     float randomValue = EventManager::GetRandomFloat(0.0f, 1.0f) * averageTimeBetweenEmission;
-    while (mInactiveParticles.size() > 0 && randomValue < dt)
+
+    while (mInactiveParticles.size() > 0 && randomValue < dt && spawnForPlayer)
     {
         randomValue += averageTimeBetweenEmission;
         

@@ -71,9 +71,29 @@ private:
 	static void makeTriangleStrip(SplineModel& spline);
 
 	/**
-	 *
+	 * If the oscullating planes should be created.
+	 */
+	static bool MAKE_OSCULATTING_PLANES;
+
+	/**
+	 * 
 	 */
 	static void makeOscullatingPlanes(SplineModel& spline);
+
+	/**
+	* The offset of the capsule from the end of the track.
+	*/
+	static float endOfTrackCapsuleTimeOffset;
+
+	/**
+	 * The radius of the capsule at the end of the track.
+	 */
+	static float endOfTrackCapsuleRadius;
+
+	/**
+	 * Create the bouding volume for detecting when the player reaches the end of the track.
+	 */
+	static void makeEndOfTrackBoundingVolume(SplineModel& spline);
 };
 
 #endif

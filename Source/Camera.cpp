@@ -30,10 +30,10 @@ mat4 Camera::GetViewProjectionMatrix() const
 	// @TODO 1 - Calculate View Projection Matrix
 	//           The projection matrix is hardcoded below
 	//           The view matrix is set in the derived camera classes.
-	
-    // mat4 viewProjection(1.0f);
-        
-    // return viewProjection;
+
+	// mat4 viewProjection(1.0f);
+
+	// return viewProjection;
 
 	// @MYCODE
 	return GetProjectionMatrix() * GetViewMatrix();

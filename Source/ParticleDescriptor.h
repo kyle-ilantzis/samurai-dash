@@ -11,6 +11,7 @@
 
 #include <glm/glm.hpp>
 #include "ParticleSystem.h"
+#include "FlameSystem.h"
 
 // You can add a lot more to this to create more pleasant effects
 // Adding more random parameters will make the particle effects more interesting
@@ -19,13 +20,13 @@ class ParticleDescriptor
 public:
     ParticleDescriptor();
     
-	// Declare the customer Emitter Descriptors
     void SetFountainDescriptor();
     void SetFireDescriptor();
 	void SetJetFlameDescriptor();
 	void SetUFODescriptor();
 	void SetEnemyJetFlameDescriptor();
 	void SetEnemyJetAttackDescriptor();
+	void SetFlameDescriptor();
     
 private:
     
@@ -47,6 +48,11 @@ private:
     float fadeOutTime;                  // time from mid to end stage
     float totalLifetime;                // amount of time in seconds the particle will remain alive
     float totalLifetimeDelta;
+
+	bool spawnWhenPlayerDead;			// if particles should still spawn when the player dies
+	bool spawnWhenPlayerReachedGoal;	// if particles should still spawn when the player reaches the goal
+	bool spawnWhenPlayerAlive;			// if particles should still spawn when the player is not dead or has not reached the goal
     
     friend class ParticleSystem;
+	friend class FlameSystem;
 };

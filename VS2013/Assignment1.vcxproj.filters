@@ -30,6 +30,9 @@
     <Filter Include="Resource Files\Models">
       <UniqueIdentifier>{88a9a53b-bed6-41b3-9047-a8a370ae47ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Textures\Skybox\NewFilter1">
+      <UniqueIdentifier>{31f2293b-7b0c-42c5-b450-4927fcb85ce1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader">
@@ -184,9 +187,6 @@
     <ClCompile Include="..\Source\ObjectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\WolfModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Obstacles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -209,6 +209,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\FighterJetModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\BarrelModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ThirdPersonCameraFar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\FireModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ObstacleDescriptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\FlameSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TopGun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -303,9 +324,6 @@
     <ClInclude Include="..\Source\ObjectModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\WolfModel.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Obstacles.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -325,6 +343,27 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\FighterJetModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\BarrelModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ThirdPersonCameraFar.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ThirdPersonCamera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\FireModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ObstacleDescriptor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\FlameSystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TopGun.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -352,6 +391,27 @@
     </Image>
     <Image Include="..\Assets\Textures\Skybox\Nightsky\bottom.jpg">
       <Filter>Resource Files\Textures\Skybox\Nightsky</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\Goose.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\Iceman.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\Maverick.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\Top_Gun_Ending.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\top_gun_logo.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\TopGun.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Assets\Textures\flame.png">
+      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

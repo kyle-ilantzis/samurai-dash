@@ -19,7 +19,7 @@ CubeModel::CubeModel(vec3 size) : Model()
 {
 	// Create Vertex Buffer for all the verices of the Cube
 	vec3 halfSize = size * 0.5f;
-	
+	SetScaling(glm::vec3(3.0f, 3.0f, 3.0f));
 	Vertex vertexBuffer[] = {  // position,                normal,                  color
 								{ vec3(-halfSize.x,-halfSize.y,-halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec3(1.0f, 0.0f, 0.0f) }, //left - red
 								{ vec3(-halfSize.x,-halfSize.y, halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec3(1.0f, 0.0f, 0.0f) },
@@ -102,9 +102,11 @@ void CubeModel::Draw()
 	// The Model View Projection transforms are computed in the Vertex Shader
 	glBindVertexArray(mVertexArrayID);
 
+
 	GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform"); 
 	glUniformMatrix4fv(WorldMatrixLocation, 1, GL_FALSE, &GetWorldMatrix()[0][0]);
 	
+
 	// 1st attribute buffer : vertex Positions
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferID);
@@ -115,6 +117,7 @@ void CubeModel::Draw()
 							sizeof(Vertex), // stride
 							(void*)0        // array buffer offset
 						);
+
 
 	// 2nd attribute buffer : vertex normal
 	glEnableVertexAttribArray(1);
@@ -145,6 +148,7 @@ void CubeModel::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+	
 }
 
 bool CubeModel::ParseLine(const std::vector<ci_string> &token)

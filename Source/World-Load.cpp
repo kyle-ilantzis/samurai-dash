@@ -8,9 +8,7 @@
 
 // Models
 #include "BunnyModel.h"
-#include "WolfModel.h"
 #include "CubeModel.h"
-#include "SphereModel.h"
 #include "PlayerModel.h"
 #include "CapsuleModel.h"
 #include "SkyboxModel.h"
@@ -18,6 +16,8 @@
 #include "Discoball.h"
 #include "UFOModel.h"
 #include "FighterJetModel.h"
+#include "BarrelModel.h"
+#include "TopGun.h"
 
 using namespace std;
 using namespace glm;
@@ -29,8 +29,6 @@ void World::LoadScene() {
 
 	// The world's scene for samurai-dash
 	// Do any complex dynamic initialization in here
-
-	mSplineModel = SplineFactory::LoadSpline();
 
 	// Creating the Models
 	mPlayerModel = new PlayerModel();
@@ -71,19 +69,17 @@ void World::LoadScene() {
 	mModel.push_back(mPlayerModel);
 	mModel.push_back(mUFOModel);
 	mModel.push_back(mFighterJetModel);
-
-	// The Enemeny Figter (Red) follows ths Player Figter Jet (Yellow).
-	mFighterJetModel->SetParent(mPlayerModel);
-	// The UFO Stays in front of the Player Jet (Yellow)
-	mUFOModel->SetParent(mPlayerModel);
 	
 	//Third Person camera set on player model
-	((ThirdPersonCamera*) mCamera[0])->SetTargetModel(mPlayerModel);
-	((ThirdPersonCameraFar*) mCamera[1])->SetTargetModel(mPlayerModel);
-	
+	((ThirdPersonCamera*)mCamera[0])->SetTargetModel(mPlayerModel);
+	((ThirdPersonCameraFar*)mCamera[1])->SetTargetModel(mPlayerModel);
+
 	// Create the obstacles
 	mObstacles = new Obstacles();
 	mObstacles->LoadObstacles();
+
+	// Create skybox and push to scene
+	mSkyboxModel = new SkyboxModel();
 
 	// Finally the static samurai-dash scene is loaded
 	LoadScene(sceneFile);
@@ -91,10 +87,6 @@ void World::LoadScene() {
 	// Movement for Models
 	mUFOModel->setAnimation(FindAnimation("\"UFOMove\""));
 	mFighterJetModel->setAnimation(FindAnimation("\"BackAndForth\""));
-
-	// Create skybox and push to scene
-	SkyboxModel* skybox = new SkyboxModel();
-	mModel.push_back(skybox);
 
 	Reset();
 }
@@ -107,6 +99,8 @@ void World::Reset() {
 	mPlayerModel->Reset();
 
 	mObstacles->Reset();
+
+	mTopGun->Reset();
 
 	for (vector<ParticleSystem*>::iterator it = mParticleSystemList.begin(); it != mParticleSystemList.end(); ++it)
 	{
@@ -152,19 +146,19 @@ void World::LoadScene(const char * scene_path)
 				discoBallz->Load(iss);
 				mModel.push_back(discoBallz);
 			}
-			else if (result == "wolf")
-			{
-				// Box attributes
-				WolfModel* wolf = new WolfModel();
-				wolf->Load(iss);
-				mModel.push_back(wolf);
-			}
 			else if (result == "bunnny")
 			{
 				// Box attributes
 				BunnyModel* bunny = new BunnyModel();
 				bunny->Load(iss);
 				mModel.push_back(bunny);
+			}
+			else if (result == "barrel")
+			{
+				// Box attributes
+				BarrelModel* barrel = new BarrelModel();
+				barrel->Load(iss);
+				mModel.push_back(barrel);
 			}
 			else if (result == "cube")
 			{

@@ -18,6 +18,7 @@ class ParticleEmitter
 public:
     ParticleEmitter(glm::vec3 position, const Model* parent = nullptr);
     virtual glm::vec3 GetRandomPosition(); // Would be random for line / circle emitters
+
     
 private:
     const Model* mpParent;

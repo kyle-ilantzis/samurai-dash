@@ -126,6 +126,23 @@ void MoveState::Update(float dt) {
 	vec3 trackShift = World::GetInstance()->GetSpline()->TrackShiftDir(mDir,mCurrentTime) * mPlayer.mMoveSpeed * mCurrentTime;
 
 	mPlayer.SetPosition(mPlayer.GetPosition() + trackShift);
+	
+	quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+	
+	if (mDir == TRACK_LEFT)
+	{
+		quat quatLeft = angleAxis(-45.0f, vec3(0, 0, -1));
+
+		quat quatRotationMove = quatLeft * InitPlayer;
+		mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+	}
+	else
+	{
+		quat quatRight = angleAxis(45.0f, vec3(0, 0, -1));
+
+		quat quatRotationMove = quatRight * InitPlayer;
+		mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+	}
 
 	if (length(trackShift) >= trackPieceWidth) {
 		int next = (int)mPlayer.mTrack + (mDir == TRACK_LEFT ? -1 : 1);

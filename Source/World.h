@@ -14,6 +14,8 @@
 #include <vector>
 #include "ThirdPersonCamera.h"
 #include "ThirdPersonCameraFar.h"
+#include "Discoball.h"
+#include "SkyboxModel.h"
 
 class Camera;
 class SplineModel;
@@ -26,6 +28,7 @@ class Model;
 class Obstacles;
 class UFOModel;
 class FighterJetModel;
+class TopGun;
 
 enum WorldCameraType { WORLD_CAMERA_THIRD_PERSON, WORLD_CAMERA_THIRD_PERSON_FAR, WORLD_CAMERA_FIRST_PERSON, WORLD_CAMERA_NIL };
 
@@ -61,6 +64,8 @@ public:
     void RemoveBillboard(Billboard* b);
     void AddParticleSystem(ParticleSystem* particleSystem);
     void RemoveParticleSystem(ParticleSystem* particleSystem);
+	void SetLighting();
+	void SetCoefficient();
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };
 	
@@ -70,6 +75,8 @@ public:
 	SplineModel* GetSpline() { return mSplineModel; };
 
 	PlayerModel* GetPlayer() { return mPlayerModel; };
+
+	Obstacles* GetObstacles() { return mObstacles; };
 
 private:
 
@@ -91,6 +98,7 @@ private:
 	FighterJetModel* mFighterJetModel;
 	UFOModel* mUFOModel;
 	Obstacles* mObstacles;
+	SkyboxModel* mSkyboxModel;
 
-	float mCurrentTime;
+	TopGun* mTopGun;
 };
