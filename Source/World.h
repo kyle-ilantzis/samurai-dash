@@ -103,4 +103,6 @@ private:
 	SkyboxModel* mSkyboxModel;
 
 	TopGun* mTopGun;
+
+	Texture2D mBarrelTexture;
 };
