@@ -1,3 +1,4 @@
+
 #version 330 core
 
 layout(location = 0) in vec3 vertexPosition_modelspace;
@@ -5,12 +6,90 @@ layout(location = 2) in vec3 vertexColor;
 
 uniform mat4 ViewProjectonTransform;
 uniform mat4 WorldTransform;
+uniform mat4 ViewTransform;
+uniform mat4 ProjectionTransform;
 
 out vec4 v_color;
+out vec3 eyeVector;
+out vec4 lightVector;
+out vec4 eyeSpacePos;
+
+uniform vec4 WorldLightPosition; // if w = 1: Point light, if w = 0: directional light
 
 void main()
 {
+	mat4 MV = ViewTransform * WorldTransform;
+	mat4 MVP = ProjectionTransform * MV;
 	gl_Position =  ViewProjectonTransform * WorldTransform * vec4(vertexPosition_modelspace,1);
 	v_color = vec4(vertexColor, 0.75f);
+	vec3 vertexPosition_cameraspace = ( MV * vec4(vertexPosition_modelspace,1)).xyz;
+	eyeSpacePos =( MV * vec4(vertexPosition_modelspace,1));
+	eyeVector = vec3(0,0,0) - vertexPosition_cameraspace;
+	vec4 LightPosition_cameraspace = ( ViewTransform * WorldLightPosition);
+	if(WorldLightPosition.w == 0.0)
+	{
+		lightVector = LightPosition_cameraspace - vec4(eyeVector, 1);	
+	}
+	else
+	{
+		lightVector = LightPosition_cameraspace + vec4(eyeVector, 1);
+	}
+
 }
 
+/*
+#version 330 core
+
+// Input vertex data, different for all executions of this shader.
+layout(location = 0) in vec3 vertexPosition_modelspace;
+layout(location = 1) in vec3 vertexNormal_modelspace;  // You will need this when you do lighting
+layout(location = 2) in vec3 vertexColor;
+
+
+// Values that stay constant for the whole mesh.
+uniform mat4 ViewProjectionTransform;
+uniform mat4 WorldTransform;
+uniform mat4 ViewTransform;
+uniform mat4 ProjectionTransform;
+
+// Outputs to fragment shader
+out vec3 normal;  // You will need this when you do per-fragment lighting
+out vec3 eyeVector;
+out vec4 lightVector;
+out vec4 v_color;
+out vec4 eyeSpacePos;
+
+// light position
+uniform vec4 WorldLightPosition; // if w = 1: Point light, if w = 0: directional light
+
+void main()
+{
+
+	mat4 MV = ViewTransform * WorldTransform;
+	mat4 MVP = ProjectionTransform * MV;
+	// Output position of the vertex, in clip space : MVP * position
+	gl_Position =  ViewProjectionTransform * WorldTransform * vec4(vertexPosition_modelspace,1);
+	
+	v_color = vec4(vertexColor, 1.0f);
+	vec3 vertexPosition_cameraspace = ( MV * vec4(vertexPosition_modelspace,1)).xyz;
+
+	eyeSpacePos =( MV * vec4(vertexPosition_modelspace,1));
+	eyeVector = vec3(0,0,0) - vertexPosition_cameraspace;
+	
+	vec4 LightPosition_cameraspace = ( ViewTransform * WorldLightPosition);
+	
+
+	//normal = ( MV * vec4(vertexNormal_modelspace,0)).xyz;
+
+	if(WorldLightPosition.w == 0.0)
+	{
+		lightVector = LightPosition_cameraspace - vec4(eyeVector, 1);
+		
+	}
+	else
+	{
+		lightVector = LightPosition_cameraspace + vec4(eyeVector, 1);
+	}
+
+}
+*/
