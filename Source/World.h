@@ -42,7 +42,7 @@ public:
 	// If true the animations will draw their key frames points as a path
 	static const bool DRAW_ANIM_PATH = true;
 	// How long to wait after the player has died or reached the goal before restarting.
-	static const int RESTART_DELAY_SECONDS = 3;
+	static const float RESTART_DELAY_SECONDS;
 
 	World();
 	~World();

@@ -35,6 +35,8 @@
 using namespace std;
 using namespace glm;
 
+const float World::RESTART_DELAY_SECONDS = 1;
+
 World* World::instance;
 
 World::World()
@@ -242,9 +244,9 @@ void World::Draw()
 	}
 
     // Draw Billboards
-    mpBillboardList->Draw();
 	mTopGun->Draw();
-
+    mpBillboardList->Draw();
+	
 	Renderer::EndFrame();
 }
 

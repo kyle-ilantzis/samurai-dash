@@ -17,7 +17,16 @@
 #include <algorithm>
 using namespace glm;
 
-ThirdPersonCameraFar::ThirdPersonCameraFar(glm::vec3 position) :  Camera(), mPosition(position), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f)
+ThirdPersonCameraFar::ThirdPersonCameraFar(glm::vec3 position) :  
+	Camera(), 
+	mPosition(position),
+	mLookAt(0.0f, 0.0f, -1.0f), 
+	mHorizontalAngle(90.0f), 
+	mVerticalAngle(0.0f), 
+	mSpeed(5.0f),
+	mAngularSpeed(2.5f), 	
+	deadAnimation(),
+	winAnimation()
 	
 {
 	k1 = new AnimationKey();
@@ -42,6 +51,18 @@ ThirdPersonCameraFar::ThirdPersonCameraFar(glm::vec3 position) :  Camera(), mPos
 	deadAnimation.AddKey(k5, dt+0.2);
 	deadAnimation.AddKey(k6, dt+0.25);
 
+	w1 = new AnimationKey();
+	w2 = new AnimationKey();
+
+	int r1, r2;
+	r1 = 50;
+	r2 = 100;
+
+	w1->SetPosition(vec3(r1,0,0));
+	w2->SetPosition(vec3(r2,0,0));
+
+	winAnimation.AddKey(w1, 0);
+	winAnimation.AddKey(w2, 1);
 }
 
 ThirdPersonCameraFar::~ThirdPersonCameraFar()
@@ -55,7 +76,7 @@ void ThirdPersonCameraFar::Update(float dt)
 		deadAnimation.Update(dt);
 	}
 	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
-		//winAnimation.Update(dt);
+		winAnimation.Update(dt);
 	}
 
 	// Prevent from having the camera move only when the cursor is within the windows
@@ -74,17 +95,26 @@ void ThirdPersonCameraFar::Update(float dt)
 	mHorizontalAngle = std::max(90.0f, std::min(270.0f, mHorizontalAngle));
 
 	mVerticalAngle = 30;
-
-	int radius = 50;
-
+	
 	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
 	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
+
+	int radius = 50;
+	
+	mCenter = mTargetModel->GetPosition();
+
+	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+
+		mat4 matWin = winAnimation.GetAnimationWorldMatrix();
+		vec3 vecWin = vec3(matWin[3][0], matWin[3][1], matWin[3][2]);
+		
+		float rWin = vecWin.x;
+		radius = rWin;
+	}
 
 	float posX = radius * cos (radianValueTheta) * cos (radianValueBeta);
 	float posY = radius * sin (radianValueTheta);
 	float posZ = -radius * cos (radianValueTheta) * sin (radianValueBeta);
-
-	mCenter = mTargetModel->GetPosition();
 
 	mPosition = mCenter + vec3(posX,posY,posZ);
 	
@@ -94,6 +124,7 @@ void ThirdPersonCameraFar::Update(float dt)
 		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
 		mCenter += animateVec;
 	}
+
 	
 }
 
