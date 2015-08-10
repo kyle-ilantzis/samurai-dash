@@ -20,6 +20,8 @@
 #include "Animation.h"
 #include "ParticleSystem.h"
 #include "TopGun.h"
+#include "Text2DPrint.h"
+#include "StopWatch.h"
 #include "RendererHelper.h"
 
 // Model Assets
@@ -62,6 +64,7 @@ World::World()
 
     mpBillboardList = new BillboardList(2048, billboardTextureID);
 	mTopGun = new TopGun();
+	sw = new StopWatch();
 
 	FreeImage barrelPic(TEXTURE_BARREL);
 	mBarrelTexture.SetData(barrelPic);
@@ -127,6 +130,7 @@ World::~World()
 	if (mSkyboxModel) delete mSkyboxModel;
 	
 	delete mpBillboardList;
+	delete sw;
 }
 
 World* World::GetInstance()
@@ -285,6 +289,17 @@ void World::Draw()
 	}
     mpBillboardList->Draw();
 	
+	//Update Clock
+	sw->start();
+	double time = (double)(sw->getTime());
+	char text[256];
+	sprintf(text, "%.0f seconds", time);
+	DrawTime(text, 20, 20, 550);
+
+	//Draw Score
+	sprintf(text, "Score: %d", score);
+	DrawTime(text, 20, 580, 550);
+
 	Renderer::EndFrame();
 }
 

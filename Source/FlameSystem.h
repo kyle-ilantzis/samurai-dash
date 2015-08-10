@@ -16,6 +16,5 @@ public:
 
 	virtual void Update(float dt);
 
-private:
 
 };

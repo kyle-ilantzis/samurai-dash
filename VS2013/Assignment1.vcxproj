@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -154,10 +154,12 @@
     <ClCompile Include="..\Source\SplineFactory.cpp" />
     <ClCompile Include="..\Source\SplineModel.cpp" />
     <ClCompile Include="..\Source\StaticCamera.cpp" />
+    <ClCompile Include="..\Source\StopWatch.cpp" />
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\Textures.cpp" />
     <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\ThirdPersonCameraFar.cpp" />
+    <ClCompile Include="..\Source\Text2DPrint.cpp" />
     <ClCompile Include="..\Source\tiny_obj_loader.cc" />
     <ClCompile Include="..\Source\TopGun.cpp" />
     <ClCompile Include="..\Source\UFOModel.cpp" />
@@ -202,10 +204,12 @@
     <ClInclude Include="..\Source\SplineFactory.h" />
     <ClInclude Include="..\Source\SplineModel.h" />
     <ClInclude Include="..\Source\StaticCamera.h" />
+    <ClInclude Include="..\Source\StopWatch.h" />
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\Textures.h" />
     <ClInclude Include="..\Source\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\ThirdPersonCameraFar.h" />
+    <ClInclude Include="..\Source\Text2DPrint.h" />
     <ClInclude Include="..\Source\tiny_obj_loader.h" />
     <ClInclude Include="..\Source\TopGun.h" />
     <ClInclude Include="..\Source\UFOModel.h" />
