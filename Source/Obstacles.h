@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <utility>
-
+#include "FireModel.h"
 #include <GLM/glm.hpp>
 #include "CubeModel.h"
 #include "SphereModel.h"
@@ -24,6 +24,8 @@ public:
 	typedef std::vector<std::pair<ObstacleType, Model*>>::iterator obstacle_vector_itr;
 
 	static const int MAX_OBSTACLES = 15;
+	static const int MAX_FIRE = 1;
+	int existing_fire;
 	float maxTime;
 	ObstacleDifficulty obstacle_difficulty;
 	Obstacles();

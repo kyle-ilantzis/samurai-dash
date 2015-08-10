@@ -209,14 +209,17 @@ void World::Draw()
 
 	if (DRAW_BOUNDING_VOLUME) {
 
-		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		if (mObstacles)
 		{
-			Model* model = (*it).second;
-			Model* bvm = model->GetBoundingVolumeModel();
-
-			if (bvm)
+			for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
 			{
-				bvm->Draw();
+				Model* model = (*it).second;
+				Model* bvm = model->GetBoundingVolumeModel();
+
+				if (bvm)
+				{
+					bvm->Draw();
+				}
 			}
 		}
 
@@ -277,9 +280,11 @@ void World::Draw()
 	}
 
     // Draw Billboards
+	if (mTopGun) {
+		mTopGun->Draw();
+	}
     mpBillboardList->Draw();
-	mTopGun->Draw();
-
+	
 	Renderer::EndFrame();
 }
 

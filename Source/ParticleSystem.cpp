@@ -39,6 +39,9 @@ ParticleSystem::ParticleSystem(ParticleEmitter* emitter, ParticleDescriptor* des
 
 ParticleSystem::~ParticleSystem()
 {
+	delete mpEmitter;
+	delete mpDescriptor;
+
 	for (std::list<Particle*>::iterator it = mInactiveParticles.begin(); it != mInactiveParticles.end(); ++it)
 	{
 		delete *it;
