@@ -31,9 +31,9 @@ void SplineModel::Draw()
 	shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
 	//World::GetInstance()->SetCoefficient();
 	//World::GetInstance()->SetFog();
-	//World::GetInstance()->SetLighting();
+	World::GetInstance()->SetLighting();
 	
-
+	/*
 //	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
 	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
 //	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
@@ -49,6 +49,7 @@ void SplineModel::Draw()
 //	glUniform1f(FogEndID, fEnd);
 //	glUniform1f(FogDensityID, fDensity);
 //	glUniform1i(FogEquationID, iFogEquation);
+*/
 	mArray.Bind();
 
 	int stride = sizeof(Vertex);
