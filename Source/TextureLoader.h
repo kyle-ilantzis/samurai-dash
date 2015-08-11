@@ -32,6 +32,7 @@ class TextureLoader
 {
 public:
 	static int LoadTexture(const char * imagePath);
+	static int LoadDDS(const char * path);
 
 private:
     
