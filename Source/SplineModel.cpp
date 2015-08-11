@@ -23,25 +23,33 @@ SplineModel::~SplineModel()
 
 void SplineModel::Draw()
 {
-	Shader shader = RendererHelper::GetShader(SHADER_SPLINE);
-	shader.Bind();
+	ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
 
+	Shader shader = RendererHelper::GetShader(SHADER_SPLINE);
+	Renderer::SetShader(SHADER_SPLINE);
+	shader.Bind();
 	shader.SetMatrix("ViewProjectonTransform", World::GetInstance()->GetCamera()->GetViewProjectionMatrix());
 	shader.SetMatrix("WorldTransform", mat4(1));
-
+	shader.SetMatrix("ViewTransform", World::GetInstance()->GetCamera()->GetViewMatrix());
+	shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
+	World::GetInstance()->SetFog(false,0);
+	
 	mArray.Bind();
 
 	int stride = sizeof(Vertex);
-
+	
 	shader.SetVertexAttrib(mPointsBuffer, 0, 3, stride, 0);
 	shader.SetVertexAttrib(mPointsBuffer, 2, 3, stride, (void*)sizeof(vec3));
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, mPointsBuffer.GetSize() / sizeof(Vertex));
 	shader.DisableVertexAttrib(0);
-
+	
 	shader.SetVertexAttrib(mOscullatingPlanesBuffer, 0, 3, stride, 0);
 	shader.SetVertexAttrib(mOscullatingPlanesBuffer, 2, 3, stride, (void*)sizeof(vec3));
 	glDrawArrays(GL_LINES, 0, mOscullatingPlanesBuffer.GetSize() / sizeof(Vertex));
+	
 	shader.DisableVertexAttrib(0);
+	shader.DisableVertexAttrib(2);
+	Renderer::SetShader(oldShader);
 }
 
 vec3 SplineModel::TrackShiftDir(Track dir, float t) {
