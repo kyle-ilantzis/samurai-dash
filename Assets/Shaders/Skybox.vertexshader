@@ -6,11 +6,17 @@ layout(location = 2) in vec3 vertexColor; // not used, just there to make the cu
 
 uniform mat4 ViewProjectionTransform;
 uniform mat4 WorldTransform;
+uniform mat4 ViewTransform;
+uniform mat4 ProjectionTransform;
 
 out	vec3 textCord0;
+out vec4 eyeSpacePos;
 
 void main() {
 	
+	mat4 MV = ViewTransform * WorldTransform;
+	mat4 MVP = ProjectionTransform * MV;
+
 	vec4 position = ViewProjectionTransform * WorldTransform * vec4(vertexPosition_modelspace,1);
 
 	// For position we still want x and y but now z = w = 1.
@@ -20,4 +26,5 @@ void main() {
 
 	// The texture coordinate must be a vec3 for cubemap types, see fragment shader.
 	textCord0 = vertexPosition_modelspace;
+	eyeSpacePos =( MV * vec4(vertexPosition_modelspace,1));
 }
