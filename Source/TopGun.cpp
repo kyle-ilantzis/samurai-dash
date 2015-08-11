@@ -30,7 +30,7 @@ TopGun::TopGun()
 	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose, true, true);
 	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman, true, true);
 	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick, true, true);
-	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend, true, true);
+	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend, false, false);
 	mpBillboardListTG = new BillboardList(10, billboardTextureTG, true, true);
 
 }
@@ -151,7 +151,7 @@ void TopGun::Reset()
 	b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
 
-	b->position = p.position + vec3(0.0f, 20.0f, -30.0f);
+	b->position = p.position + vec3(0.0f, 13.0f, -30.0f);
 
 	mpBillboardListTGend->AddBillboard(b);
 
