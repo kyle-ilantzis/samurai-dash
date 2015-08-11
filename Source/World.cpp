@@ -378,9 +378,11 @@ void World::SetCoefficient()
 void World::SetFog(bool setCamera)
 {
 	float fEnd;
+	int iFogEquation = FOG_EQUATION_LINEAR; // FOG_EQUATION_LINEAR, FOG_EQUATION_EXP, FOG_EQUATION_EXP2
 	//fEnd to Camera::farView + 1
 	if (setCamera){
 		fEnd = GetCamera()->farView + 1;
+		iFogEquation = FOG_EQUATION_EXP;
 	}
 	else{
 		fEnd = 75.0f;
@@ -389,8 +391,7 @@ void World::SetFog(bool setCamera)
 	float fDensity = 0.04f;
 	float fStart = 10.0f;
 	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
-	int iFogEquation = FOG_EQUATION_LINEAR; // FOG_EQUATION_LINEAR, FOG_EQUATION_EXP, FOG_EQUATION_EXP2
-
+	
 	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
 	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
 	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
