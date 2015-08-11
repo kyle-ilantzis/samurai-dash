@@ -152,7 +152,7 @@ void World::Draw()
 
 	SetLighting();
 	SetCoefficient();
-	SetFog();
+	SetFog(false);
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
@@ -375,11 +375,19 @@ void World::SetCoefficient()
 	glUniform1f(MaterialExponentID, n);
 }
 
-void World::SetFog()
+void World::SetFog(bool setCamera)
 {
+	float fEnd;
+	//fEnd to Camera::farView + 1
+	if (setCamera){
+		fEnd = GetCamera()->farView + 1;
+	}
+	else{
+		fEnd = 75.0f;
+	}
+	GetCamera()->farView + 1;
 	float fDensity = 0.04f;
 	float fStart = 10.0f;
-	float fEnd = 75.0f;
 	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
 	int iFogEquation = FOG_EQUATION_LINEAR; // FOG_EQUATION_LINEAR, FOG_EQUATION_EXP, FOG_EQUATION_EXP2
 
