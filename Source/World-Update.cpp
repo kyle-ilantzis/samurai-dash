@@ -114,9 +114,8 @@ void World::UpdateCollision(float dt) {
 
 	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
 
-	if (COLLISION_GOAL && mSplineModel) {
-		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
-		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
+	if (COLLISION_GOAL && mSplineModel) {		
+		if (TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
 			cout << "collision " << ctr++ << "! You Win!" << endl;
 			mPlayerModel->ReachedGoal();
