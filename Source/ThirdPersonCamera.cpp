@@ -27,7 +27,8 @@ ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position) :
 	mSpeed(5.0f), 
 	mAngularSpeed(2.5f),
 	deadAnimation(),
-	winAnimation()
+	winAnimation(),
+	mTargetModel(nullptr)
 {
 	k1 = new AnimationKey();
 	k2 = new AnimationKey();
@@ -72,11 +73,13 @@ ThirdPersonCamera::~ThirdPersonCamera()
 
 void ThirdPersonCamera::Update(float dt)
 {
-	
-	if(World::GetInstance()->GetPlayer()->IsDead()){
+
+	if (World::GetInstance()->GetPlayer() &&
+		World::GetInstance()->GetPlayer()->IsDead()){
 		deadAnimation.Update(dt);
 	}
-	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+	if (World::GetInstance()->GetPlayer() &&
+		World::GetInstance()->GetPlayer()->HasReachedGoal()){
 		winAnimation.Update(dt);
 	}
 
@@ -90,9 +93,9 @@ void ThirdPersonCamera::Update(float dt)
 
 	// Mouse motion to get the variation in angle
 	mHorizontalAngle -= EventManager::GetMouseMotionX() * mAngularSpeed * dt;
-	mVerticalAngle   -= EventManager::GetMouseMotionY() * mAngularSpeed * dt;
+	mVerticalAngle -= EventManager::GetMouseMotionY() * mAngularSpeed * dt;
 
-	vec3 currentPos = mTargetModel->GetPosition();
+	vec3 currentPos = mTargetModel ? mTargetModel->GetPosition() : vec3(0);
 
 	SplineModel::Plane spline = World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime());
 
@@ -110,11 +113,12 @@ void ThirdPersonCamera::Update(float dt)
 	float radianValueTheta = mVerticalAngle * M_PI / 180.0; 
 	float radianValueBeta = mHorizontalAngle * M_PI / 180.0; 
 	
-	mCenter = mTargetModel->GetPosition();
+	mCenter = mTargetModel ? mTargetModel->GetPosition() : vec3(0);
 
 	int radius = 15;
 
-	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+	if (World::GetInstance()->GetPlayer() && 
+		World::GetInstance()->GetPlayer()->HasReachedGoal()){
 
 		mat4 matWin = winAnimation.GetAnimationWorldMatrix();
 		vec3 vecWin = vec3(matWin[3][0], matWin[3][1], matWin[3][2]);
@@ -129,7 +133,8 @@ void ThirdPersonCamera::Update(float dt)
 
 	mPosition = mCenter + vec3(posX,posY,posZ);
 
-	if(World::GetInstance()->GetPlayer()->IsDead()){
+	if (World::GetInstance()->GetPlayer() && 
+		World::GetInstance()->GetPlayer()->IsDead()){
 
 		mat4 matDead = deadAnimation.GetAnimationWorldMatrix();
 		vec3 vecDead = vec3(matDead[3][0], matDead[3][1], matDead[3][2]);

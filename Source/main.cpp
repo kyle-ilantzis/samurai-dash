@@ -19,6 +19,7 @@
 #include "Billboard.h"
 #include "TextureLoader.h"
 #include "LoadingScreen.h"
+#include "Text2DPrint.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ int main(int argc, char*argv[])
 {
 	EventManager::Initialize();
 	Renderer::Initialize();
-
+	
 	World world;
 
 	// If Running on Windows Then Play Background Music
@@ -54,7 +55,9 @@ int main(int argc, char*argv[])
 		//	world.LoadScene("../Assets/Scenes/CoordinateSystem.scene");
 		//	world.LoadScene("../Assets/Scenes/Discoball.scene");
 		//	world.LoadScene("../Assets/Scenes/Player.scene");
-			world.LoadScene();
+		//	world.LoadScene("../Assets/Scenes/Barrel.scene");
+		initText(TextureLoader::LoadDDS("../Assets/Textures/Holstein.DDS"));
+		world.LoadScene();
 	}
 
 	double fps = 1.0f / FPS;
@@ -73,7 +76,7 @@ int main(int argc, char*argv[])
 	EventManager::Update();
 
 	do
-	{
+	{		
 		double start = glfwGetTime();
 
 		// Update Event Manager - Frame time / input / events processing 

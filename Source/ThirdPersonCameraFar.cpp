@@ -26,8 +26,8 @@ ThirdPersonCameraFar::ThirdPersonCameraFar(glm::vec3 position) :
 	mSpeed(5.0f),
 	mAngularSpeed(2.5f), 	
 	deadAnimation(),
-	winAnimation()
-	
+	winAnimation(),
+	mTargetModel(nullptr)
 {
 	k1 = new AnimationKey();
 	k2 = new AnimationKey();
@@ -72,10 +72,12 @@ ThirdPersonCameraFar::~ThirdPersonCameraFar()
 void ThirdPersonCameraFar::Update(float dt)
 {
 	
-	if(World::GetInstance()->GetPlayer()->IsDead()){
+	if (World::GetInstance()->GetPlayer() &&
+		World::GetInstance()->GetPlayer()->IsDead()){
 		deadAnimation.Update(dt);
 	}
-	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+	if (World::GetInstance()->GetPlayer() &&
+		World::GetInstance()->GetPlayer()->HasReachedGoal()){
 		winAnimation.Update(dt);
 	}
 
@@ -101,9 +103,10 @@ void ThirdPersonCameraFar::Update(float dt)
 
 	int radius = 50;
 	
-	mCenter = mTargetModel->GetPosition();
+	mCenter = mTargetModel ? mTargetModel->GetPosition() : vec3(0);
 
-	if(World::GetInstance()->GetPlayer()->HasReachedGoal()){
+	if (World::GetInstance()->GetPlayer() &&
+		World::GetInstance()->GetPlayer()->HasReachedGoal()){
 
 		mat4 matWin = winAnimation.GetAnimationWorldMatrix();
 		vec3 vecWin = vec3(matWin[3][0], matWin[3][1], matWin[3][2]);
@@ -118,7 +121,8 @@ void ThirdPersonCameraFar::Update(float dt)
 
 	mPosition = mCenter + vec3(posX,posY,posZ);
 	
-	if(World::GetInstance()->GetPlayer()->IsDead()){
+	if (World::GetInstance()->GetPlayer() && 
+		World::GetInstance()->GetPlayer()->IsDead()){
 
 		mat4 animateMat = deadAnimation.GetAnimationWorldMatrix();
 		vec3 animateVec = vec3(animateMat[3][0], animateMat[3][1], animateMat[3][2]);
