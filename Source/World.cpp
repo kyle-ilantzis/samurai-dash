@@ -6,6 +6,7 @@
 //
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
+
 // Other Assets
 #include "World.h"
 #include "Renderer.h"
@@ -53,6 +54,9 @@ World::World()
 	// Setup Camera
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCurrentCamera = 0;
+
+	score = 0;
+	points = 5;
 
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 
@@ -292,6 +296,28 @@ void World::Draw()
 	//Update Clock
 	sw->start();
 	double time = (double)(sw->getTime());
+
+	//Compute Score 
+	if (time > 0){
+
+		//Player gets more points for being able to stay on strack
+		//without colliding
+		if (fmod(time, 10) == 0){
+			if (time != lastPointsUpdate){
+				points += points;
+				lastPointsUpdate = time;
+			}
+		}
+		//Points
+		if (fmod(time, 5) == 0){
+			if (lastScoreUpdate != time){
+				score += points;
+				lastScoreUpdate = time;
+			}
+		}
+
+	}
+
 	char text[256];
 	sprintf(text, "%.0f seconds", time);
 	DrawTime(text, 20, 20, 550);

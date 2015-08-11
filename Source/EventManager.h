@@ -11,6 +11,13 @@
 
 struct GLFWwindow;
 
+enum GameStatus
+{
+	PAUSED,
+	RUNNING,
+};
+
+
 class EventManager
 {
 public:

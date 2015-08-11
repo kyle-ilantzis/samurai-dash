@@ -1,39 +1,53 @@
 #include "StopWatch.h"
 
 
-StopWatch::StopWatch()
-{
-	time = 0;
-	pauseTime = 0;
+StopWatch::StopWatch() {
+	resetted = true;
 	running = false;
+	startTime = 0;
+	endTime = 0;
 }
 
-void StopWatch::start(){
-	if (!running)
-		time = clock();
 
-	else{
-		running = running - pauseTime + (unsigned long)clock();
+void StopWatch::start() {
+	if (!running) {
+		if (resetted)
+			startTime = (unsigned long)clock();
+		else
+			startTime -= endTime - (unsigned long)clock();
 		running = true;
+		resetted = false;
 	}
-
-}
-
-unsigned long StopWatch::getTime(){
-	return (unsigned long)(time + pauseTime) / CLOCKS_PER_SEC;;
-}
-
-void StopWatch::stop(){
-	running = false;
-	pauseTime = clock();
-}
-
-bool StopWatch::isRunning(){
-	return running;
 }
 
 
-
-StopWatch::~StopWatch()
-{
+void StopWatch::stop() {
+	if (running) {
+		endTime = (unsigned long)clock();
+		running = false;
+	}
 }
+
+
+void StopWatch::reset() {
+	bool wereRunning = running;
+	if (wereRunning)
+		stop();
+	resetted = true;
+	startTime = 0;
+	endTime = 0;
+	if (wereRunning)
+		start();
+}
+
+unsigned long StopWatch::getTime() {
+	if (running)
+		return ((unsigned long)clock() - startTime) / CLOCKS_PER_SEC;
+	else
+		return endTime - startTime;
+}
+
+StopWatch::~StopWatch(){
+
+}
+

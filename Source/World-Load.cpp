@@ -107,6 +107,11 @@ void World::Reset() {
 	{
 		(*it)->Reset();
 	}
+	sw->reset();
+	score = 0;
+	lastScoreUpdate = 0;
+	lastPointsUpdate = 0;
+	points = 5;
 }
 
 void World::LoadScene(const char * scene_path)
