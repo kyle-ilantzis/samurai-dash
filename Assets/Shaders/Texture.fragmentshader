@@ -8,6 +8,14 @@ uniform float materialSpecular; // Specular Term
 uniform float materialExponent; // Specular Exponent
 
 
+//fog color
+ 
+uniform vec4 vFogColor; // Fog color
+uniform float fStart; // This is only for linear fog
+uniform float fEnd; // This is only for linear fog
+uniform float fDensity; // For exp and exp2 equation
+uniform int iEquation; // 0 = linear, 1 = exp, 2 = exp2
+
 uniform vec3 lightColor;
 uniform vec3 lightAttenuation; // x: Constant  y: Linear  z: Quadratic
 
@@ -20,13 +28,30 @@ in vec3 eyeVector;       // Vector from the vertex to the Camera in View Space
 in vec4 lightVector;     // Vector from the vertex to the Light in View Space
 						 // Length of lightVector is the distance between light and vertex
 						 // if w = 1: Point light, if w = 0: directional light
-
+in vec4 eyeSpacePos;
 
 // Ouput data
 out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D myTextureSampler;
+
+
+float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float fFogCoord) 
+{ 
+   float fResult = 0.0; 
+   if(iEquation == 0) 
+      fResult = (fEnd-fFogCoord)/(fEnd-fStart); 
+   else if(iEquation == 1) 
+      fResult = exp(-fDensity*fFogCoord); 
+   else if(iEquation == 2) 
+      fResult = exp(-pow(fDensity*fFogCoord, 2.0)); 
+       
+   fResult = 1.0-clamp(fResult, 0.0, 1.0); 
+    
+   return fResult;
+}
+
 
 void main()
 {
@@ -40,9 +65,12 @@ void main()
 	vec3 MaterialAmbientColor =  v_color.xyz  * materialAmbient * textureColor.xyz;
 	vec3 MaterialDiffuseColor = materialDiffuse* lightColor * v_color.xyz * cosTheta * textureColor.xyz;
 	
+
+	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
+
     // modulate texture color with vertex color
-    //color = v_color * textureColor;
 	color =  vec4(MaterialAmbientColor + MaterialDiffuseColor , 1.0f) * textureColor;
+	color = mix(color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
 	
     // Alpha test - Discard Fragment below treshold
     if(color.a <= 0.02f)

@@ -168,13 +168,16 @@ void BillboardList::Draw()
     
     // Set current shader to be the Textured Shader
     ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
-    
-    Renderer::SetShader(SHADER_TEXTURED);
+	Renderer::SetShader(SHADER_TEXTURED);
     glUseProgram(Renderer::GetShaderProgramID());
-
+	
     Renderer::CheckForErrors();
+	// This looks for the MVP Uniform variable in the Vertex Program
+	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
 
-    
     GLuint textureLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "mySamplerTexture");
     glActiveTexture(GL_TEXTURE0);
 
@@ -187,13 +190,23 @@ void BillboardList::Draw()
     
     Renderer::CheckForErrors();
 
-    // This looks for the MVP Uniform variable in the Vertex Program
-    GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-    
     // Send the view projection constants to the shader
     const Camera* currentCamera = World::GetInstance()->GetCurrentCamera();
     mat4 VP = currentCamera->GetViewProjectionMatrix();
     glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+	World::GetInstance()->SetLighting();
+	World::GetInstance()->SetCoefficient();
+	World::GetInstance()->SetFog(false);
+
+	
+	mat4 View = currentCamera->GetViewMatrix();
+	glm::mat4 World(1.0f);
+	mat4 Projection = currentCamera->GetProjectionMatrix();
+	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &World[0][0]);
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &Projection[0][0]);
 
     // Draw the Vertex Buffer
     // Note this draws a unit Cube
