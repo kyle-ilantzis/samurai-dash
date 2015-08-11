@@ -40,6 +40,6 @@ void main() {
 	// and then the right U and V on that face
 	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
 	color = texture(TextureCubemap, textCord1);
-	color = mix(color,vFogColor, getFogFactor(fEnd,fStart,fDensity,iEquation,fFogCoord));
+	color = mix(color,vFogColor, getFogFactor(50.0f,10.0f,0.01f,iEquation,fFogCoord));
 
 }
