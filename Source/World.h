@@ -16,6 +16,7 @@
 #include "ThirdPersonCameraFar.h"
 #include "Discoball.h"
 #include "SkyboxModel.h"
+#include "StopWatch.h"
 
 class Camera;
 class SplineModel;
@@ -94,6 +95,8 @@ private:
 	unsigned int mCurrentCamera;
 
     BillboardList* mpBillboardList;
+	StopWatch* sw;
+	int score = 0;
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
