@@ -22,7 +22,7 @@ LoadingScreen::LoadingScreen() :
 	FreeImage loadingMsgImg(TEXTURE_LOADING_MSG);
 	mLoadingMsgTexture.SetData(loadingMsgImg);
 
-	mBillboardList = new BillboardList(1, mLoadingMsgTexture.GetTextureId());
+	mBillboardList = new BillboardList(1, mLoadingMsgTexture.GetTextureId(), false, false);
 	mBillboardList->AddBillboard(&mLoadingMsgBillboard);
 
 	World* w = World::GetInstance();
