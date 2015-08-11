@@ -27,11 +27,11 @@ TopGun::TopGun()
 	assert(billboardTextureTG != 0);
 
 	// Create New BillboardLists for them
-	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose, false, true);
-	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman, false, true);
-	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick, false, true);
-	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend, false, true);
-	mpBillboardListTG = new BillboardList(10, billboardTextureTG, false, true);
+	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose, true, true);
+	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman, true, true);
+	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick, true, true);
+	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend, true, true);
+	mpBillboardListTG = new BillboardList(10, billboardTextureTG, true, true);
 
 }
 

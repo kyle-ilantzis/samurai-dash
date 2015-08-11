@@ -30,7 +30,7 @@ struct CompareBillboardAlongZ{
 class BillboardList
 {
 public:
-    BillboardList(unsigned int maxNumBillboards, int textureID, bool isLighted = false, bool isFogged = false);
+    BillboardList(unsigned int maxNumBillboards, int textureID, bool isLighted = true, bool isFogged = false);
     ~BillboardList();
     
     void AddBillboard(Billboard* b);

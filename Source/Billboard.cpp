@@ -114,7 +114,7 @@ void BillboardList::Update(float dt)
 	// @MYCODE
 	vec3 right = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
 	vec3 up = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
-	vec3 lookAt = vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);
+	vec3 back = vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);
     // @TODO 4 - Align billboards with Camera plane
     //
     // For each billboard, update each vertex position, color and normals
@@ -128,29 +128,29 @@ void BillboardList::Update(float dt)
 		// Top left
 		mVertexBuffer[firstVertexIndex].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex].color = b->color;
-		mVertexBuffer[firstVertexIndex].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex].normal = back;
 		// Bottom Left
 		mVertexBuffer[firstVertexIndex + 1].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 1].color = b->color;
-		mVertexBuffer[firstVertexIndex + 1].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex + 1].normal = back;
 		// Top Right
 		mVertexBuffer[firstVertexIndex + 2].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex + 2].color = b->color;
-		mVertexBuffer[firstVertexIndex + 2].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex + 2].normal = back;
 
 		// Second Triangle
 		// Top Right
 		mVertexBuffer[firstVertexIndex + 3].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex + 3].color = b->color;
-		mVertexBuffer[firstVertexIndex + 3].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex + 3].normal = back;
 		// Bottom Left
 		mVertexBuffer[firstVertexIndex + 4].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 4].color = b->color;
-		mVertexBuffer[firstVertexIndex + 4].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex + 4].normal = back;
 		// Bottom Right
 		mVertexBuffer[firstVertexIndex + 5].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 5].color = b->color;
-		mVertexBuffer[firstVertexIndex + 5].normal = -lookAt;
+		mVertexBuffer[firstVertexIndex + 5].normal = back;
         
         firstVertexIndex += 6;
     }
@@ -196,7 +196,7 @@ void BillboardList::Draw()
     glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
 	World::GetInstance()->SetLighting();
-	World::GetInstance()->SetCoefficient(mIsLighted);
+	World::GetInstance()->SetCoefficient(mIsLighted, 0.8);
 	World::GetInstance()->SetFog(false, mIsFogged ? 0 : -1);
 
 	

@@ -67,7 +67,7 @@ public:
     void AddParticleSystem(ParticleSystem* particleSystem);
     void RemoveParticleSystem(ParticleSystem* particleSystem);
 	void SetLighting();
-	void SetCoefficient(bool enabled = true);
+	void SetCoefficient(bool enabled = true, float a = 0.3);
 	void SetFog(bool setCamera, int fog_eq);
     
 	Camera* GetCamera() { return mCamera[mCurrentCamera]; };

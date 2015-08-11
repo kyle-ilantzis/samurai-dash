@@ -368,7 +368,7 @@ void World::SetLighting()
 	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
 }
 
-void World::SetCoefficient(bool enabled)
+void World::SetCoefficient(bool enabled, float a)
 {
 	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
 	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
@@ -376,7 +376,7 @@ void World::SetCoefficient(bool enabled)
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
 	
 	// Material Coefficients
-	const float ka = enabled ? 0.3f : 1;
+	const float ka = enabled ? a : 1;
 	const float kd = enabled ? 0.8f : 0;
 	const float ks = enabled ? 0.2f : 0;
 	const float n = enabled ? 90.0f : 1;
