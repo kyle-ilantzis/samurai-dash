@@ -1,6 +1,6 @@
-[Barrel]
+[Player]
 name = "Player"
-boundingVolume = capsule a = 0 5 0 b = 0 0 0 r = 2.2
+boundingVolume = capsule a = 250 0 -15 b = -150 0 -15 r = 300
 
 [Cube]
 name = "X-axis"

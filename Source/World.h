@@ -39,11 +39,17 @@ class World
 public:
 	static const char* sceneFile;
 	// If true then models with bounding volumes will draw the volumes
-	static const bool DRAW_BOUNDING_VOLUME = true;
+	static const bool DRAW_BOUNDING_VOLUME = false;
 	// If true the animations will draw their key frames points as a path
-	static const bool DRAW_ANIM_PATH = true;
+	static const bool DRAW_ANIM_PATH = false;
 	// How long to wait after the player has died or reached the goal before restarting.
 	static const float RESTART_DELAY_SECONDS;
+	// If true collision with the goal will be tested for
+	static const bool COLLISION_GOAL = true;
+	// If true collision with obstacles will be tested for
+	static const bool COLLISION_OBSTACLES = true;
+	// If true the first person camera can be switched to during gameplay.
+	static const bool CAN_USE_FIRST_PERSON_CAMERA = false;
 
 	World();
 	~World();

@@ -3,30 +3,28 @@
 # <coordinate-system>
 # The following is the coordinate system from CoordinateSystem.scene
 # It is meant to be a reference point for development purposes.
-
-[Cube]
-name = "X-axis"
-position = 0.5f 0.0f 0.0f
-rotation = 0.0f 0.0f 1.0f 0.0f
-scaling = 1.0f 0.1f 0.1f 
-
-[Cube]
-name = "Y-axis"
-position = 0.0f 0.5f 0.0f
-rotation = 0.0f 0.0f 1.0f 90.0f
-scaling = 1.0f 0.1f 0.1f 
-
-[Cube]
-name = "Z-axis"
-position = 0.0f 0.0f 0.5f
-rotation = 0.0f 1.0f 0.0f -90.0f
-scaling = 1.0f 0.1f 0.1f 
-
-[Cube]
-name = "Origin"
-position = 0.0f 0.0f 0.0f
-scaling = 0.12f 0.12f 0.12f
-
+# Cube]
+# name = "X-axis"
+# position = 0.5f 0.0f 0.0f
+# rotation = 0.0f 0.0f 1.0f 0.0f
+# scaling = 1.0f 0.1f 0.1f 
+# 
+# Cube]
+# name = "Y-axis"
+# position = 0.0f 0.5f 0.0f
+# rotation = 0.0f 0.0f 1.0f 90.0f
+# scaling = 1.0f 0.1f 0.1f 
+# 
+# Cube]
+# name = "Z-axis"
+# position = 0.0f 0.0f 0.5f
+# rotation = 0.0f 1.0f 0.0f -90.0f
+# scaling = 1.0f 0.1f 0.1f 
+#
+# Cube]
+# name = "Origin"
+# position = 0.0f 0.0f 0.0f
+# scaling = 0.12f 0.12f 0.12f
 # </coordinate-system>
 
 [AnimationKey]
@@ -46,42 +44,6 @@ name     = "BackAndForth"
 key      = "KeyForth"     time = 0.0f
 key      = "KeyBack"      time = 2.0f
 key      = "KeyForth"     time = 4.0f
-
-[AnimationKey]
-name = "Standing"
-position = -20.0 20.0 -60.0
-scaling = 8.0f 8.0f 8.0f
-rotation =  1.0f 0.0f -1.0f 40.0f
-
-[AnimationKey]
-name = "Standings"
-position = -25.0 20.0 -90.0
-scaling = 8.0f 8.0f 8.0f
-rotation =  1.0f 0.0f 0.0f 40.0f
-
-[Animation]
-name	= "BunnyStanding"
-key		= "Standing"		time = 0.0f
-key		= "Standings"		time = 1.0f
-key		= "Standing"		time = 2.0f
-
-[AnimationKey]
-name = "Standing2"
-position = 20 20.0 -60.0
-scaling = 8.0f 8.0f 8.0f
-rotation =  1.0f 0.0f 1.0f 40.0f
-
-[AnimationKey]
-name = "Standings2"
-position = 25 20.0 -90.0
-scaling = 8.0f 8.0f 8.0f
-rotation =  1.0f 0.0f 0.0f 40.0f
-
-[Animation]
-name	= "BunnyStanding2"
-key		= "Standing2"		time = 0.0f
-key		= "Standings2"		time = 1.0f
-key		= "Standing2"		time = 2.0f
 
 [AnimationKey]
 name     = "UFOUp"

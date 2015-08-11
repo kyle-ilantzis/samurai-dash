@@ -38,9 +38,9 @@ void World::LoadScene() {
 
 	// Create the capsue for Player Jet
 	Capsule* JetCapsule = new Capsule();
-	JetCapsule->a = vec3(210, 0, 0);;
-	JetCapsule->b = vec3(-130, 0, 0);
-	JetCapsule->r = 450;
+	JetCapsule->a = vec3(250, 0, 0);;
+	JetCapsule->b = vec3(-150, 0, 0);
+	JetCapsule->r = 300;
 	mPlayerModel->setCapsuleBoundingVolume(JetCapsule);
 
 	// Jet Stream Particle System for Player Jet (Two Of Them)

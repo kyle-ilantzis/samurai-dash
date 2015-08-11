@@ -41,7 +41,7 @@ void World::Update(float dt)
 			mCurrentCamera = 1;
 		}
 	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+	else if (CAN_USE_FIRST_PERSON_CAMERA && glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
 	{
 		if (mCamera.size() > 2)
 		{
@@ -114,9 +114,8 @@ void World::UpdateCollision(float dt) {
 
 	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
 
-	if (mSplineModel) {
-		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
-		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
+	if (COLLISION_GOAL && mSplineModel) {		
+		if (TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
 			cout << "collision " << ctr++ << "! You Win!" << endl;
 			mPlayerModel->ReachedGoal();
@@ -124,14 +123,16 @@ void World::UpdateCollision(float dt) {
 		}
 	}
 
-	for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
-	{
-		Model* obstacle = (*it).second;
+	if (COLLISION_OBSTACLES && mObstacles) {
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* obstacle = (*it).second;
 
-		if (TestBoundingVolumes(*mPlayerModel, *obstacle)) { 
-			mPlayerModel->Died();
-			cout << "collision " << ctr++ << "! You Died!" << endl;
-			return;
+			if (TestBoundingVolumes(*mPlayerModel, *obstacle)) {
+				mPlayerModel->Died();
+				cout << "collision " << ctr++ << "! You Died!" << endl;
+				return;
+			}
 		}
 	}
 }
