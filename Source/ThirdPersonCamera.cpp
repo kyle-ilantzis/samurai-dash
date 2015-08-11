@@ -97,23 +97,18 @@ void ThirdPersonCamera::Update(float dt)
 
 	vec3 currentPos = mTargetModel ? mTargetModel->GetPosition() : vec3(0);
 
-	vec3 splNorm;
-	vec3 splTan;
-	if (World::GetInstance()->GetSpline()) {
-		
-		SplineModel::Plane spline = World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime());
-		vec3 splNorm = spline.normal;
-		vec3 splTan = spline.tangent;
-	}
-	else {
-		vec3 splNorm = vec3(-1,0,0);
-		vec3 splTan = vec3(0,0,-1);
-	}
+	SplineModel::Plane spline = World::GetInstance()->GetSpline() ?
+	 							World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime()) :
+								SplineModel::Plane(vec3(0), vec3(0,0,-1), vec3(-1,0,0));
 
 	vec3 j = vec3(0, 1, 0);
-	vec3 B = normalize(cross(splTan, splNorm));
+	vec3 B = normalize(cross(spline.tangent, spline.normal));
 
-	mVerticalAngle = acos(dot(j, splTan))+20;	
+	// taken from PlayerModel.cpp
+	bool uphill = dot(j, spline.tangent) > 0;
+	//float rotation = degrees(acos(dot(B, j))) * (uphill ? -1 : 1);
+
+	mVerticalAngle = (degrees(acos(dot(B, j))) * (uphill ? -1 : 1)) + 12;// +20;
 
 	mHorizontalAngle = std::max(250.0f, std::min(290.0f, mHorizontalAngle));
 	

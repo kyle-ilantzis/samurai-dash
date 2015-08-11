@@ -21,6 +21,8 @@ public:
 		glm::vec3 position;
 		glm::vec3 tangent;
 		glm::vec3 normal;
+		
+		Plane(glm::vec3 p, glm::vec3 t, glm::vec3 n) : position(p), tangent(t), normal(n) {}
 	};
 
 	SplineModel();
