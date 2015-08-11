@@ -41,7 +41,7 @@ void World::Update(float dt)
 			mCurrentCamera = 1;
 		}
 	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+	else if (CAN_USE_FIRST_PERSON_CAMERA && glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
 	{
 		if (mCamera.size() > 2)
 		{
