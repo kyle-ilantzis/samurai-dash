@@ -101,7 +101,7 @@ void World::Update(float dt)
 		mSkyboxModel->Update(dt);
 	}
 
-	//UpdateCollision(dt);
+	UpdateCollision(dt);
 
 	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
 		Reset();

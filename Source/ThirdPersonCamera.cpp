@@ -97,7 +97,9 @@ void ThirdPersonCamera::Update(float dt)
 
 	vec3 currentPos = mTargetModel ? mTargetModel->GetPosition() : vec3(0);
 
-	SplineModel::Plane spline = World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime());
+	SplineModel::Plane spline = World::GetInstance()->GetSpline() ?
+	 							World::GetInstance()->GetSpline()->PlaneAt(mTargetModel->GetCurrentSplineTime()) :
+								SplineModel::Plane(vec3(0), vec3(0,0,-1), vec3(-1,0,0));
 
 	vec3 j = vec3(0, 1, 0);
 	vec3 B = normalize(cross(spline.tangent, spline.normal));
