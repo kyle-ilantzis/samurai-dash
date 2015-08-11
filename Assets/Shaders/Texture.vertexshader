@@ -10,19 +10,39 @@ layout(location = 3) in vec2 vertexUV;
 // Uniform Inputs
 uniform mat4 ViewProjectionTransform;
 uniform mat4 WorldTransform;
+uniform mat4 ViewTransform;
+uniform mat4 ProjectionTransform;
 
 // Outputs to fragment shader
 out vec3 normal;  // You will need this when you do per-fragment lighting
 out vec4 v_color;
 out vec2 UV;
+out vec3 eyeVector;
+out vec4 lightVector;
+
+uniform vec4 WorldLightPosition; // if w = 1: Point light, if w = 0: directional light
 
 void main()
 {
+	mat4 MV = ViewTransform * WorldTransform;
+	mat4 MVP = ProjectionTransform * MV;
 	// Output position of the vertex, in clip space : MVP * position
     gl_Position =  ViewProjectionTransform * WorldTransform * vec4(vertexPosition_modelspace, 1.0f);
 
-    normal = vertexNormal_modelspace; // Does this need to be transformed when we pass it to the fragment shader?
+    normal = ( MV * vec4(vertexNormal_modelspace,0)).xyz;
+	vec3 vertexPosition_cameraspace = ( MV * vec4(vertexPosition_modelspace,1)).xyz;
+	eyeVector = vec3(0,0,0) - vertexPosition_cameraspace;
+
+	vec4 LightPosition_cameraspace = ( ViewTransform * WorldLightPosition);
 	v_color = vertexColor;
 	UV = vertexUV;
+	if(WorldLightPosition.w == 0.0)
+	{
+		lightVector = LightPosition_cameraspace - vec4(eyeVector, 1);
+	}
+	else
+	{
+		lightVector = LightPosition_cameraspace + vec4(eyeVector, 1);
+	}
 }
 

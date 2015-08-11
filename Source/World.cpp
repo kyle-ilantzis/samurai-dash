@@ -403,5 +403,4 @@ void World::SetFog(bool setCamera)
 	glUniform1f(FogEndID, fEnd);
 	glUniform1f(FogDensityID, fDensity);
 	glUniform1i(FogEquationID, iFogEquation);
-
 }
