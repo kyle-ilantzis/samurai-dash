@@ -24,8 +24,8 @@ bool CompareBillboardAlongZ::operator()(const Billboard* a, const Billboard* b)
 }
 
 
-BillboardList::BillboardList(unsigned int maxNumBillboards, int textureID)
-: mTextureID(textureID), mMaxNumBillboards(maxNumBillboards)
+BillboardList::BillboardList(unsigned int maxNumBillboards, int textureID, bool isLighted, bool isFogged)
+	: mTextureID(textureID), mMaxNumBillboards(maxNumBillboards), mIsLighted(isLighted), mIsFogged(isFogged)
 {
     // Pre-allocate Vertex Buffer - 6 vertices by billboard (2 triangles)
     mVertexBuffer.resize(maxNumBillboards * 6);
@@ -114,7 +114,7 @@ void BillboardList::Update(float dt)
 	// @MYCODE
 	vec3 right = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
 	vec3 up = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
-    
+	vec3 back = vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);
     // @TODO 4 - Align billboards with Camera plane
     //
     // For each billboard, update each vertex position, color and normals
@@ -128,23 +128,29 @@ void BillboardList::Update(float dt)
 		// Top left
 		mVertexBuffer[firstVertexIndex].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex].color = b->color;
+		mVertexBuffer[firstVertexIndex].normal = back;
 		// Bottom Left
 		mVertexBuffer[firstVertexIndex + 1].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 1].color = b->color;
+		mVertexBuffer[firstVertexIndex + 1].normal = back;
 		// Top Right
 		mVertexBuffer[firstVertexIndex + 2].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex + 2].color = b->color;
+		mVertexBuffer[firstVertexIndex + 2].normal = back;
 
 		// Second Triangle
 		// Top Right
 		mVertexBuffer[firstVertexIndex + 3].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * up);
 		mVertexBuffer[firstVertexIndex + 3].color = b->color;
+		mVertexBuffer[firstVertexIndex + 3].normal = back;
 		// Bottom Left
 		mVertexBuffer[firstVertexIndex + 4].position = b->position + (0.5f * b->size.x * -right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 4].color = b->color;
+		mVertexBuffer[firstVertexIndex + 4].normal = back;
 		// Bottom Right
 		mVertexBuffer[firstVertexIndex + 5].position = b->position + (0.5f * b->size.x * right) + (0.5f * b->size.y * -up);
 		mVertexBuffer[firstVertexIndex + 5].color = b->color;
+		mVertexBuffer[firstVertexIndex + 5].normal = back;
         
         firstVertexIndex += 6;
     }
@@ -162,13 +168,16 @@ void BillboardList::Draw()
     
     // Set current shader to be the Textured Shader
     ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
-    
-    Renderer::SetShader(SHADER_TEXTURED);
+	Renderer::SetShader(SHADER_TEXTURED);
     glUseProgram(Renderer::GetShaderProgramID());
-
+	
     Renderer::CheckForErrors();
+	// This looks for the MVP Uniform variable in the Vertex Program
+	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
 
-    
     GLuint textureLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "mySamplerTexture");
     glActiveTexture(GL_TEXTURE0);
 
@@ -181,13 +190,23 @@ void BillboardList::Draw()
     
     Renderer::CheckForErrors();
 
-    // This looks for the MVP Uniform variable in the Vertex Program
-    GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-    
     // Send the view projection constants to the shader
     const Camera* currentCamera = World::GetInstance()->GetCurrentCamera();
     mat4 VP = currentCamera->GetViewProjectionMatrix();
     glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+	World::GetInstance()->SetLighting();
+	World::GetInstance()->SetCoefficient(mIsLighted, 0.8);
+	World::GetInstance()->SetFog(false, mIsFogged ? 0 : -1);
+
+	
+	mat4 View = currentCamera->GetViewMatrix();
+	glm::mat4 World(1.0f);
+	mat4 Projection = currentCamera->GetProjectionMatrix();
+	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &World[0][0]);
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &Projection[0][0]);
 
     // Draw the Vertex Buffer
     // Note this draws a unit Cube

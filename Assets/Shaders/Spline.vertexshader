@@ -5,12 +5,23 @@ layout(location = 2) in vec3 vertexColor;
 
 uniform mat4 ViewProjectonTransform;
 uniform mat4 WorldTransform;
+uniform mat4 ViewTransform;
+uniform mat4 ProjectionTransform;
 
 out vec4 v_color;
+out vec4 eyeSpacePos;
+
+uniform vec4 WorldLightPosition; // if w = 1: Point light, if w = 0: directional light
 
 void main()
 {
+	mat4 MV = ViewTransform * WorldTransform;
+	
+	mat4 MVP = ProjectionTransform * MV;
+	
 	gl_Position =  ViewProjectonTransform * WorldTransform * vec4(vertexPosition_modelspace,1);
+	
 	v_color = vec4(vertexColor, 0.75f);
-}
 
+	eyeSpacePos =( MV * vec4(vertexPosition_modelspace,1));
+}

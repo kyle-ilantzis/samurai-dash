@@ -142,7 +142,7 @@ void ParticleDescriptor::SetFlameDescriptor(){
 	endColor = vec4(0.5f, 0.5f, 0.5f, 0.0f);
 	**/
 
-	emissionRate = 25.0f;
+	emissionRate = 10.0f;
 	fadeInTime = 0.1f;
 	fadeOutTime = 0.3f;
 	totalLifetime = 0.5f;

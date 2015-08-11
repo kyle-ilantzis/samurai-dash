@@ -156,6 +156,6 @@ void MoveState::Update(float dt) {
 
 void MoveState::Draw() { mPlayer.DrawPlayer(); }
 
-void DeadState::Draw() {}
+void DeadState::Draw() { mPlayer.DrawPlayer(); }
 
 void GoalState::Draw() { mPlayer.DrawPlayer(); }

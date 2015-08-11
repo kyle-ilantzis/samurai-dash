@@ -54,8 +54,11 @@ void SkyboxModel::Draw() {
 	shader.Bind();
 
 	shader.SetMatrix("ViewProjectionTransform", World::GetInstance()->GetCamera()->GetViewProjectionMatrix());
+	shader.SetMatrix("WorldTransform", mat4(1));
+	shader.SetMatrix("ViewTransform", World::GetInstance()->GetCamera()->GetViewMatrix());
+	shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
 	shader.SetTexture("TextureCubemap", mCubemap, GL_TEXTURE0);
-
+	World::GetInstance()->SetFog(true,1);
 	CubeModel::Draw();
 
 	glDepthFunc(oldDepthFuncMode);

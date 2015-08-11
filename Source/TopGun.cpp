@@ -27,11 +27,11 @@ TopGun::TopGun()
 	assert(billboardTextureTG != 0);
 
 	// Create New BillboardLists for them
-	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose);
-	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman);
-	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick);
-	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend);
-	mpBillboardListTG = new BillboardList(10, billboardTextureTG);
+	mpBillboardListGoose = new BillboardList(10, billboardTextureGoose, true, true);
+	mpBillboardListIceman = new BillboardList(10, billboardTextureIceman, true, true);
+	mpBillboardListMaverick = new BillboardList(10, billboardTextureMaverick, true, true);
+	mpBillboardListTGend = new BillboardList(10, billboardTextureTGend, true, true);
+	mpBillboardListTG = new BillboardList(10, billboardTextureTG, true, true);
 
 }
 
@@ -68,17 +68,17 @@ void TopGun::Reset()
 	for(int i=0; i < 2; i++)
 	{
 		Billboard* b = new Billboard();
-		b->size = glm::vec2(20.0, 10.0);
+		b->size = glm::vec2(30.0, 10.0);
 		b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 		SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
 		
 		if (i == 0)
 		{ 
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.35f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		else
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.35f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		mpBillboardListTG->AddBillboard(b);
 	}
@@ -94,11 +94,11 @@ void TopGun::Reset()
 
 		if (i == 0)
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		else
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		mpBillboardListMaverick->AddBillboard(b);
 	}
@@ -114,11 +114,11 @@ void TopGun::Reset()
 
 		if (i == 0)
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		else
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		mpBillboardListGoose->AddBillboard(b);
 	}
@@ -134,11 +134,11 @@ void TopGun::Reset()
 
 		if (i == 0)
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_LEFT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		else
 		{
-			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.5f));
+			b->position = p.position + (World::GetInstance()->GetSpline()->TrackShiftDir(TRACK_RIGHT, distanceTime * count)*(SplineFactory::trackWidth*1.1f)) + vec3(0.0f, 6.0f, 0.0f);
 		}
 		mpBillboardListIceman->AddBillboard(b);
 	}
@@ -147,11 +147,11 @@ void TopGun::Reset()
 
 	// Above End of Track
 	Billboard* b = new Billboard();
-	b->size = glm::vec2(40.0, 20.0);
+	b->size = glm::vec2(51.0, 36.0);
 	b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(distanceTime * count);
 
-	b->position = p.position + vec3(0.0f,SplineFactory::trackWidth,0.0f);
+	b->position = p.position + vec3(0.0f, 20.0f, -30.0f);
 
 	mpBillboardListTGend->AddBillboard(b);
 

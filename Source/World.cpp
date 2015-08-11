@@ -157,7 +157,7 @@ void World::Draw()
 
 	SetLighting();
 	SetCoefficient();
-
+	SetFog(false,0);
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
@@ -200,6 +200,7 @@ void World::Draw()
 
 		World::GetInstance()->SetCoefficient();
 		World::GetInstance()->SetLighting();
+		SetFog(false, 0);
 
 		shader.SetTexture("myTextureSampler", mBarrelTexture, GL_TEXTURE0);
 
@@ -292,9 +293,6 @@ void World::Draw()
 	}
     mpBillboardList->Draw();
 	
-	
-
-
 	//Update Clock
 	sw->start();
 	double time = (double)(sw->getTime());
@@ -398,7 +396,7 @@ void World::SetLighting()
 	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
 }
 
-void World::SetCoefficient()
+void World::SetCoefficient(bool enabled, float a)
 {
 	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
 	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
@@ -406,14 +404,45 @@ void World::SetCoefficient()
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
 	
 	// Material Coefficients
-	const float ka = 0.3f;
-	const float kd = 0.8f;
-	const float ks = 0.2f;
-	const float n = 90.0f;
+	const float ka = enabled ? a : 1;
+	const float kd = enabled ? 0.8f : 0;
+	const float ks = enabled ? 0.2f : 0;
+	const float n = enabled ? 90.0f : 1;
 
 	// Set shader constants
 	glUniform1f(MaterialAmbientID, ka);
 	glUniform1f(MaterialDiffuseID, kd);
 	glUniform1f(MaterialSpecularID, ks);
 	glUniform1f(MaterialExponentID, n);
+}
+
+void World::SetFog(bool setCamera, int fog_equation)
+{
+	//FOG EQUATION NONE = -1
+	//FOG EQUATION LINEAR = 0
+	//FOG EQUATION EXP = 1
+	//FOG EQUATION EXP = 2
+	float fEnd;
+	int iFogEquation = fog_equation; 
+	if (setCamera){
+		fEnd = GetCamera()->farView + 1;
+	}
+	else{
+		fEnd = 75.0f;
+	}
+	float fDensity = 0.04f;
+	float fStart = 10.0f;
+	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
+	
+	GLuint FogColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "vFogColor");
+	GLuint FogStartID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fStart");
+	GLuint FogEndID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fEnd");
+	GLuint FogDensityID = glGetUniformLocation(Renderer::GetShaderProgramID(), "fDensity");
+	GLuint FogEquationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "iEquation");
+
+	glUniform4f(FogColorID, vFogColor.x, vFogColor.y, vFogColor.z , vFogColor.w);
+	glUniform1f(FogStartID, fStart);
+	glUniform1f(FogEndID, fEnd);
+	glUniform1f(FogDensityID, fDensity);
+	glUniform1i(FogEquationID, iFogEquation);
 }

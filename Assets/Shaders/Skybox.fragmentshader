@@ -3,8 +3,32 @@
 in vec3 textCord0;
 
 uniform samplerCube TextureCubemap;
+uniform vec4 vFogColor; // Fog color
+uniform float fStart; // This is only for linear fog
+uniform float fEnd; // This is only for linear fog
+uniform float fDensity; // For exp and exp2 equation
+uniform int iEquation; // 0 = linear, 1 = exp, 2 = exp2
 
+//output
 out vec4 color;
+//input
+in vec4 v_color;
+in vec4 eyeSpacePos;
+
+float getFogFactor(float fEnd, float fStart, float fDensity,int iEquation, float fFogCoord) 
+{ 
+   float fResult = 0.0; 
+   if(iEquation == 0) 
+      fResult = (fEnd-fFogCoord)/(fEnd-fStart); 
+   else if(iEquation == 1) 
+      fResult = exp(-fDensity*fFogCoord); 
+   else if(iEquation == 2) 
+      fResult = exp(-pow(fDensity*fFogCoord, 2.0)); 
+       
+   fResult = 1.0-clamp(fResult, 0.0, 1.0); 
+    
+   return fResult;
+}
 
 void main() {
 
@@ -14,5 +38,8 @@ void main() {
 
 	// From a cubemap we use a vec3 to access the right face 
 	// and then the right U and V on that face
+	float fFogCoord = abs(eyeSpacePos.z/eyeSpacePos.w);
 	color = texture(TextureCubemap, textCord1);
+	color = mix(color,vFogColor, getFogFactor(50.0f,10.0f,0.025f,iEquation,fFogCoord));
+
 }
