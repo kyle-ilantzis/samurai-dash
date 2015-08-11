@@ -44,12 +44,6 @@ void DrawTime(const char* text, int tSize, int xPosition, int yPosition){
 		vec2 topRight = vec2(xPosition + i*tSize + tSize, yPosition + tSize);
 		vec2 bottomLeft = vec2(xPosition + i*tSize, yPosition);
 		vec2 bottomRight = vec2(xPosition + i*tSize + tSize, yPosition);
-		
-
-		//Second Triangle
-		//vec2 topRight2 = vec2(xPosition + i*tSize + tSize, yPosition + tSize);
-		
-	//	vec2 bottomLeft2 = vec2(xPosition + i*tSize, yPosition);
 
 		vertexes.push_back(topLeft);
 		vertexes.push_back(bottomLeft);
@@ -65,11 +59,9 @@ void DrawTime(const char* text, int tSize, int xPosition, int yPosition){
 
 		vec2 uvTopLeft = vec2(uvx,uvy);
 		vec2 uvTopRight = vec2(uvx + 1.0f / 16.0f, uvy);
-	//	vec2 uvTopRight2 = vec2(uvx + 1.0f / 16.0f, uvy);
 
 		vec2 uvBottomLeft = vec2(uvx, uvy + 1.0f / 16.0f);
 		vec2 uvBottomRight = vec2(uvx + 1.0f / 16.0f, uvy + 1.0f / 16.0f);
-		//vec2 uvBottomLeft2 = vec2(uvx, uvy + 1.0f / 16.0f);
 		
 		uvs.push_back(uvTopLeft);
 		uvs.push_back(uvBottomLeft);
@@ -85,6 +77,8 @@ void DrawTime(const char* text, int tSize, int xPosition, int yPosition){
 	glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(glm::vec2), &vertexes[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, Text2DUVBufferID);
 	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+
+	ShaderType oldShader = (ShaderType)Renderer::GetCurrentShader();
 
 	// Bind shader
 	glUseProgram(Text2DShaderID);
@@ -111,10 +105,15 @@ void DrawTime(const char* text, int tSize, int xPosition, int yPosition){
 	// Draw call
 	glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
 
-	glDisable(GL_BLEND);
+
+	//glDisable(GL_BLEND);
+
+	
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+
+	Renderer::SetShader(oldShader);
 }
 
 void cleanupText(){
