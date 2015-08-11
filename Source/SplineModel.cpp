@@ -32,7 +32,7 @@ void SplineModel::Draw()
 	shader.SetMatrix("WorldTransform", mat4(1));
 	shader.SetMatrix("ViewTransform", World::GetInstance()->GetCamera()->GetViewMatrix());
 	shader.SetMatrix("ProjectionTransform", World::GetInstance()->GetCamera()->GetProjectionMatrix());
-	World::GetInstance()->SetFog(false);
+	World::GetInstance()->SetFog(false,0);
 	
 	mArray.Bind();
 

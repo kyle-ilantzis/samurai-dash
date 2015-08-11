@@ -197,7 +197,7 @@ void BillboardList::Draw()
 
 	World::GetInstance()->SetLighting();
 	World::GetInstance()->SetCoefficient();
-	World::GetInstance()->SetFog(false);
+	World::GetInstance()->SetFog(false, 0);
 
 	
 	mat4 View = currentCamera->GetViewMatrix();

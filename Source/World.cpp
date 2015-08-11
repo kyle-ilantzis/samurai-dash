@@ -6,9 +6,6 @@
 //
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
-#define FOG_EQUATION_LINEAR 0 
-#define FOG_EQUATION_EXP 1 
-#define FOG_EQUATION_EXP2 2 
 // Other Assets
 #include "World.h"
 #include "Renderer.h"
@@ -156,7 +153,7 @@ void World::Draw()
 
 	SetLighting();
 	SetCoefficient();
-	SetFog(false);
+	SetFog(false,0);
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	mat4 View = mCamera[mCurrentCamera]->GetViewMatrix();
@@ -390,19 +387,19 @@ void World::SetCoefficient()
 	glUniform1f(MaterialExponentID, n);
 }
 
-void World::SetFog(bool setCamera)
+void World::SetFog(bool setCamera, int fog_equation)
 {
+	//FOG EQUATION LINEAR = 0
+	//FOG EQUATION EXP = 1
+	//FOG EQUATION EXP = 2
 	float fEnd;
-	int iFogEquation = FOG_EQUATION_LINEAR; // FOG_EQUATION_LINEAR, FOG_EQUATION_EXP, FOG_EQUATION_EXP2
-	//fEnd to Camera::farView + 1
+	int iFogEquation = fog_equation; 
 	if (setCamera){
 		fEnd = GetCamera()->farView + 1;
-		iFogEquation = FOG_EQUATION_EXP;
 	}
 	else{
 		fEnd = 75.0f;
 	}
-	GetCamera()->farView + 1;
 	float fDensity = 0.04f;
 	float fStart = 10.0f;
 	vec4 vFogColor = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
