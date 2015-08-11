@@ -24,8 +24,8 @@ bool CompareBillboardAlongZ::operator()(const Billboard* a, const Billboard* b)
 }
 
 
-BillboardList::BillboardList(unsigned int maxNumBillboards, int textureID)
-: mTextureID(textureID), mMaxNumBillboards(maxNumBillboards)
+BillboardList::BillboardList(unsigned int maxNumBillboards, int textureID, bool isLighted, bool isFogged)
+	: mTextureID(textureID), mMaxNumBillboards(maxNumBillboards), mIsLighted(isLighted), mIsFogged(isFogged)
 {
     // Pre-allocate Vertex Buffer - 6 vertices by billboard (2 triangles)
     mVertexBuffer.resize(maxNumBillboards * 6);
@@ -196,8 +196,8 @@ void BillboardList::Draw()
     glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 
 	World::GetInstance()->SetLighting();
-	World::GetInstance()->SetCoefficient();
-	World::GetInstance()->SetFog(false, 0);
+	World::GetInstance()->SetCoefficient(mIsLighted);
+	World::GetInstance()->SetFog(false, mIsFogged ? 0 : -1);
 
 	
 	mat4 View = currentCamera->GetViewMatrix();

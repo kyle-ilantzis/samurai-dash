@@ -196,6 +196,7 @@ void World::Draw()
 
 		World::GetInstance()->SetCoefficient();
 		World::GetInstance()->SetLighting();
+		SetFog(false, 0);
 
 		shader.SetTexture("myTextureSampler", mBarrelTexture, GL_TEXTURE0);
 
@@ -367,7 +368,7 @@ void World::SetLighting()
 	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
 }
 
-void World::SetCoefficient()
+void World::SetCoefficient(bool enabled)
 {
 	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
 	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
@@ -375,10 +376,10 @@ void World::SetCoefficient()
 	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
 	
 	// Material Coefficients
-	const float ka = 0.3f;
-	const float kd = 0.8f;
-	const float ks = 0.2f;
-	const float n = 90.0f;
+	const float ka = enabled ? 0.3f : 1;
+	const float kd = enabled ? 0.8f : 0;
+	const float ks = enabled ? 0.2f : 0;
+	const float n = enabled ? 90.0f : 1;
 
 	// Set shader constants
 	glUniform1f(MaterialAmbientID, ka);
@@ -389,6 +390,7 @@ void World::SetCoefficient()
 
 void World::SetFog(bool setCamera, int fog_equation)
 {
+	//FOG EQUATION NONE = -1
 	//FOG EQUATION LINEAR = 0
 	//FOG EQUATION EXP = 1
 	//FOG EQUATION EXP = 2
