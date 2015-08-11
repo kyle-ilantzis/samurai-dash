@@ -308,13 +308,11 @@ void World::Draw()
 				lastPointsUpdate = time;
 			}
 		}
-		cout << "Time: " << time << endl;
 		//Points
 		if (fmod(time, 5) == 0){
 			if (lastScoreUpdate != time){
 				score += points;
 				lastScoreUpdate = time;
-				cout << "Score: " << score << endl;
 			}
 		}
 
