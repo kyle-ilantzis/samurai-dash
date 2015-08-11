@@ -56,7 +56,8 @@ int main(int argc, char*argv[])
 		//	world.LoadScene("../Assets/Scenes/Discoball.scene");
 		//	world.LoadScene("../Assets/Scenes/Player.scene");
 		//	world.LoadScene("../Assets/Scenes/Barrel.scene");
-			world.LoadScene();
+		initText(TextureLoader::LoadDDS("../Assets/Textures/Holstein.DDS"));
+		world.LoadScene();
 	}
 
 	double fps = 1.0f / FPS;
@@ -75,8 +76,7 @@ int main(int argc, char*argv[])
 	EventManager::Update();
 
 	do
-	{
-		initText(TextureLoader::LoadDDS("../Assets/Textures/Holstein.DDS"));
+	{		
 		double start = glfwGetTime();
 
 		// Update Event Manager - Frame time / input / events processing 
