@@ -12,7 +12,7 @@ uniform mat4 ViewProjectionTransform;
 uniform mat4 WorldTransform;
 
 // Outputs to fragment shader
-out vec3 normal;  // You will need this when you do per-fragment lighting
+out vec3 normal; 
 out vec4 v_color;
 out vec2 UV;
 
@@ -21,7 +21,7 @@ void main()
 	// Output position of the vertex, in clip space : MVP * position
     gl_Position =  ViewProjectionTransform * WorldTransform * vec4(vertexPosition_modelspace, 1.0f);
 
-    normal = vertexNormal_modelspace; // Does this need to be transformed when we pass it to the fragment shader?
+    normal = vertexNormal_modelspace; 
 	v_color = vertexColor;
 	UV = vertexUV;
 }

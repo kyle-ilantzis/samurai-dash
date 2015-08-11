@@ -12,9 +12,8 @@ public:
 	void           start();
 	void           stop();
 	void           reset();
-	bool           isRunning();
 	unsigned long  getTime();
-	bool           isOver(unsigned long seconds);
+
 
 private:
 	bool           resetted;
@@ -22,7 +21,7 @@ private:
 	unsigned long pauseTime;
 	unsigned long time;
 	unsigned long  current;
-	unsigned long  beg;
-	unsigned long  end;
+	unsigned long  startTime;
+	unsigned long  endTime;
 };
 

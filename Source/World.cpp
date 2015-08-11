@@ -55,6 +55,9 @@ World::World()
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCurrentCamera = 0;
 
+	score = 0;
+	points = 5;
+
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 
 	// int billboardTextureID = TexureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
@@ -289,9 +292,36 @@ void World::Draw()
 	}
     mpBillboardList->Draw();
 	
+	
+
+
 	//Update Clock
 	sw->start();
 	double time = (double)(sw->getTime());
+
+	//Compute Score 
+	if (time > 0){
+
+		//Player gets more points for being able to stay on strack
+		//without colliding
+		if (fmod(time, 10) == 0){
+			if (time != lastPointsUpdate){
+				points += points;
+				lastPointsUpdate = time;
+			}
+		}
+		cout << "Time: " << time << endl;
+		//Points
+		if (fmod(time, 5) == 0){
+			if (lastScoreUpdate != time){
+				score += points;
+				lastScoreUpdate = time;
+				cout << "Score: " << score << endl;
+			}
+		}
+
+	}
+
 	char text[256];
 	sprintf(text, "%.0f seconds", time);
 	DrawTime(text, 20, 20, 550);

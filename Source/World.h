@@ -95,7 +95,10 @@ private:
 
     BillboardList* mpBillboardList;
 	StopWatch* sw;
-	int score = 0;
+	int score;
+	int lastScoreUpdate;
+	int lastPointsUpdate;
+	int points;
 
 	SplineModel* mSplineModel;
 	PlayerModel* mPlayerModel;
