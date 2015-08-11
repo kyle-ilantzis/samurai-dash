@@ -114,7 +114,7 @@ void World::UpdateCollision(float dt) {
 
 	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
 
-	if (mSplineModel) {
+	if (COLLISION_GOAL && mSplineModel) {
 		Model* splineBvm = mSplineModel->GetBoundingVolumeModel();
 		if (splineBvm && TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
@@ -124,14 +124,16 @@ void World::UpdateCollision(float dt) {
 		}
 	}
 
-	for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
-	{
-		Model* obstacle = (*it).second;
+	if (COLLISION_OBSTACLES && mObstacles) {
+		for (Obstacles::obstacle_vector_itr it = mObstacles->getObstacles().begin(); it != mObstacles->getObstacles().end(); ++it)
+		{
+			Model* obstacle = (*it).second;
 
-		if (TestBoundingVolumes(*mPlayerModel, *obstacle)) { 
-			mPlayerModel->Died();
-			cout << "collision " << ctr++ << "! You Died!" << endl;
-			return;
+			if (TestBoundingVolumes(*mPlayerModel, *obstacle)) {
+				mPlayerModel->Died();
+				cout << "collision " << ctr++ << "! You Died!" << endl;
+				return;
+			}
 		}
 	}
 }
