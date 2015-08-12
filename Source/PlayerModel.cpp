@@ -16,6 +16,8 @@ using namespace glm;
 const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.50f;
 const float PlayerModel::DEFAULT_MOVE_SPEED = 13.0f;
 const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 1.3f;
+const quat quatLeft = angleAxis(-35.0f, vec3(0, 0, -1));
+const quat quatRight = angleAxis(35.0f, vec3(0, 0, -1));
 
 const glm::vec3 PlayerModel::JET_SHAPE_COLORS[] = { JET_COLOR, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR,
 													  JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR,
@@ -128,20 +130,20 @@ void MoveState::Update(float dt) {
 	mPlayer.SetPosition(mPlayer.GetPosition() + trackShift);
 	
 	quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+	quat quatRotationLeft = quatLeft * InitPlayer;
+	quat quatRotationRight = quatRight * InitPlayer;
 	
 	if (mDir == TRACK_LEFT)
 	{
-		quat quatLeft = angleAxis(-45.0f, vec3(0, 0, -1));
-
-		quat quatRotationMove = quatLeft * InitPlayer;
-		mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+			float c = (length(trackShift) / trackPieceWidth);
+			quat quatRotationMove = slerp(InitPlayer, quatRotationLeft, c);
+			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
 	}
 	else
 	{
-		quat quatRight = angleAxis(45.0f, vec3(0, 0, -1));
-
-		quat quatRotationMove = quatRight * InitPlayer;
-		mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+			float c = (length(trackShift) / trackPieceWidth);
+			quat quatRotationMove = slerp(InitPlayer, quatRotationRight, c);
+			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
 	}
 
 	if (length(trackShift) >= trackPieceWidth) {
