@@ -123,7 +123,7 @@ SplineModel::Plane SplineFactoryPlaneDelegate::At(SplineModel& spline, float t) 
 	return { position, tangent, normal };
 }
 
-bool SplineFactory::MAKE_OSCULATTING_PLANES = false;
+bool SplineFactory::MAKE_OSCULATTING_PLANES = true;
 
 void SplineFactory::makeOscullatingPlanes(SplineModel& spline) {
 
