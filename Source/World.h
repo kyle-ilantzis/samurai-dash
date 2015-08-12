@@ -39,7 +39,7 @@ class World
 public:
 	static const char* sceneFile;
 	// If true then models with bounding volumes will draw the volumes
-	static const bool DRAW_BOUNDING_VOLUME = false;
+	static const bool DRAW_BOUNDING_VOLUME = true;
 	// If true the animations will draw their key frames points as a path
 	static const bool DRAW_ANIM_PATH = false;
 	// How long to wait after the player has died or reached the goal before restarting.
