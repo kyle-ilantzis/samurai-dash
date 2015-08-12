@@ -47,9 +47,9 @@ public:
 	// If true collision with the goal will be tested for
 	static const bool COLLISION_GOAL = true;
 	// If true collision with obstacles will be tested for
-	static const bool COLLISION_OBSTACLES = true;
+	static const bool COLLISION_OBSTACLES = false;
 	// If true the first person camera can be switched to during gameplay.
-	static const bool CAN_USE_FIRST_PERSON_CAMERA = false;
+	static const bool CAN_USE_FIRST_PERSON_CAMERA = true;
 
 	World();
 	~World();
