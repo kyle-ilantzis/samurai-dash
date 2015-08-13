@@ -2,38 +2,38 @@
 
 
 StopWatch::StopWatch() {
-	resetted = true;
-	running = false;
+	restart = true;
+	run = false;
 	startTime = 0;
 	endTime = 0;
 }
 
 
 void StopWatch::start() {
-	if (!running) {
-		if (resetted)
+	if (!run) {
+		if (restart)
 			startTime = (unsigned long)clock();
 		else
 			startTime -= endTime - (unsigned long)clock();
-		running = true;
-		resetted = false;
+		run = true;
+		restart = false;
 	}
 }
 
 
 void StopWatch::stop() {
-	if (running) {
+	if (run) {
 		endTime = (unsigned long)clock();
-		running = false;
+		run = false;
 	}
 }
 
 
 void StopWatch::reset() {
-	bool wereRunning = running;
+	bool wereRunning = run;
 	if (wereRunning)
 		stop();
-	resetted = true;
+	restart = true;
 	startTime = 0;
 	endTime = 0;
 	if (wereRunning)
@@ -41,7 +41,7 @@ void StopWatch::reset() {
 }
 
 unsigned long StopWatch::getTime() {
-	if (running)
+	if (run)
 		return ((unsigned long)clock() - startTime) / CLOCKS_PER_SEC;
 	else
 		return endTime - startTime;
@@ -50,4 +50,3 @@ unsigned long StopWatch::getTime() {
 StopWatch::~StopWatch(){
 
 }
-

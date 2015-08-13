@@ -16,12 +16,11 @@ public:
 
 
 private:
-	bool           resetted;
-	bool           running;
+	bool           restart;
+	bool           run;
 	unsigned long pauseTime;
 	unsigned long time;
 	unsigned long  current;
 	unsigned long  startTime;
 	unsigned long  endTime;
 };
-

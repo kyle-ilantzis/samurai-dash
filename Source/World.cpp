@@ -319,12 +319,46 @@ void World::Draw()
 	}
 
 	char text[256];
-	sprintf(text, "%.0f seconds", time);
-	DrawTime(text, 20, 20, 550);
+	if (EventManager::status == GameStatus::RUNNING){
+		//Update Clock
+		sw->start();
+		double time = (double)(sw->getTime());
 
-	//Draw Score
-	sprintf(text, "Score: %d", score);
-	DrawTime(text, 20, 580, 550);
+		//Compute Score 
+		if (time > 0){
+
+			//Player gets more points for being able to stay on strack
+			//without colliding
+			if (fmod(time, 10) == 0){
+				if (time != lastPointsUpdate){
+					points += points;
+					lastPointsUpdate = time;
+				}
+			}
+			//Points
+			if (fmod(time, 5) == 0){
+				if (lastScoreUpdate != time){
+					score += points;
+					lastScoreUpdate = time;
+
+				}
+			}
+
+		}
+
+
+		sprintf(text, "%.0f seconds", time);
+		DrawTime(text, 20, 20, 550);
+
+		//Draw Score
+		sprintf(text, "Score: %d", score);
+		DrawTime(text, 20, 580, 550);
+	}
+	if (EventManager::status == GameStatus::PAUSED){
+		sprintf(text, "Paused");
+		DrawTime(text, 20, 380, 350);
+		sw->stop();
+	}
 
 	Renderer::EndFrame();
 }

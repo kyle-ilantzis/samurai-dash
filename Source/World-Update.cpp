@@ -59,6 +59,7 @@ void World::Update(float dt)
 		Renderer::SetShader(SHADER_BLUE);
 	}
 
+	if (EventManager::status == GameStatus::RUNNING){
 	// Update animation and keys
 	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
 	{
@@ -105,6 +106,15 @@ void World::Update(float dt)
 
 	if (mPlayerModel && (mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) && mPlayerModel->GetStateCurrentTime() >= RESTART_DELAY_SECONDS) {
 		Reset();
+	}
+
+	}
+	//if the gme is paused
+	if (EventManager::IsKeyPressed(GLFW_KEY_P)){
+		if (EventManager::status == GameStatus::RUNNING)
+			EventManager::status = GameStatus::PAUSED;
+		else
+			EventManager::status = GameStatus::RUNNING;
 	}
 }
 
