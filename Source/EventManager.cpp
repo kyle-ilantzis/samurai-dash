@@ -36,6 +36,8 @@ float  EventManager::sMouseDeltaY = 0.0f;
 // Window
 GLFWwindow* EventManager::spWindow = nullptr;
 
+//Game Status
+GameStatus EventManager::status = GameStatus::RUNNING;
 
 void EventManager::Initialize()
 {

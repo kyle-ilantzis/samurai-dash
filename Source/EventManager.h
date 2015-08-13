@@ -39,7 +39,7 @@ public:
     static float GetRandomFloat(float min, float max);
 
 	static bool IsKeyPressed(int key);
-
+	static GameStatus status;
 private:
 	// Time
 	static double sLastFrameTime;
@@ -53,4 +53,5 @@ private:
 
 	// Window
 	static GLFWwindow* spWindow;
+
 };
