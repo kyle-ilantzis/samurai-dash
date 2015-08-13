@@ -17,6 +17,7 @@
 #include "Discoball.h"
 #include "SkyboxModel.h"
 #include "StopWatch.h"
+#include "EventManager.h"
 
 class Camera;
 class SplineModel;
@@ -93,6 +94,11 @@ private:
 
     static World* instance;
     
+	// It is important to have the key typed here and not the event manager
+	// Because of the fixed time step to the world update.
+	// This way we wont be missing key typed events.
+	KeyTyped mPauseKeyTyped;
+
 	std::vector<Model*> mModel;
     std::vector<Animation*> mAnimation;
     std::vector<AnimationKey*> mAnimationKey;

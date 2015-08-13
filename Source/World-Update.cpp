@@ -28,6 +28,8 @@ using namespace rtcd;
 
 void World::Update(float dt)
 {
+	mPauseKeyTyped.Update();
+
 	// User Inputs
 	// 0 1 2 to change the Camera
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
@@ -110,7 +112,7 @@ void World::Update(float dt)
 
 	}
 	//if the gme is paused
-	if (EventManager::IsKeyPressed(GLFW_KEY_P)){
+	if (mPauseKeyTyped.IsKeyTyped()){
 		if (EventManager::status == GameStatus::RUNNING)
 			EventManager::status = GameStatus::PAUSED;
 		else

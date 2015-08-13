@@ -40,7 +40,7 @@ const float World::RESTART_DELAY_SECONDS = 1;
 
 World* World::instance;
 
-World::World()
+World::World() : mPauseKeyTyped(GLFW_KEY_P)
 {
     instance = this;
 	

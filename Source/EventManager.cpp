@@ -156,3 +156,13 @@ float EventManager::GetRandomFloat(float min, float max)
 bool EventManager::IsKeyPressed(int key) {
 	return glfwGetKey(EventManager::GetWindow(), key) == GLFW_PRESS;
 }
+
+static bool IsKeyUnpressed(int key) {
+	return glfwGetKey(EventManager::GetWindow(), key) == GLFW_RELEASE;
+}
+
+void KeyTyped::Update() {
+
+	mBeforePressed = mNowPressed;
+	mNowPressed = EventManager::IsKeyPressed(mKey);
+}
