@@ -122,14 +122,14 @@ void World::Update(float dt)
 
 void World::UpdateCollision(float dt) {
 
-	static int ctr = 1;
+	// static int ctr = 1;
 
 	if (!mPlayerModel || mPlayerModel->IsDead() || mPlayerModel->HasReachedGoal()) { return; }
 
 	if (COLLISION_GOAL && mSplineModel) {		
 		if (TestBoundingVolumes(*mPlayerModel, *mSplineModel)) {
 
-			cout << "collision " << ctr++ << "! You Win!" << endl;
+			// cout << "collision " << ctr++ << "! You Win!" << endl;
 			mPlayerModel->ReachedGoal();
 			return;
 		}
@@ -142,7 +142,7 @@ void World::UpdateCollision(float dt) {
 
 			if (TestBoundingVolumes(*mPlayerModel, *obstacle)) {
 				mPlayerModel->Died();
-				cout << "collision " << ctr++ << "! You Died!" << endl;
+				// cout << "collision " << ctr++ << "! You Died!" << endl;
 				return;
 			}
 		}
