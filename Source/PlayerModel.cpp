@@ -16,8 +16,8 @@ using namespace glm;
 const float PlayerModel::DEFAULT_SPLINE_TIME_SPEED = 0.50f;
 const float PlayerModel::DEFAULT_MOVE_SPEED = 13.0f;
 const float PlayerModel::MODEL_SPACE_HEIGHT_OFFSET = 1.3f;
-const quat quatLeft = angleAxis(-35.0f, vec3(0, 0, -1));
-const quat quatRight = angleAxis(35.0f, vec3(0, 0, -1));
+//const quat quatLeft = angleAxis(-35.0f, vec3(0, 0, -1));
+//const quat quatRight = angleAxis(35.0f, vec3(0, 0, -1));
 
 const glm::vec3 PlayerModel::JET_SHAPE_COLORS[] = { JET_COLOR, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR,
 													  JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR, JET_COLOR, JET_COLOR2, JET_COLOR2, JET_COLOR, JET_COLOR,
@@ -122,37 +122,79 @@ void MoveState::SetTrackMove(Track dir) {
 void MoveState::Update(float dt) {
 
 	PlayerState::Update(dt);
-	mPlayer.UpdatePosition(dt);
+	//mPlayer.UpdatePosition(dt);
 
 	float trackPieceWidth = SplineFactory::trackWidth / 3;
 	vec3 trackShift = World::GetInstance()->GetSpline()->TrackShiftDir(mDir,mCurrentTime) * mPlayer.mMoveSpeed * mCurrentTime;
 
+	mPlayer.UpdatePosition(dt);
 	mPlayer.SetPosition(mPlayer.GetPosition() + trackShift);
+
+	vec3 j = vec3(0, 1, 0);
 	
-	quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
-	quat quatRotationLeft = quatLeft * InitPlayer;
-	quat quatRotationRight = quatRight * InitPlayer;
-	
+	SplineModel::Plane p = World::GetInstance()->GetSpline()->PlaneAt(mCurrentTime);
+	vec3 B = normalize(cross(p.tangent, p.normal));
+	bool uphill = dot(j, p.tangent) > 0;
+	float rotation = degrees(acos(dot(B, j))) * (uphill ? -1 : 1);
+	quat quatUD = angleAxis(rotation, vec3(1, 0, 0));
+	vec3 UpDown = rotate(quatUD, vec3(0, 0, 1));
+
+	quat quatLeft = angleAxis(-45.0f, normalize(vec3(0, 0, -1)*UpDown));
+	quat quatRight = angleAxis(45.0f, normalize(vec3(0, 0, -1)*UpDown));
+
 	if (mDir == TRACK_LEFT)
 	{
-			float c = (length(trackShift) / trackPieceWidth);
+		float per = clamp((length(trackShift) / trackPieceWidth), 0.0f, 1.0f);
+		if (per <= 0.65f)
+		{ 
+			float c = per / 0.65f;
+			quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+			quat quatRotationLeft = quatLeft * InitPlayer;
 			quat quatRotationMove = slerp(InitPlayer, quatRotationLeft, c);
 			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+		}
+		else if (per < 0.95f)
+		{
+			float c = per / 0.95f;
+			quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+			quat quatRotationLeft = quatLeft * InitPlayer;
+			quat quatRotationMove = slerp(quatRotationLeft, InitPlayer, c);
+			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+		}
+		else if (per >= 0.95f)
+		{
+			int next = (int)mPlayer.mTrack + (mDir == TRACK_LEFT ? -1 : 1);
+			Track nextTrack = (Track)clamp(next, 0, 2);
+			mPlayer.mTrack = nextTrack;
+			mPlayer.changeState(&mPlayer.mTrackState);
+		}
 	}
-	else
+	else if (mDir == TRACK_RIGHT)
 	{
-			float c = (length(trackShift) / trackPieceWidth);
+		float per = clamp((length(trackShift) / trackPieceWidth), 0.0f, 1.0f);
+		if (per <= 0.65f)
+		{ 
+			float c = per / 0.65f;
+			quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+			quat quatRotationRight = quatRight * InitPlayer;
 			quat quatRotationMove = slerp(InitPlayer, quatRotationRight, c);
 			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
-	}
-
-	if (length(trackShift) >= trackPieceWidth) {
-		int next = (int)mPlayer.mTrack + (mDir == TRACK_LEFT ? -1 : 1);
-		Track nextTrack = (Track)clamp(next, 0, 2);
-
-		mPlayer.mTrack = nextTrack;
-
-		mPlayer.changeState(&mPlayer.mTrackState);
+		}
+		else if (per < 0.95f)
+		{
+			float c = per / 0.95f;
+			quat InitPlayer = angleAxis(mPlayer.GetRotationAngle(), mPlayer.GetRotationAxis());
+			quat quatRotationRight = quatRight * InitPlayer;
+			quat quatRotationMove = slerp(quatRotationRight, InitPlayer, c);
+			mPlayer.SetRotation(axis(quatRotationMove), angle(quatRotationMove));
+		}
+		else if (per >= 0.95f)
+		{
+			int next = (int)mPlayer.mTrack + (mDir == TRACK_LEFT ? -1 : 1);
+			Track nextTrack = (Track)clamp(next, 0, 2);
+			mPlayer.mTrack = nextTrack;
+			mPlayer.changeState(&mPlayer.mTrackState);
+		}
 	}
 }
 
